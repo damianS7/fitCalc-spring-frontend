@@ -1,4 +1,4 @@
-# hello-world
+# Fitness Kcalc
 
 ## Project setup
 ```
