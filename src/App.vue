@@ -9,99 +9,16 @@
       align-v="center"
       class="justify-content-center h-100 p-3"
     >
-      <b-col cols="12" class="side">
-        <b-row class="side-left">
-          <b-row align-v="center" class="app-header">
-            <b-col cols="1">
-              <font-awesome-icon @click="toggleProfile" icon="bars" />
-            </b-col>
-            <b-col cols="11"> HEADER </b-col>
-          </b-row>
-          <b-row align-v="start" class="side-content">
-            <b-col cols="12">
-              <b-row>
-                <b-col cols="12">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book. It has survived not only five centuries, but
-                  also the leap into electronic typesetting, remaining
-                  essentially unchanged. It was popularised in the 1960s with
-                  the release of Letraset sheets containing Lorem Ipsum
-                  passages, and more recently with desktop publishing software
-                  like Aldus PageMaker including versions of Lorem Ipsum.
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-col cols="12">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book. It has survived not only five centuries, but
-                  also the leap into electronic typesetting, remaining
-                  essentially unchanged. It was popularised in the 1960s with
-                  the release of Letraset sheets containing Lorem Ipsum
-                  passages, and more recently with desktop publishing software
-                  like Aldus PageMaker including versions of Lorem Ipsum.
-                </b-col>
-              </b-row>
-            </b-col>
-          </b-row>
+      <b-col cols="12" sm="10" md="7" class="side">
+        <sidebar :toggleProfile="toggleProfile"></sidebar>
+        <header-component
+          title="DAMIANS7"
+          :toggle="toggleProfile"
+        ></header-component>
+        <b-row align-v="start" class="content">
+          <router-view></router-view>
         </b-row>
-
-        <b-row align-v="center" class="app-header">
-          <b-col cols="1">
-            <font-awesome-icon @click="toggleProfile" icon="bars" />
-          </b-col>
-          <b-col cols="11"> HEADER </b-col>
-        </b-row>
-
-        <b-row align-v="start" class="app-content">
-          <b-col cols="12">
-            <b-row>
-              <b-col cols="12">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col cols="12">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
-              </b-col>
-            </b-row>
-          </b-col>
-        </b-row>
-
-        <b-row align-v="center" class="app-footer text-center">
-          <b-col cols="4">
-            <font-awesome-icon @click="toggleProfile" icon="home" />
-          </b-col>
-          <b-col cols="4">
-            <font-awesome-icon @click="toggleProfile" icon="book" />
-          </b-col>
-          <b-col cols="4">
-            <font-awesome-icon @click="toggleProfile" icon="user" />
-          </b-col>
-        </b-row>
+        <footer-component></footer-component>
       </b-col>
     </b-row>
   </b-container>
@@ -109,12 +26,21 @@
 <script>
 import { mapGetters } from "vuex";
 import Login from "@/components/Login.vue";
-import Home from "@/views/Home.vue";
+import Header from "@/views/Header.vue";
+import Footer from "@/views/Footer.vue";
+import Sidebar from "@/views/Sidebar.vue";
+import Dashboard from "@/views/Dashboard.vue";
 
-const components = { Login, Home };
+const components = {
+  Login,
+  dashboard: Dashboard,
+  sidebar: Sidebar,
+  "header-component": Header,
+  "footer-component": Footer,
+};
 const methods = {
   toggleProfile() {
-    var div = document.getElementsByClassName("side-left")[0];
+    var div = document.getElementsByClassName("sidebar")[0];
     if (div.style.left == "-100%" || div.style.left == "") {
       div.style.left = "0%";
       return;
@@ -141,25 +67,24 @@ body {
   box-sizing: border-box;
 }
 
-.app-header,
-.app-content,
-.app-footer {
-  padding: 5px;
+.header,
+.content,
+.footer {
+  padding: 10px;
   margin: 0;
 }
 
-.app-header {
+.header {
   height: 60px;
   border-bottom: 1px solid black;
 }
 
-.app-footer {
+.footer {
   height: 60px;
   border-top: 1px solid black;
 }
 
-.app-content,
-.side-content {
+.content {
   height: calc(100% - 120px);
   overflow-y: auto;
   overflow-x: hidden;
@@ -167,27 +92,20 @@ body {
   margin: 0;
 }
 
-.side-content {
-  height: calc(100% - 60px);
-}
-
-.app-wrapper {
-  height: calc(100% - 60px);
-}
-
 .side {
   padding: 0;
   margin: 0;
   height: 100%;
-  width: 100%;
+  /*width: 100%;*/
   position: relative;
   overflow: hidden;
   top: 0;
-  background: slategray;
+  background: rgb(226, 226, 226);
   border-radius: 5px;
+  box-shadow: 0 -0 5px teal;
 }
 
-.side-left {
+.sidebar {
   background: #eee;
   padding: 0;
   margin: 0;
