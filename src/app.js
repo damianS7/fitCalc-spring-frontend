@@ -15,11 +15,10 @@ library.add(fas)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 // My app
-import router from './router'
 import store from './store'
 import App from './App.vue'
 
 Vue.config.productionTip = false
 new Vue({
-  render: h => h(App), store, router
+  render: h => h(App), store
 }).$mount('#app')
