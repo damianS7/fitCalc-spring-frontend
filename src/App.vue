@@ -9,11 +9,11 @@
       align-v="center"
       class="justify-content-center h-100 p-3"
     >
-      <b-col cols="12" sm="10" md="7" class="side">
+      <b-col cols="12" md="10" lg="8" class="side">
         <sidebar :toggleProfile="toggleProfile"></sidebar>
         <header-component
-          title="DAMIANS7"
-          :toggle="toggleProfile"
+          :title="user.username"
+          :toggleMenu="toggleProfile"
         ></header-component>
         <b-row align-v="start" class="content">
           <router-view></router-view>
@@ -24,11 +24,11 @@
   </b-container>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import Login from "@/components/Login.vue";
-import Header from "@/views/Header.vue";
-import Footer from "@/views/Footer.vue";
-import Sidebar from "@/views/Sidebar.vue";
+import Header from "@/layout/Header.vue";
+import Footer from "@/layout/Footer.vue";
+import Sidebar from "@/layout/Sidebar.vue";
 import Dashboard from "@/views/Dashboard.vue";
 
 const components = {
@@ -49,6 +49,9 @@ const methods = {
   },
 };
 const computed = {
+  ...mapState({
+    user: "user",
+  }),
   ...mapGetters({
     isLogged: "isLogged",
   }),
@@ -72,6 +75,11 @@ body {
 .footer {
   padding: 10px;
   margin: 0;
+  /*background: #0e7aef;*/
+  /*background: #a1c7ed;*/
+  /*background: #5448c8;*/
+  /*background: #ffffea;*/
+  background: #eeef;
 }
 
 .header {
@@ -96,26 +104,17 @@ body {
   padding: 0;
   margin: 0;
   height: 100%;
-  /*width: 100%;*/
   position: relative;
   overflow: hidden;
   top: 0;
-  background: rgb(226, 226, 226);
   border-radius: 5px;
-  box-shadow: 0 -0 5px teal;
+  box-shadow: 0 -0 5px gray;
 }
 
-.sidebar {
-  background: #eee;
-  padding: 0;
-  margin: 0;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 0%;
-  left: -100%;
-  -webkit-transition: left 1s ease;
-  transition: left 1s ease;
+:link,
+:visited {
+  text-decoration: none;
+  color: #212529;
 }
 </style>
 
