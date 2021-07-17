@@ -1,6 +1,7 @@
 <template>
   <b-col cols="12">
-    <p>DASHBOARD</p>
+    <p>Calorias consumidas, restantes y objetivo</p>
+    <p>Graficos</p>
   </b-col>
 </template>
 

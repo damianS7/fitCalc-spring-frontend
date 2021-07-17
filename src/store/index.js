@@ -3,7 +3,7 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 const state = {
-  user: { id: null, username: null, email: null, token: null},
+  user: { id: 5, username: "DamianS7", email: null, token: null},
   foods: {},
   settings: {},
   isLogged: true,
