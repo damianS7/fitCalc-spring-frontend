@@ -72,14 +72,20 @@ body {
 
 .header,
 .content,
-.footer {
-  padding: 10px;
-  margin: 0;
+.footer,
+.sidebar {
   /*background: #0e7aef;*/
   /*background: #a1c7ed;*/
   /*background: #5448c8;*/
   /*background: #ffffea;*/
   background: #eeef;
+}
+
+.header,
+.content,
+.footer {
+  padding: 10px;
+  margin: 0;
 }
 
 .header {

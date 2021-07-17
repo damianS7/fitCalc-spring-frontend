@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Dashboard from "@/views/Dashboard.vue";
 import FoodDiary from "@/views/FoodDiary.vue";
-import Profile from "@/views/Profile.vue";
+import Profile from "@/views/profile/Profile.vue";
 
 Vue.use(VueRouter);
 

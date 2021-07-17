@@ -8,10 +8,9 @@
       </b-col>
       <b-col> MENU </b-col>
     </b-row>
-    <profile-header></profile-header>
-
     <b-row class="content">
-      <b-col>
+      <profile-summary></profile-summary>
+      <b-col class="menu">
         <b-row>
           <b-col cols="2" sm="1">
             <font-awesome-icon icon="home" />
@@ -100,8 +99,8 @@
 </template>
 
 <script>
-import ProfileHeader from "@/views/ProfileHeader.vue";
-const components = { "profile-header": ProfileHeader };
+import ProfileSummary from "@/views/profile/ProfileSummary.vue";
+const components = { "profile-summary": ProfileSummary };
 const props = ["toggleProfile"];
 export default { props, components };
 </script>
@@ -120,14 +119,14 @@ export default { props, components };
 }
 
 .sidebar .content {
-  height: calc(100% - 180px);
+  height: calc(100% - 60px);
 }
 
-.sidebar .content .row {
-  margin: 12px 0;
-}
-
-.sidebar .content > .col {
+.sidebar .content .menu {
   padding: 0;
+}
+
+.sidebar .content .menu .row {
+  margin: 12px 0;
 }
 </style>
