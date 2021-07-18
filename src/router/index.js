@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Dashboard from "@/views/Dashboard.vue";
-import FoodDiary from "@/views/FoodDiary.vue";
+import FoodRecord from "@/views/FoodRecord.vue";
 import Profile from "@/views/profile/Profile.vue";
 
 Vue.use(VueRouter);
@@ -13,9 +13,9 @@ const routes = [
     component: Dashboard,
   },
   {
-    path: "/diary",
-    name: "Diary",
-    component: FoodDiary
+    path: "/food-record",
+    name: "FoodRecord",
+    component: FoodRecord
   },
   {
     path: "/profile",
