@@ -65,7 +65,7 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import WeightChart from "@/views/profile/WeightChart.vue";
+import WeightChart from "@/components/WeightChart.vue";
 const components = { "weight-chart": WeightChart };
 const computed = {
   ...mapState({
