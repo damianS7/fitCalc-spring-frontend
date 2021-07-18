@@ -13,8 +13,6 @@
             id="inline-form-custom-select-pref"
             v-model="selectedWeightDate"
             :options="getWeights"
-            text-field="date"
-            value-field="date"
           >
             <template #first>
               <b-form-select-option :value="null" disabled>
@@ -58,7 +56,6 @@ const components = { "weight-chart": WeightChart };
 const data = function () {
   return {
     selectedWeightDate: null,
-    weightOptions: ["a", "b", "c"],
     add_weight: "",
   };
 };

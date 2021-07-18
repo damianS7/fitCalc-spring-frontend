@@ -45,11 +45,14 @@ const getters = {
   isLogged() {
     return state.isLogged;
   },
-  getLastWeight() {
+  getLastWeightDate() {
     const weights = getters.getWeights();
     const totalWeights = Object.keys(weights).length - 1;
-    const key = Object.keys(weights)[totalWeights];
-    return weights[key].weight;
+    return Object.keys(weights)[totalWeights];
+  },
+  getLastWeight() {
+    const date = getters.getLastWeightDate();
+    return getters.getWeight(date);
   },
   getWeights() {
     return state.profile.weights;
