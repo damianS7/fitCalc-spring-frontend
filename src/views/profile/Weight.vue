@@ -20,14 +20,24 @@
           <b-form inline>
             <b-form-select
               id="inline-form-custom-select-pref"
-              v-model="selected"
-              :options="options"
+              v-model="selectedWeightDate"
+              :options="getWeights"
+              text-field="date"
+              value-field="date"
               class="mb-2 mr-sm-2 mb-sm-0 w-100 h-100"
-            ></b-form-select>
+            >
+              <template #first>
+                <b-form-select-option :value="null" disabled
+                  >-- Please select an option --</b-form-select-option
+                >
+              </template>
+            </b-form-select>
           </b-form>
         </b-col>
         <b-col>
-          <b-button class="w-100" variant="danger">-</b-button>
+          <b-button @click="deleteSelectedWeight" class="w-100" variant="danger"
+            >-</b-button
+          >
         </b-col>
       </b-row>
 
@@ -87,8 +97,8 @@ const computed = {
 
 const data = function () {
   return {
-    selected: "a",
-    options: ["a", "b", "c"],
+    selectedWeightDate: null,
+    weightOptions: ["a", "b", "c"],
     add_weight: "",
   };
 };
@@ -121,6 +131,13 @@ const methods = {
     const date = "31-01-2021";
     const weight = { weight: this.add_weight, date };
     this.$store.dispatch("addWeight", weight);
+  },
+  deleteSelectedWeight() {
+    if (this.selectedWeightDate == null) {
+      return;
+    }
+
+    this.$store.dispatch("deleteWeight", this.selectedWeightDate);
   },
 };
 
