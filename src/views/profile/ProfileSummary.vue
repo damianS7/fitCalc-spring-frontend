@@ -8,10 +8,19 @@
         src="@/assets/images/avatar.png"
       />
     </b-col>
-    <b-col cols="8">
-      <b-row>Peso {{ lastWeight }} </b-row>
-      <b-row>Altura {{ profile.lenght }}</b-row>
-      <b-row>Edad {{ profile.age }}</b-row>
+    <b-col cols="8" class="text-right">
+      <b-row>
+        <b-col>Peso</b-col>
+        <b-col>{{ lastWeight }} kg</b-col>
+      </b-row>
+      <b-row>
+        <b-col>Altura</b-col>
+        <b-col>{{ profile.lenght }} cm</b-col>
+      </b-row>
+      <b-row>
+        <b-col>Edad</b-col>
+        <b-col>{{ profile.age }}</b-col>
+      </b-row>
     </b-col>
   </b-row>
 </template>
