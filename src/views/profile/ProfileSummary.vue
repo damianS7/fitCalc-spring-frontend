@@ -1,5 +1,5 @@
 <template>
-  <b-row class="header">
+  <b-row class="widget">
     <b-col cols="4">
       <b-img
         alt="Vue logo"

@@ -2,7 +2,6 @@
   <b-col cols="12" class="profile">
     <profile-summary></profile-summary>
     <weight-chart></weight-chart>
-
     <b-row>
       <b-col>
         <b-form>
