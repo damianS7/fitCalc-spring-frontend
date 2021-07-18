@@ -5,7 +5,7 @@
         <font-awesome-icon @click="toggleMenu" icon="bars" />
       </a>
     </b-col>
-    <b-col> {{ title }} </b-col>
+    <b-col cols="10"> {{ title }} </b-col>
   </b-row>
 </template>
 <script>

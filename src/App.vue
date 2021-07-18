@@ -60,67 +60,6 @@ const computed = {
 export default { components, methods, computed };
 </script>
 <style>
-html,
-body {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-.header,
-.content,
-.footer,
-.sidebar {
-  /*background: #0e7aef;*/
-  /*background: #a1c7ed;*/
-  /*background: #5448c8;*/
-  /*background: #ffffea;*/
-  background: #eeef;
-}
-
-.header,
-.content,
-.footer {
-  padding: 10px;
-  margin: 0;
-}
-
-.header {
-  height: 60px;
-  border-bottom: 1px solid black;
-}
-
-.footer {
-  height: 60px;
-  border-top: 1px solid black;
-}
-
-.content {
-  height: calc(100% - 120px);
-  overflow-y: auto;
-  overflow-x: hidden;
-  word-break: break-all;
-  margin: 0;
-}
-
-.side {
-  padding: 0;
-  margin: 0;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  top: 0;
-  border-radius: 5px;
-  box-shadow: 0 -0 5px gray;
-}
-
-:link,
-:visited {
-  text-decoration: none;
-  color: #212529;
-}
+@import "./assets/css/app.css";
 </style>
 
