@@ -17,22 +17,20 @@
       </b-row>
       <b-row>
         <b-col cols="10">
-          <b-form inline>
-            <b-form-select
-              id="inline-form-custom-select-pref"
-              v-model="selectedWeightDate"
-              :options="getWeights"
-              text-field="date"
-              value-field="date"
-              class="mb-2 mr-sm-2 mb-sm-0 w-100 h-100"
-            >
-              <template #first>
-                <b-form-select-option :value="null" disabled
-                  >-- Please select an option --</b-form-select-option
-                >
-              </template>
-            </b-form-select>
-          </b-form>
+          <b-form-select
+            id="inline-form-custom-select-pref"
+            v-model="selectedWeightDate"
+            :options="getWeights"
+            text-field="date"
+            value-field="date"
+            class="mb-2 mr-sm-2 mb-sm-0 w-100 h-100"
+          >
+            <template #first>
+              <b-form-select-option :value="null" disabled>
+                Selecciona un peso
+              </b-form-select-option>
+            </template>
+          </b-form-select>
         </b-col>
         <b-col>
           <b-button @click="deleteSelectedWeight" class="w-100" variant="danger"
@@ -46,16 +44,14 @@
       </b-row>
       <b-row>
         <b-col cols="10">
-          <b-form inline>
-            <b-form-input
-              id="weight"
-              v-model="add_weight"
-              type="number"
-              min="1"
-              max="400"
-              placeholder="Introduce tu peso"
-            ></b-form-input>
-          </b-form>
+          <b-form-input
+            id="weight"
+            v-model="add_weight"
+            type="number"
+            min="1"
+            max="400"
+            placeholder="Introduce tu peso"
+          ></b-form-input>
         </b-col>
         <b-col>
           <b-button @click="addWeight()" class="w-100" variant="primary"
