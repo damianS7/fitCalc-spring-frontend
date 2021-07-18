@@ -1,6 +1,6 @@
 <template>
   <b-container class="h-100">
-    <b-row v-if="!isLogged" class="h-100">
+    <b-row v-if="!isLogged" align-v="center" class="h-100">
       <login></login>
     </b-row>
 
@@ -31,10 +31,10 @@
 </template>
 <script>
 import { mapGetters, mapState } from "vuex";
-import Login from "@/components/Login.vue";
-import Header from "@/layout/Header.vue";
-import Footer from "@/layout/Footer.vue";
-import Sidebar from "@/layout/Sidebar.vue";
+import Login from "@/views/Login.vue";
+import Header from "@/components/layout/Header.vue";
+import Footer from "@/components/layout/Footer.vue";
+import Sidebar from "@/components/layout/Sidebar.vue";
 import Dashboard from "@/views/Dashboard.vue";
 
 const components = {
