@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import ProfileSummary from "@/views/profile/ProfileSummary.vue";
+import ProfileSummary from "@/components/ProfileSummary.vue";
 const components = { "profile-summary": ProfileSummary };
 const props = ["toggleProfile"];
 export default { props, components };

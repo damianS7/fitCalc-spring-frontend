@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import ProfileSummary from "@/views/profile/ProfileSummary.vue";
+import ProfileSummary from "@/components/ProfileSummary.vue";
 import Weight from "@/views/profile/Weight.vue";
 import { mapGetters, mapState } from "vuex";
 
