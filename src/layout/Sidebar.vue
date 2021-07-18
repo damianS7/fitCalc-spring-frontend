@@ -1,5 +1,5 @@
 <template>
-  <b-row class="sidebar">
+  <b-col class="sidebar" cols="10">
     <b-col cols="12" class="header">
       <b-row align-v="center" class="m-0">
         <b-col cols="2" sm="1">
@@ -102,7 +102,7 @@
         </b-col>
       </b-row>
     </b-col>
-  </b-row>
+  </b-col>
 </template>
 
 <script>

@@ -9,16 +9,22 @@
       align-v="center"
       class="justify-content-center h-100 p-3"
     >
-      <b-col cols="12" md="10" lg="8" class="side">
-        <sidebar :toggleProfile="toggleProfile"></sidebar>
-        <header-component
-          :title="user.username"
-          :toggleMenu="toggleProfile"
-        ></header-component>
+      <b-col cols="12" md="10" lg="6" class="side">
+        <b-row align-v="center" class="header">
+          <header-component
+            :title="user.username"
+            :toggleMenu="toggleProfile"
+          ></header-component>
+        </b-row>
         <b-row align-v="start" class="content">
           <router-view></router-view>
         </b-row>
-        <footer-component></footer-component>
+        <b-row align-v="center" class="footer text-center">
+          <footer-component></footer-component>
+        </b-row>
+        <b-row>
+          <sidebar :toggleProfile="toggleProfile"></sidebar>
+        </b-row>
       </b-col>
     </b-row>
   </b-container>
