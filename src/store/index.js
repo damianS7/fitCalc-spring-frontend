@@ -62,10 +62,31 @@ const getters = {
     return state.isLogged;
   },
   getLastWeight() {
-    return 66;
+    const weights = getters.getWeights();
+    return weights[weights.length-1].weight;
   },
   getWeights() {
     return state.profile.weights;
+  },
+  getChartDataWeights() {
+    const dates = [];
+    const weights = [];
+
+    getters.getWeights().forEach(element => {
+      dates.push(element.date);
+      weights.push(element.weight);
+    });
+    
+    return {
+      labels: dates,
+      datasets: [
+        {
+          label: "Peso (kg)",
+          backgroundColor: "#6495ED",
+          data: weights,
+        },
+      ],
+    };
   }
 };
 

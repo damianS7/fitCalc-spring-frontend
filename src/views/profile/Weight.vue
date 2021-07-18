@@ -3,12 +3,7 @@
     <b-col>
       <b-row>
         <b-col>
-          <weight-chart
-            :data="chartData"
-            :chartData="chartData"
-            :options="chartOptions()"
-          >
-          </weight-chart>
+          <weight-chart :chartData="chartData"> </weight-chart>
         </b-col>
       </b-row>
 
@@ -67,30 +62,6 @@
 import { mapGetters, mapState } from "vuex";
 import WeightChart from "@/components/WeightChart.vue";
 const components = { "weight-chart": WeightChart };
-const computed = {
-  ...mapState({
-    user: "user",
-    profile: "profile",
-  }),
-  ...mapGetters({
-    lastWeight: "getLastWeight",
-    getWeights: "getWeights",
-  }),
-  chartData: function () {
-    let data = { labels: [], datasets: [] };
-    let dataset = { label: "Peso (kg)", backgroundColor: "#6495ED", data: [] };
-    const weights = this.getWeights;
-
-    weights.forEach((obj) => {
-      data.labels.push(obj.date);
-      dataset.data.push(obj.weight);
-    });
-
-    data.datasets.push(dataset);
-    return data;
-  },
-};
-
 const data = function () {
   return {
     selectedWeightDate: null,
@@ -99,30 +70,19 @@ const data = function () {
   };
 };
 
+const computed = {
+  ...mapState({
+    user: "user",
+    profile: "profile",
+  }),
+  ...mapGetters({
+    lastWeight: "getLastWeight",
+    getWeights: "getWeights",
+    chartData: "getChartDataWeights",
+  }),
+};
+
 const methods = {
-  chartOptions() {
-    return {
-      responsive: true,
-      maintainAspectRatio: false,
-      /*parsing: {
-        yAxisKey: "weight",
-        xAxisKey: "date",
-      },*/
-    };
-  },
-  chartData2() {
-    let data = { labels: [], datasets: [] };
-    let dataset = { label: "Peso (kg)", backgroundColor: "#6495ED", data: [] };
-    const weights = this.getWeights;
-
-    weights.forEach((obj) => {
-      data.labels.push(obj.date);
-      dataset.data.push(obj.weight);
-    });
-
-    data.datasets.push(dataset);
-    return data;
-  },
   addWeight() {
     const date = "31-01-2021";
     const weight = { weight: this.add_weight, date };
