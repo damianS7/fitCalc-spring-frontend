@@ -98,8 +98,4 @@ export default {
 };
 </script>
 <style>
-.content .header {
-  border-bottom: 1px solid black;
-  height: auto;
-}
 </style>

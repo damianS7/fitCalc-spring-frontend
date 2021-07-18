@@ -6,7 +6,7 @@ const state = {
   user: { id: 5, username: "DamianS7", email: "damian@gmail.com", token: null},
   profile: {
     age: 27,
-    size: 177,
+    lenght: 177,
     weights: [
       { weight: 62, date: "01-01-2021" },
       { weight: 66, date: "03-01-2021" },

@@ -9,15 +9,25 @@
       />
     </b-col>
     <b-col cols="8">
-      <b-row>Peso</b-row>
-      <b-row>Altura</b-row>
-      <b-row>Edad</b-row>
+      <b-row>Peso {{ lastWeight }} </b-row>
+      <b-row>Altura {{ profile.lenght }}</b-row>
+      <b-row>Edad {{ profile.age }}</b-row>
     </b-col>
   </b-row>
 </template>
-
 <script>
-export default {};
+import { mapGetters, mapState } from "vuex";
+
+const computed = {
+  ...mapState({
+    profile: "profile",
+  }),
+  ...mapGetters({
+    lastWeight: "getLastWeight",
+  }),
+};
+
+export default {
+  computed,
+};
 </script>
-<style >
-</style>
