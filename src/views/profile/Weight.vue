@@ -1,5 +1,5 @@
 <template>
-  <b-row class="weight-component">
+  <b-row class="widget">
     <b-col>
       <b-row>
         <b-col>
@@ -149,8 +149,4 @@ export default {
 };
 </script>
 <style>
-.weight-component {
-  border-bottom: 1px solid black;
-  margin-bottom: 1px;
-}
 </style>
