@@ -8,9 +8,18 @@ const state = {
     age: 27,
     size: 177,
     weights: [
-      {weight: 62, date: '01-01-2021'},
-      {weight: 66, date: '01-02-2021'},
-      {weight: 64, date: '01-03-2021'}
+      { weight: 62, date: '01-01-2021' },
+      { weight: 66, date: '03-01-2021' },
+      { weight: 64, date: '06-01-2021' },
+      { weight: 66, date: '07-01-2021' },
+      { weight: 71, date: '12-01-2021' },
+      { weight: 72, date: '13-01-2021' },
+      { weight: 75, date: '18-01-2021' },
+      { weight: 77, date: '21-01-2021' },
+      { weight: 80, date: '23-01-2021' },
+      { weight: 78, date: '24-01-2021' },
+      { weight: 77, date: '25-01-2021' },
+      { weight: 72, date: '28-01-2021' },
     ]
   },
   foods: {
@@ -27,11 +36,15 @@ const state = {
 };
 
 const mutations = {
-
+  ADD_WEIGHT(state, weight) {
+    state.profile.weights.push(weight);
+  },
 };
 
 const actions = {
-
+  async addWeight(context, weight) {
+    context.commit("ADD_WEIGHT", weight);
+  }
 };
 
 const getters = {
@@ -40,6 +53,9 @@ const getters = {
   },
   getLastWeight() {
     return 66;
+  },
+  getWeights() {
+    return state.profile.weights;
   }
 };
 
