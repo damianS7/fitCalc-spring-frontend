@@ -7,20 +7,17 @@ const state = {
   profile: {
     age: 27,
     lenght: 177,
-    weights: [
-      { weight: 62, date: "01-01-2021" },
-      { weight: 66, date: "03-01-2021" },
-      { weight: 64, date: "06-01-2021" },
-      { weight: 66, date: "07-01-2021" },
-      { weight: 71, date: "12-01-2021" },
-      { weight: 72, date: "13-01-2021" },
-      { weight: 75, date: "18-01-2021" },
-      { weight: 77, date: "21-01-2021" },
-      { weight: 80, date: "23-01-2021" },
-      { weight: 78, date: "24-01-2021" },
-      { weight: 77, date: "25-01-2021" },
-      { weight: 72, date: "28-01-2021" },
-    ]
+    weights: {
+      "01-01-2021": { weight: 61},
+      "04-01-2021": { weight: 62},
+      "07-01-2021": { weight: 63},
+      "09-01-2021": { weight: 64},
+      "11-01-2021": { weight: 65},
+      "13-01-2021": { weight: 66},
+      "14-01-2021": { weight: 67},
+      "17-01-2021": { weight: 71},
+      "21-01-2021": { weight: 77}
+    },
   },
   foods: {
     0: {id: 0, name: "Pizza", ingredients:[
@@ -36,25 +33,12 @@ const state = {
 };
 
 const mutations = {
-  ADD_WEIGHT(state, weight) {
-    state.profile.weights.push(weight);
+  ADD_WEIGHT(state, obj) {
+    Vue.set(state.profile.weights, obj.date, { weight: obj.weight });
   },
   DELETE_WEIGHT(state, weightDate) {
-    state.profile.weights.forEach((obj, index) => {
-      if(obj.date == weightDate) {
-        Vue.delete(state.profile.weights, index);
-      }
-    });
+    Vue.delete(state.profile.weights, weightDate);
   },
-};
-
-const actions = {
-  async addWeight(context, weight) {
-    context.commit("ADD_WEIGHT", weight);
-  },
-  async deleteWeight(context, weightDate) {
-    context.commit("DELETE_WEIGHT", weightDate);
-  }
 };
 
 const getters = {
@@ -63,18 +47,25 @@ const getters = {
   },
   getLastWeight() {
     const weights = getters.getWeights();
-    return weights[weights.length-1].weight;
+    const totalWeights = Object.keys(weights).length - 1;
+    const key = Object.keys(weights)[totalWeights];
+    return weights[key].weight;
   },
   getWeights() {
     return state.profile.weights;
   },
+  getWeightsDates() {
+    return Object.keys(state.profile.weights);
+  },
+  getWeight(date) {
+    return state.profile.weights[date].weight;
+  },
   getChartDataWeights() {
-    const dates = [];
+    const dates = Object.keys(getters.getWeights());
     const weights = [];
 
-    getters.getWeights().forEach(element => {
-      dates.push(element.date);
-      weights.push(element.weight);
+    dates.forEach(date => {
+      weights.push(getters.getWeight(date));
     });
     
     return {
@@ -87,6 +78,15 @@ const getters = {
         },
       ],
     };
+  }
+};
+
+const actions = {
+  async addWeight(context, weight) {
+    context.commit("ADD_WEIGHT", weight);
+  },
+  async deleteWeight(context, weightDate) {
+    context.commit("DELETE_WEIGHT", weightDate);
   }
 };
 

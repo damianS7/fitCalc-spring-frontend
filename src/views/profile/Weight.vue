@@ -22,7 +22,7 @@
           >
             <template #first>
               <b-form-select-option :value="null" disabled>
-                Selecciona un peso
+                Selecciona la fecha del peso a borrar
               </b-form-select-option>
             </template>
           </b-form-select>
@@ -77,16 +77,15 @@ const computed = {
   }),
   ...mapGetters({
     lastWeight: "getLastWeight",
-    getWeights: "getWeights",
+    getWeights: "getWeightsDates",
     chartData: "getChartDataWeights",
   }),
 };
 
 const methods = {
   addWeight() {
-    const date = "31-01-2021";
-    const weight = { weight: this.add_weight, date };
-    this.$store.dispatch("addWeight", weight);
+    const obj = { date: "31-01-2021", weight: this.add_weight };
+    this.$store.dispatch("addWeight", obj);
   },
   deleteSelectedWeight() {
     if (this.selectedWeightDate == null) {
