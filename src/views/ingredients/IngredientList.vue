@@ -1,10 +1,12 @@
 <template>
   <!-- agregar de busqueda filtro -->
   <b-col cols="12">
-    <b-row>
-      <h1>Ingredients</h1>
+    <b-row align-v="center">
+      <b-col cols="12">
+        <h1>Ingredients</h1>
+      </b-col>
     </b-row>
-    <b-row>
+    <b-row class="mb-2">
       <b-col cols="12">
         <b-form-input
           v-model="searchFilter"

@@ -1,16 +1,33 @@
 <template>
   <b-col cols="12">
-    <b-row class="m-1">
-      <b-col cols="10">
-        {{ ingredient.name }}
+    <b-row align-v="center">
+      <b-col cols="8">
+        <h1>{{ ingredient.name }}</h1>
       </b-col>
+      <b-col cols="2">Atras</b-col>
       <b-col cols="2">
-        <b-button
-          @click="deleteIngredient(ingredient.id)"
-          class="btn-block"
-          variant="danger"
-          >-</b-button
-        >
+        <router-link to="/ingredients">
+          <font-awesome-icon icon="arrow-circle-left" />
+        </router-link>
+      </b-col>
+    </b-row>
+    <b-row class="m-1">
+      <b-col cols="12">
+        <b-form>
+          <b-form-group label="Nombre:">
+            <b-form-input
+              type="text"
+              v-model="ingredient.name"
+              placeholder="Nombre del ingrediente"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group label=" ">
+            <b-button type="submit" variant="primary" class="w-100"
+              >Actualizar</b-button
+            >
+          </b-form-group>
+        </b-form>
       </b-col>
     </b-row>
   </b-col>
