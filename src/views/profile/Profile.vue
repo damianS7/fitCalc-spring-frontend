@@ -61,7 +61,7 @@
 
 <script>
 import ProfileSummary from "@/components/ProfileSummary.vue";
-import Weight from "@/views/profile/Weight.vue";
+import Weight from "@/views/Weight.vue";
 import { mapGetters, mapState } from "vuex";
 
 const computed = {

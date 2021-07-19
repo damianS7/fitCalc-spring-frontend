@@ -36,7 +36,7 @@
               <font-awesome-icon icon="signal" />
             </b-col>
             <b-col>
-              <router-link to="/diary"> Progreso </router-link>
+              <router-link to="/weight"> Progreso </router-link>
             </b-col>
           </b-row>
           <b-row>
@@ -44,7 +44,7 @@
               <font-awesome-icon icon="bullseye" />
             </b-col>
             <b-col>
-              <router-link to="/diary"> Objetivos </router-link>
+              <router-link to="/goals"> Objetivos </router-link>
             </b-col>
           </b-row>
           <b-row>
@@ -52,7 +52,7 @@
               <font-awesome-icon icon="chart-pie" />
             </b-col>
             <b-col>
-              <router-link to="/diary"> Nutricion </router-link>
+              <router-link to="/food-stats"> Nutricion </router-link>
             </b-col>
           </b-row>
           <b-row>
