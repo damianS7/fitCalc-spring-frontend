@@ -8,7 +8,7 @@ import IngredientList from "@/views/ingredients/IngredientList.vue";
 import FoodRecord from "@/views/FoodRecord.vue";
 import Weight from "@/views/Weight.vue";
 import Goals from "@/views/Goals.vue";
-import FoodStats from "@/views/FoodStats.vue";
+import MacroStats from "@/views/MacroStats.vue";
 import Profile from "@/views/profile/Profile.vue";
 
 Vue.use(VueRouter);
@@ -26,8 +26,8 @@ const routes = [
   },
   {
     path: "/food-stats",
-    name: "FoodStats",
-    component: FoodStats,
+    name: "MacroStats",
+    component: MacroStats,
   },
   {
     path: "/goals",
