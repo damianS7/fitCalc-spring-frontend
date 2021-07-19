@@ -20,7 +20,7 @@
               <font-awesome-icon icon="home" />
             </b-col>
             <b-col>
-              <router-link to="/diary"> Inicio </router-link>
+              <router-link to="/"> Inicio </router-link>
             </b-col>
           </b-row>
           <b-row>
@@ -35,7 +35,7 @@
             <b-col cols="2" sm="1">
               <font-awesome-icon icon="signal" />
             </b-col>
-            <b-col class="">
+            <b-col>
               <router-link to="/diary"> Progreso </router-link>
             </b-col>
           </b-row>
@@ -43,7 +43,7 @@
             <b-col cols="2" sm="1">
               <font-awesome-icon icon="bullseye" />
             </b-col>
-            <b-col class="">
+            <b-col>
               <router-link to="/diary"> Objetivos </router-link>
             </b-col>
           </b-row>
@@ -51,35 +51,32 @@
             <b-col cols="2" sm="1">
               <font-awesome-icon icon="chart-pie" />
             </b-col>
-            <b-col class="">
+            <b-col>
               <router-link to="/diary"> Nutricion </router-link>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col cols="2" sm="1">
+              <font-awesome-icon icon="egg" />
+            </b-col>
+            <b-col>
+              <router-link to="/ingredients"> Ingredientes </router-link>
             </b-col>
           </b-row>
           <b-row>
             <b-col cols="2" sm="1">
               <font-awesome-icon icon="utensils" />
             </b-col>
-            <b-col class="">
-              <router-link to="/diary">
-                Recetas, Comidas y alimentos
-              </router-link>
+            <b-col>
+              <router-link to="/food"> Comidas </router-link>
             </b-col>
           </b-row>
-          <b-row>
-            <b-col cols="2" sm="1">
-              <font-awesome-icon icon="tablet" />
-            </b-col>
-            <b-col class="">
-              <router-link to="/diary">
-                Aplicaciones y dispositivos
-              </router-link>
-            </b-col>
-          </b-row>
+
           <b-row>
             <b-col cols="2" sm="1">
               <font-awesome-icon icon="shoe-prints" />
             </b-col>
-            <b-col class="">
+            <b-col>
               <router-link to="/diary"> Pasos </router-link>
             </b-col>
           </b-row>
@@ -87,7 +84,7 @@
             <b-col cols="2" sm="1">
               <font-awesome-icon icon="cog" />
             </b-col>
-            <b-col class="">
+            <b-col>
               <router-link to="/diary"> Ajustes </router-link>
             </b-col>
           </b-row>
@@ -95,7 +92,7 @@
             <b-col cols="2" sm="1">
               <font-awesome-icon icon="question-circle" />
             </b-col>
-            <b-col class="">
+            <b-col>
               <router-link to="/diary"> Ayuda </router-link>
             </b-col>
           </b-row>
