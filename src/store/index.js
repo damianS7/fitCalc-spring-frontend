@@ -59,8 +59,8 @@ const mutations = {
   NEW_INGREDIENT(state, ingredient) {
     Vue.set(state.ingredients, ingredient.id, ingredient);
   },
-  DELETE_INGREDIENT(state, ingredient) {
-    Vue.delete(state.ingredients, ingredient.id);
+  DELETE_INGREDIENT(state, ingredientId) {
+    Vue.delete(state.ingredients, ingredientId);
   },
   ADD_INGREDIENT_TO_FOOD(state, payload) {
     state.foods[payload.foodId].ingredients.push(payload.ingredientId);
@@ -137,6 +137,9 @@ const actions = {
   },
   async newIngredient(context, payload ) {
     context.commit("ADD_INGREDIENT", payload);
+  },
+  async deleteIngredient(context, ingredientId) {
+    context.commit("DELETE_INGREDIENT", ingredientId);
   },
   async addIngredientToFood(context, payload ) {
     context.commit("ADD_INGREDIENT_TO_FOOD", payload);

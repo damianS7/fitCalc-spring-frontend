@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import Dashboard from "@/views/Dashboard.vue";
 import Food from "@/views/food/Food.vue";
 import FoodList from "@/views/food/FoodList.vue";
+import Ingredient from "@/views/ingredients/Ingredient.vue";
+import IngredientList from "@/views/ingredients/IngredientList.vue";
 import FoodRecord from "@/views/FoodRecord.vue";
 import Profile from "@/views/profile/Profile.vue";
 
@@ -13,6 +15,16 @@ const routes = [
     path: "/",
     name: "Dashboard",
     component: Dashboard,
+  },
+  {
+    path: "/ingredients/:ingredientId",
+    name: "Ingredient",
+    component: Ingredient
+  },
+  {
+    path: "/ingredients",
+    name: "IngredientList",
+    component: IngredientList
   },
   {
     path: "/food/:foodId",
