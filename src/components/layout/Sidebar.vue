@@ -68,7 +68,7 @@
               <font-awesome-icon icon="utensils" />
             </b-col>
             <b-col>
-              <router-link to="/food"> Comidas </router-link>
+              <router-link to="/foods"> Comidas </router-link>
             </b-col>
           </b-row>
 

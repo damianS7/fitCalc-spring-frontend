@@ -45,12 +45,12 @@ const routes = [
     component: IngredientList
   },
   {
-    path: "/food/:foodId",
+    path: "/foods/:foodId",
     name: "Food",
     component: Food
   },
   {
-    path: "/food",
+    path: "/foods",
     name: "FoodList",
     component: FoodList
   },
