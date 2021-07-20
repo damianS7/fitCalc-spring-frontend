@@ -5,7 +5,7 @@ import Food from "@/views/food/Food.vue";
 import FoodList from "@/views/food/FoodList.vue";
 import Ingredient from "@/views/ingredients/Ingredient.vue";
 import IngredientList from "@/views/ingredients/IngredientList.vue";
-import FoodRecord from "@/views/FoodRecord.vue";
+import MealRecords from "@/views/MealRecords.vue";
 import Weight from "@/views/Weight.vue";
 import Goals from "@/views/Goals.vue";
 import MacroStats from "@/views/MacroStats.vue";
@@ -55,9 +55,9 @@ const routes = [
     component: FoodList
   },
   {
-    path: "/food-record",
-    name: "FoodRecord",
-    component: FoodRecord
+    path: "/meal-records",
+    name: "MealRecords",
+    component: MealRecords
   },
   {
     path: "/profile",
