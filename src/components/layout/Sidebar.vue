@@ -71,15 +71,6 @@
               <router-link to="/foods"> Comidas </router-link>
             </b-col>
           </b-row>
-
-          <b-row>
-            <b-col cols="2" sm="1">
-              <font-awesome-icon icon="shoe-prints" />
-            </b-col>
-            <b-col>
-              <router-link to="/diary"> Pasos </router-link>
-            </b-col>
-          </b-row>
           <b-row>
             <b-col cols="2" sm="1">
               <font-awesome-icon icon="cog" />
