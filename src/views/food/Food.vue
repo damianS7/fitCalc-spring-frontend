@@ -1,14 +1,17 @@
 <template>
   <b-col cols="12">
-    <b-row class="m-1">
-      <b-col cols="10">
-        {{ food.name }}
+    <b-row align-v="center">
+      <b-col cols="8">
+        <h1>{{ food.name }}</h1>
       </b-col>
+      <b-col cols="2">Atras</b-col>
       <b-col cols="2">
-        {{ food.id }}
+        <router-link to="/foods">
+          <font-awesome-icon icon="arrow-circle-left" />
+        </router-link>
       </b-col>
     </b-row>
-    <b-row class="m-1">
+    <b-row class="mb-1">
       <b-col cols="10">
         <b-form-select
           text-field="name"
@@ -30,9 +33,9 @@
       </b-col>
     </b-row>
     <b-row
+      class="mb-1"
       v-for="ingredientId of food.ingredients"
       v-bind:key="ingredientId"
-      class="m-1"
     >
       <b-col cols="10">
         {{ getIngredient(ingredientId).name }}
@@ -43,6 +46,13 @@
           class="btn-block"
           variant="danger"
           >-</b-button
+        >
+      </b-col>
+    </b-row>
+    <b-row class="mb-1">
+      <b-col cols="12">
+        <b-button type="submit" variant="primary" class="w-100"
+          >Actualizar</b-button
         >
       </b-col>
     </b-row>
