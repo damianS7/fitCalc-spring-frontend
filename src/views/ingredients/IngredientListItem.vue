@@ -6,7 +6,7 @@
           {{ ingredient.name }}
         </b-col>
         <b-col cols="2">
-          <router-link :to="{ path: '/ingredients/' + ingredientId() }">
+          <router-link :to="{ path: '/ingredients/' + ingredient.id }">
             <b-button class="btn-sm" variant="primary">
               <font-awesome-icon icon="edit" />
             </b-button>
@@ -17,17 +17,9 @@
   </b-row>
 </template>
 <script>
-import { mapGetters } from "vuex";
 const props = ["ingredient"];
-const computed = {
-  ...mapGetters({ ingredients: "getIngredients" }),
-};
-const methods = {
-  ingredientId() {
-    return this.ingredient.id.toString();
-  },
-};
-export default { computed, props, methods };
+
+export default { props };
 </script>
 
 <style>

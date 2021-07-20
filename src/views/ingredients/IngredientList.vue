@@ -1,44 +1,17 @@
 <template>
   <b-col cols="12">
-    <b-row align-v="center">
-      <b-col cols="12">
-        <h1>Ingredients</h1>
-      </b-col>
-    </b-row>
-    <b-row class="mb-2">
-      <b-col cols="12">
-        <b-form-input
-          v-model="searchFilter"
-          placeholder="Busca un ingrediente"
-        ></b-form-input>
-      </b-col>
-    </b-row>
     <ingredient-item
       v-for="ingredient of ingredients"
-      v-bind:key="ingredient.id"
+      :key="ingredient.id"
       :ingredient="ingredient"
     ></ingredient-item>
   </b-col>
 </template>
 <script>
-import { mapGetters } from "vuex";
 import IngredientListItem from "@/views/ingredients/IngredientListItem.vue";
+const props = ["ingredients"];
 const components = { "ingredient-item": IngredientListItem };
-const data = function () {
-  return {
-    searchFilter: "",
-  };
-};
-const computed = {
-  ...mapGetters({ getIngredients: "getIngredients" }),
-  ingredients: function () {
-    return this.getIngredients.filter((ingredient) =>
-      ingredient.name.toLowerCase().includes(this.searchFilter.toLowerCase())
-    );
-  },
-};
-
-export default { computed, components, data };
+export default { components, props };
 </script>
 
 <style>
