@@ -18,6 +18,19 @@ const state = {
       "17-01-2021": { weight: 71},
       "21-01-2021": { weight: 77}
     },
+    
+    // Objetivos del usuario (subir/bajar/mantener peso)
+    // Distribucion de calorias
+    goals: {
+
+    },
+
+    // Registro de comidas
+    meals: {
+      "18-7-2021": { breakfast: [0, 3], supper:[1, 2], lunch: [3], dinner: [1], snacks: [1] },
+      "19-7-2021": { breakfast: [4], supper:[], lunch: [1], dinner: [2], snacks: [0] },
+      "20-7-2021": { breakfast: [4, 1], supper:[], lunch: [0, 2], dinner: [4], snacks: [0, 3] },
+    }
   },
 
   ingredients: {
@@ -39,7 +52,8 @@ const state = {
     0: { id: 0, name: "Pizza 4 Quesos", ingredients: [ 0, 3, 5 ]},
     1: { id: 1, name: "Pizza Barbacoa", ingredients: [ 0, 3, 5 ]},
     2: { id: 2, name: "Pizza Hawaiana", ingredients: [ 0, 3, 5 ]},
-    3: { id: 3, name: "Pizza Napolitana", ingredients: [ 0, 3, 5 ]}
+    3: { id: 3, name: "Pizza Napolitana", ingredients: [ 0, 3, 5 ]},
+    4: { id: 4, name: "Sandwich de queso", ingredients: [ 0, 4 ]}
   },
   diary: {
     0: { date: "01-01-2021", breakfast: [], dinner: []}
@@ -67,6 +81,9 @@ const mutations = {
   },
   REMOVE_INGREDIENT_FROM_FOOD(state, payload) {
     state.foods[payload.foodId].ingredients.pop(payload.ingredientId);
+  },
+  DELETE_FOOD_FROM_MEAL(state, { mealName, mealDate, foodId }) {
+    state.profile.meals[mealDate][mealName].pop(foodId);
   }
 };
 
@@ -88,6 +105,12 @@ const getters = {
   },
   getFood: () => (foodId) => {
     return state.foods[foodId];
+  },
+  getMealFoods: () => (date) => {
+    // if(typeof state.profile.meals[date] === 'undefined') {
+      // return null;
+    // }
+    return state.profile.meals[date];
   },
   getLastWeightDate() {
     const weights = getters.getWeights();
@@ -146,6 +169,9 @@ const actions = {
   },
   async removeIngredientFromFood(context, payload ) {
     context.commit("REMOVE_INGREDIENT_FROM_FOOD", payload);
+  },
+  async deleteMealFood(context, { mealName, mealDate, foodId }) {
+    context.commit("DELETE_FOOD_FROM_MEAL", { mealName, mealDate, foodId });
   },
 };
 
