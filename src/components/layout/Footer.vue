@@ -7,7 +7,7 @@
         </router-link>
       </b-col>
       <b-col cols="4">
-        <router-link to="/meal-records">
+        <router-link to="/diary">
           <font-awesome-icon icon="book" />
         </router-link>
       </b-col>
