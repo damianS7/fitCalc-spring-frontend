@@ -76,15 +76,7 @@
               <font-awesome-icon icon="cog" />
             </b-col>
             <b-col>
-              <router-link to="/diary"> Ajustes </router-link>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col cols="2" sm="1">
-              <font-awesome-icon icon="question-circle" />
-            </b-col>
-            <b-col>
-              <router-link to="/diary"> Ayuda </router-link>
+              <router-link to="/settings"> Ajustes </router-link>
             </b-col>
           </b-row>
         </b-col>

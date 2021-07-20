@@ -8,8 +8,9 @@ import IngredientIndex from "@/views/ingredients/IngredientIndex.vue";
 import DiaryIndex from "@/views/diary/DiaryIndex.vue";
 import Weight from "@/views/Weight.vue";
 import Goals from "@/views/Goals.vue";
+import Settings from "@/views/Settings.vue";
 import MacroStats from "@/views/MacroStats.vue";
-import Profile from "@/views/profile/Profile.vue";
+import Profile from "@/views/Profile.vue";
 
 Vue.use(VueRouter);
 
@@ -63,6 +64,11 @@ const routes = [
     path: "/profile",
     name: "Profile",
     component: Profile
+  },
+  {
+    path: "/settings",
+    name: "Settings",
+    component: Settings
   },
 ];
 
