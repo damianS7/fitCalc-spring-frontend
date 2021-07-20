@@ -1,16 +1,26 @@
 <template>
   <b-col cols="12">
-    <b-row class="text-center mt-3 mb-3">
-      <b-col cols="3">
-        <router-link to="/foods">
-          <font-awesome-icon icon="arrow-left" />
-        </router-link>
+    <b-row class="text-center mt-3 mb-3" align-v="center">
+      <b-col cols="2">
+        <font-awesome-icon icon="arrow-left" @click="prevDay" />
       </b-col>
-      <b-col cols="6"> {{ dateToday() }} </b-col>
-      <b-col cols="3">
-        <router-link to="{ path: '/meal-records/' }">
-          <font-awesome-icon icon="arrow-right" />
-        </router-link>
+      <b-col cols="8">
+        <b-form-datepicker
+          today-button
+          reset-button
+          close-button
+          :date-format-options="{
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric',
+          }"
+          v-model="selectedDate"
+          value-as-date
+          locale="es"
+        ></b-form-datepicker>
+      </b-col>
+      <b-col cols="2">
+        <font-awesome-icon icon="arrow-right" @click="nextDay" />
       </b-col>
     </b-row>
     <b-row class="mb-3">
@@ -131,22 +141,34 @@
     </b-row>
   </b-col>
 </template>
-
 <script>
-const methods = {
-  dateToday() {
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth(); //January is 0!
-    var yyyy = today.getFullYear();
-    return mm + "/" + dd + "/" + yyyy;
-  },
-  nextDayDate() {},
+const data = function () {
+  return {
+    selectedDate: this.today(),
+  };
 };
-const computed = {};
+const methods = {
+  today() {
+    return new Date();
+  },
+  prevDay() {
+    let prevDayDate = new Date();
+    prevDayDate.setDate(this.selectedDate.getDate() - 1);
+    this.selectedDate = prevDayDate;
+  },
+  nextDay() {
+    let nextDayDate = new Date();
+    nextDayDate.setDate(this.selectedDate.getDate() + 1);
+    this.selectedDate = nextDayDate;
+  },
+};
+const computed = {
+  asdads: function () {},
+};
 
 export default {
   methods,
   computed,
+  data,
 };
 </script>
