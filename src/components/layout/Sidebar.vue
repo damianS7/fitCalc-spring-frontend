@@ -28,7 +28,9 @@
               <font-awesome-icon icon="book" />
             </b-col>
             <b-col>
-              <router-link to="/diary"> Registro </router-link>
+              <router-link to="/meals-record">
+                Registro de Comidas
+              </router-link>
             </b-col>
           </b-row>
           <b-row>

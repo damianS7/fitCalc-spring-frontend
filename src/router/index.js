@@ -1,11 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Dashboard from "@/views/Dashboard.vue";
-import Food from "@/views/food/Food.vue";
-import FoodIndex from "@/views/food/FoodIndex.vue";
+import Food from "@/views/foods/Food.vue";
+import FoodIndex from "@/views/foods/FoodIndex.vue";
 import Ingredient from "@/views/ingredients/Ingredient.vue";
 import IngredientIndex from "@/views/ingredients/IngredientIndex.vue";
-import DiaryIndex from "@/views/diary/DiaryIndex.vue";
+import MealIndex from "@/views/meals/MealIndex.vue";
 import Weight from "@/views/Weight.vue";
 import Goals from "@/views/Goals.vue";
 import Settings from "@/views/Settings.vue";
@@ -56,9 +56,9 @@ const routes = [
     component: FoodIndex
   },
   {
-    path: "/diary",
-    name: "DiaryIndex",
-    component: DiaryIndex
+    path: "/meals-record",
+    name: "MealIndex",
+    component: MealIndex
   },
   {
     path: "/profile",
