@@ -37,24 +37,23 @@
     </b-row>
     <b-row>
       <b-col cols="12">
-        <diary-meal
-          v-for="meal of meals"
+        <meal
+          v-for="meal of mealNames"
           :key="meal"
           :meal="meal"
-          :date="selectedDate"
-        ></diary-meal>
+          :date="dateToString()"
+        ></meal>
       </b-col>
     </b-row>
   </b-col>
 </template>
 <script>
 import { mapGetters } from "vuex";
-import DiaryMeal from "@/views/diary/DiaryMeal.vue";
-const components = { "diary-meal": DiaryMeal };
+import Meal from "@/views/meals/Meal.vue";
+const components = { meal: Meal };
 const data = function () {
   return {
     selectedDate: this.today(),
-    meals: ["breakfast", "lunch", "supper", "dinner", "snacks"],
   };
 };
 const methods = {
@@ -71,9 +70,18 @@ const methods = {
     nextDayDate.setDate(this.selectedDate.getDate() + 1);
     this.selectedDate = nextDayDate;
   },
+  dateToString() {
+    let day = this.selectedDate.getDate();
+    let month = this.selectedDate.getMonth() + 1;
+    let year = this.selectedDate.getFullYear();
+    return day + "-" + month + "-" + year;
+  },
 };
 const computed = {
-  ...mapGetters({ foods: "getFoods" }),
+  ...mapGetters({ foods: "getFoods", getSetting: "getSetting" }),
+  mealNames: function () {
+    return this.getSetting("mealNames");
+  },
 };
 
 export default {

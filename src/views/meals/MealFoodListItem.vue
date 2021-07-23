@@ -2,7 +2,7 @@
   <b-row>
     <b-col cols="12">
       <b-row class="m-1">
-        <b-col cols="10"> {{ food.name }} </b-col>
+        <b-col cols="10"> {{ food.name }} ({{ kcal }}) </b-col>
         <b-col cols="2">
           <b-button class="btn-sm" variant="danger" @click="deleteFoodFromMeal">
             <font-awesome-icon icon="trash" />
@@ -14,9 +14,33 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
-const props = ["food", "mealDate", "mealName"];
+//const props = ["food", "mealDate", "mealName", "addKcal"];
+const props = {
+  food: Object,
+  mealDate: String,
+  mealName: String,
+  addKcal: Function,
+};
 const computed = {
-  ...mapGetters({ ingredients: "getIngredients" }),
+  ...mapGetters({
+    ingredients: "getIngredients",
+    ingredient: "getIngredient",
+  }),
+
+  kcal: function () {
+    let foodKcal = 0;
+    const ingredientsIds = this.food.ingredients;
+    console.log("Ingredientes de: " + this.food.name);
+    ingredientsIds.forEach((id) => {
+      const i = this.ingredient(id);
+      const ingredientKcal = i.fats * 9 + i.proteins * 4 + i.carbohydrates * 4;
+      console.log(id + " -> " + i.name + " kcals: " + ingredientKcal);
+
+      // foodKcal += ingredientKcal;
+      this.addKcal(ingredientKcal);
+    });
+    return foodKcal;
+  },
 };
 const methods = {
   ...mapActions(["deleteMealFood"]),

@@ -8,7 +8,7 @@
   </b-col>
 </template>
 <script>
-import FoodListItem from "@/views/food/FoodListItem.vue";
+import FoodListItem from "@/views/foods/FoodListItem.vue";
 const components = { "food-item": FoodListItem };
 const props = ["foodList"];
 export default { components, props };

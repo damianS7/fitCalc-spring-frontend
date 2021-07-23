@@ -6,14 +6,21 @@
       :food="food(foodId)"
       :mealName="mealName"
       :mealDate="mealDate"
+      :addKcal="addKcal"
     ></food-item>
   </b-col>
 </template>
 <script>
 import { mapGetters } from "vuex";
-import DiaryMealFoodListItem from "@/views/diary/DiaryMealFoodListItem.vue";
-const components = { "food-item": DiaryMealFoodListItem };
-const props = ["foodIdList", "mealDate", "mealName"];
+import MealFoodListItem from "@/views/meals/MealFoodListItem.vue";
+const components = { "food-item": MealFoodListItem };
+const props = {
+  foodIdList: Array,
+  mealDate: String,
+  mealName: String,
+  addKcal: Function,
+};
+
 const computed = {
   ...mapGetters({ food: "getFood" }),
 };

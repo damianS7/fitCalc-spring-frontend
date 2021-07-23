@@ -20,7 +20,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import FoodList from "@/views/food/FoodList.vue";
+import FoodList from "@/views/foods/FoodList.vue";
 const components = { "food-list": FoodList };
 const data = function () {
   return {
