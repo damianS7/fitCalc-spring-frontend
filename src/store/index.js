@@ -4,6 +4,7 @@ Vue.use(Vuex);
 
 const state = {
   user: { id: 5, username: "DamianS7", email: "damian@gmail.com", token: null},
+
   profile: {
     age: 27,
     lenght: 177,
@@ -27,9 +28,11 @@ const state = {
 
     // Registro de comidas
     meals: {
-      "18-7-2021": { breakfast: [0, 3], supper:[1, 2], lunch: [3], dinner: [1], snacks: [1] },
-      "19-7-2021": { breakfast: [4], supper:[], lunch: [1], dinner: [2], snacks: [0] },
-      "20-7-2021": { breakfast: [4, 1], supper:[], lunch: [0, 2], dinner: [4], snacks: [0, 3] },
+      // "18-7-2021": { desayuno: [0, 3], merienda:[1, 2], comida: [3], cena: [1], aperitivo: [1] },
+      // "19-7-2021": { desayuno: [4], merienda:[], comida: [1], cena: [2], aperitivo: [0] },
+      // "20-7-2021": { desayuno: [4, 1], merienda:[], comida: [0, 2], cena: [4], aperitivo: [0, 3] },
+      "23-7-2021": { desayuno: [0, 3], merienda:[], almuerzo: [], cena: [], aperitivos: [] },
+      // "24-7-2021": { desayuno: [4, 1], merienda:[3], comida: [0, 2], cena: [4], aperitivo: [0, 3] },
     }
   },
 
@@ -53,12 +56,11 @@ const state = {
     1: { id: 1, name: "Pizza Barbacoa", ingredients: [ 0, 3, 5 ]},
     2: { id: 2, name: "Pizza Hawaiana", ingredients: [ 0, 3, 5 ]},
     3: { id: 3, name: "Pizza Napolitana", ingredients: [ 0, 3, 5 ]},
-    4: { id: 4, name: "Sandwich de queso", ingredients: [ 0, 4 ]}
+    4: { id: 4, name: "Sandwich de queso", ingredients: [ 0, 4 ]},
+    5: { id: 4, name: "Sandwich de tomate y queso", ingredients: [ 0, 4, 5 ]}
   },
-  diary: {
-    0: { date: "01-01-2021", breakfast: [], dinner: []}
-  },
-  settings: {},
+  
+  settings: { mealNames: ["desayuno", "almuerzo", "merienda", "cena", "aperitivos"] },
   isLogged: true,
   appReady: false
 };
@@ -93,6 +95,9 @@ const getters = {
   //KCAL_PER_FAT: 9,
   isLogged() {
     return state.isLogged;
+  },
+  getSetting: () => (settingName) => {
+    return state.settings[settingName];
   },
   getIngredients() {
     return Object.values(state.ingredients);
