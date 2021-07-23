@@ -31,7 +31,7 @@ const state = {
       // "18-7-2021": { desayuno: [0, 3], merienda:[1, 2], comida: [3], cena: [1], aperitivo: [1] },
       // "19-7-2021": { desayuno: [4], merienda:[], comida: [1], cena: [2], aperitivo: [0] },
       // "20-7-2021": { desayuno: [4, 1], merienda:[], comida: [0, 2], cena: [4], aperitivo: [0, 3] },
-      "23-7-2021": { desayuno: [0, 3], merienda:[], almuerzo: [], cena: [], aperitivos: [] },
+      "24-7-2021": { desayuno: [0, 3], merienda:[], almuerzo: [], cena: [], aperitivos: [] },
       // "24-7-2021": { desayuno: [4, 1], merienda:[3], comida: [0, 2], cena: [4], aperitivo: [0, 3] },
     }
   },
@@ -57,7 +57,7 @@ const state = {
     2: { id: 2, name: "Pizza Hawaiana", ingredients: [ 0, 3, 5 ]},
     3: { id: 3, name: "Pizza Napolitana", ingredients: [ 0, 3, 5 ]},
     4: { id: 4, name: "Sandwich de queso", ingredients: [ 0, 4 ]},
-    5: { id: 4, name: "Sandwich de tomate y queso", ingredients: [ 0, 4, 5 ]}
+    5: { id: 5, name: "Sandwich de tomate y queso", ingredients: [ 0, 4, 5 ]}
   },
   
   settings: { mealNames: ["desayuno", "almuerzo", "merienda", "cena", "aperitivos"] },
@@ -83,6 +83,9 @@ const mutations = {
   },
   REMOVE_INGREDIENT_FROM_FOOD(state, payload) {
     state.foods[payload.foodId].ingredients.pop(payload.ingredientId);
+  },
+  ADD_FOOD_TO_MEAL(state, { mealName, mealDate, foodId }) {
+    state.profile.meals[mealDate][mealName].push(foodId);
   },
   DELETE_FOOD_FROM_MEAL(state, { mealName, mealDate, foodId }) {
     state.profile.meals[mealDate][mealName].pop(foodId);
@@ -174,6 +177,9 @@ const actions = {
   },
   async removeIngredientFromFood(context, payload ) {
     context.commit("REMOVE_INGREDIENT_FROM_FOOD", payload);
+  },
+  async addFoodToMeal(context, { mealName, mealDate, foodId }) {
+    context.commit("ADD_FOOD_TO_MEAL", { mealName, mealDate, foodId });
   },
   async deleteMealFood(context, { mealName, mealDate, foodId }) {
     context.commit("DELETE_FOOD_FROM_MEAL", { mealName, mealDate, foodId });

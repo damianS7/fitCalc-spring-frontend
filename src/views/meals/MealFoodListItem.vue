@@ -36,8 +36,7 @@ const computed = {
       const ingredientKcal = i.fats * 9 + i.proteins * 4 + i.carbohydrates * 4;
       console.log(id + " -> " + i.name + " kcals: " + ingredientKcal);
 
-      // foodKcal += ingredientKcal;
-      this.addKcal(ingredientKcal);
+      foodKcal += ingredientKcal;
     });
     return foodKcal;
   },
