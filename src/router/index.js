@@ -26,7 +26,7 @@ const routes = [
     component: Weight,
   },
   {
-    path: "/food-stats",
+    path: "/macros",
     name: "MacroStats",
     component: MacroStats,
   },
