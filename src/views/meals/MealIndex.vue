@@ -24,16 +24,7 @@
       </b-col>
     </b-row>
     <b-row class="mb-3">
-      <b-col>
-        <b-row>
-          <b-col>Calorias restantes</b-col>
-        </b-row>
-        <b-row>
-          <b-col>Objetivo</b-col>
-          <b-col>Alimento</b-col>
-          <b-col>Restantes</b-col>
-        </b-row>
-      </b-col>
+      <meal-summary :date="dateToString()"></meal-summary>
     </b-row>
     <b-row>
       <b-col cols="12">
@@ -50,7 +41,8 @@
 <script>
 import { mapGetters } from "vuex";
 import Meal from "@/views/meals/Meal.vue";
-const components = { meal: Meal };
+import MealSummary from "@/components/MealSummary.vue";
+const components = { meal: Meal, "meal-summary": MealSummary };
 const data = function () {
   return {
     selectedDate: this.today(),
