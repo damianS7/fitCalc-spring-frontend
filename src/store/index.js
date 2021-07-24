@@ -23,7 +23,7 @@ const state = {
     // Objetivos del usuario (kcal)
     // Distribucion de calorias
     goals: {
-      kcal: 3000, proteins: 25, fats: 20, carbohydrates: 55
+      kcal: 3000, proteins: 30, fats: 30, carbohydrates: 40
     },
 
     // Registro de comidas
@@ -66,6 +66,13 @@ const state = {
 };
 
 const mutations = {
+  SET_GOAL(state, {goal, value}) {
+    Vue.set(state.profile.goals, goal, value);
+  },
+  SET_GOALS(state, goals) {
+    // esto no funciona creo ...
+    Vue.set(state.profile, "goals", goals);
+  },
   // ADD_WEIGHT_TO_HISTORY?
   ADD_WEIGHT(state, obj) {
     Vue.set(state.profile.weights, obj.date, { weight: obj.weight });
@@ -108,6 +115,9 @@ const getters = {
   },
   getGoals() {
     return state.profile.goals;
+  },
+  getGoal: () => (goalName) => {
+    return state.profile.goals[goalName];
   },
   getSetting: () => (settingName) => {
     return state.settings[settingName];
@@ -195,6 +205,9 @@ const getters = {
 };
 
 const actions = {
+  async updateGoal(context, {goal, value}) {
+    context.commit("SET_GOAL", { goal, value});
+  },
   async addMealToSettings(context, meal) {
     context.commit("ADD_MEAL_SETTING", meal);
   },
