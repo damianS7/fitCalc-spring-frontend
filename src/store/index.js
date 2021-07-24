@@ -20,10 +20,10 @@ const state = {
       "21-01-2021": { weight: 77}
     },
     
-    // Objetivos del usuario (subir/bajar/mantener peso)
+    // Objetivos del usuario (kcal)
     // Distribucion de calorias
     goals: {
-
+      kcal: 3000, proteins: 25, fats: 20, carbohydrates: 55
     },
 
     // Registro de comidas
@@ -66,6 +66,7 @@ const state = {
 };
 
 const mutations = {
+  // ADD_WEIGHT_TO_HISTORY?
   ADD_WEIGHT(state, obj) {
     Vue.set(state.profile.weights, obj.date, { weight: obj.weight });
   },
@@ -89,6 +90,12 @@ const mutations = {
   },
   DELETE_FOOD_FROM_MEAL(state, { mealName, mealDate, foodId }) {
     state.profile.meals[mealDate][mealName].pop(foodId);
+  },
+  ADD_MEAL_SETTING (state, meal) {
+    state.settings.mealNames.push(meal);
+  },
+  DELETE_MEAL_SETTING (state, meal) {
+    state.settings.mealNames.pop(meal);
   }
 };
 
@@ -98,6 +105,9 @@ const getters = {
   //KCAL_PER_FAT: 9,
   isLogged() {
     return state.isLogged;
+  },
+  getGoals() {
+    return state.profile.goals;
   },
   getSetting: () => (settingName) => {
     return state.settings[settingName];
@@ -119,6 +129,31 @@ const getters = {
       // return null;
     // }
     return state.profile.meals[date];
+  },
+  getIngredientKcal: (getters) => (ingredientId) => {
+    const ingredient = getters.getIngredient(ingredientId);
+    let totalKcals = ingredient.fats * 9 + ingredient.carbohydrates * 4 + ingredient.proteins * 4;
+    return totalKcals;
+  },
+  getFoodKcal: (getters) => (foodId) => {
+    let totalKcals = 0;
+    const food = getters.getFood(foodId);
+    food.forEach(ingredientId => {
+      totalKcals += getters.getIngredientKcal(ingredientId);
+    });
+    return totalKcals;
+  },
+  getMealsKcal: (getters) => (date) => {
+    let totalKcals = 0;
+    const meals = state.profile.meals[date];
+
+    Object.keys(meals).forEach((meal) => {
+      meals[meal].forEach( (foodId) => {
+        totalKcals += getters.getFoodKcal(foodId);
+      });
+    });
+
+    return totalKcals;
   },
   getLastWeightDate() {
     const weights = getters.getWeights();
@@ -160,6 +195,12 @@ const getters = {
 };
 
 const actions = {
+  async addMealToSettings(context, meal) {
+    context.commit("ADD_MEAL_SETTING", meal);
+  },
+  async deleteMealFromSettings(context, meal) {
+    context.commit("DELETE_MEAL_SETTING", meal);
+  },
   async addWeight(context, weight) {
     context.commit("ADD_WEIGHT", weight);
   },

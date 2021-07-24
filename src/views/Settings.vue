@@ -1,102 +1,92 @@
 <template>
-  <b-col cols="12" class="profile">
-    <profile-summary></profile-summary>
-    <b-row class="widget">
-      <weight-chart></weight-chart>
+  <b-col cols="12">
+    <b-row class="mb-1">
+      <b-col> <h6>Comidas del dia:</h6> </b-col>
     </b-row>
-    <b-row>
+    <b-row class="mb-1">
+      <b-col cols="10">
+        <b-form-select
+          text-field="name"
+          value-field="id"
+          v-model="selectedMeal"
+          :options="meals"
+        >
+          <template #first>
+            <b-form-select-option :value="null" disabled>
+            </b-form-select-option>
+          </template>
+        </b-form-select>
+      </b-col>
+      <b-col cols="2">
+        <b-button @click="deleteMeal()" class="btn-block" variant="danger"
+          >-</b-button
+        >
+      </b-col>
+    </b-row>
+    <b-row class="mb-1">
+      <b-col cols="10">
+        <b-form-input type="text" v-model="newMealName"> </b-form-input>
+      </b-col>
+      <b-col cols="2">
+        <b-button @click="addMeal()" class="btn-block" variant="primary"
+          >+</b-button
+        >
+      </b-col>
+    </b-row>
+    <b-row class="mb-1">
       <b-col>
-        <b-form>
-          <b-form-group label="Tu altura:" description="En centimetros.">
-            <b-form-input
-              id="height"
-              type="text"
-              v-model="height"
-              placeholder="Introduce tu altura"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group label="Tu nombre:">
-            <b-form-input
-              id="username"
-              type="text"
-              v-model="username"
-              placeholder="Introduce tu nombre de usuario"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group label="Tu email:">
-            <b-form-input
-              id="email"
-              type="email"
-              v-model="email"
-              placeholder="Introduce tu correo electronico"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group label="Cambiar password:">
-            <b-form-input
-              id="pass1"
-              type="password"
-              v-model="password"
-              placeholder="Introduce tu nueva password"
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group label="Repite la password:">
-            <b-form-input
-              id="pass2"
-              type="password"
-              v-model="repeatedPassword"
-              placeholder="Repite tu nueva password"
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group label=" ">
-            <b-button type="submit" variant="primary" class="w-100"
-              >Actualizar</b-button
-            >
-          </b-form-group>
-        </b-form>
+        <b-button type="submit" variant="primary" class="w-100"
+          >Actualizar</b-button
+        >
       </b-col>
     </b-row>
   </b-col>
 </template>
 
 <script>
-import ProfileSummary from "@/components/ProfileSummary.vue";
-import Weight from "@/views/Weight.vue";
-import { mapGetters, mapState } from "vuex";
-
-const computed = {
-  ...mapState({
-    user: "user",
-    profile: "profile",
-  }),
-  ...mapGetters({
-    lastWeight: "getLastWeight",
-  }),
-};
+import { mapActions, mapGetters, mapState } from "vuex";
 
 const data = function () {
   return {
-    username: "this.user.username",
-    email: "user.email",
-    password: "******",
-    repeatedPassword: "",
-    age: 33,
-    height: 177,
-    weight: 21,
+    selectedMeal: null,
+    meal: "",
+    newMealName: "",
   };
 };
-
-const components = {
-  "profile-summary": ProfileSummary,
-  "weight-chart": Weight,
+const methods = {
+  ...mapActions({
+    addMealToSettings: "addMealToSettings",
+    deleteMealFromSettings: "deleteMealFromSettings",
+  }),
+  addMeal() {
+    if (this.newMealName.length > 0) {
+      this.addMealToSettings(this.newMealName);
+    }
+  },
+  deleteMeal() {
+    if (this.selectedMeal == null) {
+      return;
+    }
+    this.deleteMealFromSettings(this.newMealName);
+  },
 };
+
+const computed = {
+  ...mapGetters({
+    setting: "getSetting",
+  }),
+  meals: function () {
+    return this.setting("mealNames");
+  },
+};
+
+const components = {};
 
 export default {
   components,
   computed,
   data,
+  methods,
 };
 </script>
 <style>
