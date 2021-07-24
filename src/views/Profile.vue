@@ -1,10 +1,9 @@
 <template>
   <b-col cols="12" class="profile">
-    <profile-summary></profile-summary>
-    <b-row class="widget">
-      <weight-chart></weight-chart>
+    <b-row class="mb-1 widget">
+      <profile-summary></profile-summary>
     </b-row>
-    <b-row>
+    <b-row class="mb-1 widget">
       <b-col>
         <b-form>
           <b-form-group label="Tu altura:" description="En centimetros.">
