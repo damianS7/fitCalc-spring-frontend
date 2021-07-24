@@ -28,7 +28,7 @@
               <font-awesome-icon icon="book" />
             </b-col>
             <b-col>
-              <router-link to="/macros"> Registro de Comidas </router-link>
+              <router-link to="/meals"> Registro de Comidas </router-link>
             </b-col>
           </b-row>
           <b-row>
@@ -52,7 +52,7 @@
               <font-awesome-icon icon="chart-pie" />
             </b-col>
             <b-col>
-              <router-link to="/food-stats"> Nutricion </router-link>
+              <router-link to="/macros"> Nutricion </router-link>
             </b-col>
           </b-row>
           <b-row>

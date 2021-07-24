@@ -56,7 +56,7 @@ const routes = [
     component: FoodIndex
   },
   {
-    path: "/meals-record",
+    path: "/meals",
     name: "MealIndex",
     component: MealIndex
   },
