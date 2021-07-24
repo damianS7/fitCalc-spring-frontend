@@ -1,12 +1,17 @@
 <template>
   <b-col cols="12">
-    <b-row>
+    <b-row class="mb-1">
+      <b-col cols="12">
+        <h1>Seguimiento</h1>
+      </b-col>
+    </b-row>
+    <b-row class="mb-1">
       <b-col class="mb-3">
         <weight-chart :chartData="chartData"> </weight-chart>
       </b-col>
     </b-row>
 
-    <b-row>
+    <b-row class="mb-1">
       <b-col cols="12" sm="10" class="mb-2">
         <b-form-select
           id="inline-form-custom-select-pref"

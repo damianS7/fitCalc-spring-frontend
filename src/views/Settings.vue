@@ -1,6 +1,12 @@
 <template>
   <b-col cols="12">
     <b-row class="mb-1">
+      <b-col cols="12">
+        <h1>Configuracion</h1>
+      </b-col>
+    </b-row>
+
+    <b-row class="mb-1">
       <b-col> <h6>Comidas del dia:</h6> </b-col>
     </b-row>
     <b-row class="mb-1">
