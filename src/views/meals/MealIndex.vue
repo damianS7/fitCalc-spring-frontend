@@ -1,6 +1,9 @@
 <template>
   <b-col cols="12">
-    <b-row class="text-center mt-3 mb-3" align-v="center">
+    <b-row class="mb-3 widget">
+      <meal-summary :date="dateToString()"></meal-summary>
+    </b-row>
+    <b-row class="text-center mb-3" align-v="center">
       <b-col cols="2">
         <font-awesome-icon icon="arrow-left" @click="prevDay" />
       </b-col>
@@ -24,9 +27,6 @@
       </b-col>
     </b-row>
     <b-row class="mb-3">
-      <meal-summary :date="dateToString()"></meal-summary>
-    </b-row>
-    <b-row>
       <b-col cols="12">
         <meal
           v-for="meal of mealNames"
