@@ -9,7 +9,7 @@ import MealIndex from "@/views/meals/MealIndex.vue";
 import Weight from "@/views/Weight.vue";
 import Goals from "@/views/Goals.vue";
 import Settings from "@/views/Settings.vue";
-import MacroStats from "@/views/MacroStats.vue";
+import Macros from "@/views/Macros.vue";
 import Profile from "@/views/Profile.vue";
 
 Vue.use(VueRouter);
@@ -27,8 +27,8 @@ const routes = [
   },
   {
     path: "/macros",
-    name: "MacroStats",
-    component: MacroStats,
+    name: "Macros",
+    component: Macros,
   },
   {
     path: "/goals",
