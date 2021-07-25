@@ -16,7 +16,15 @@
 <script>
 import { mapGetters } from "vuex";
 const props = { date: String };
-const methods = {};
+const methods = {
+  todayStringDate() {
+    const today = new Date();
+    let day = today.getDate();
+    let month = today.getMonth() + 1;
+    let year = today.getFullYear();
+    return day + "-" + month + "-" + year;
+  },
+};
 const computed = {
   ...mapGetters({
     getGoals: "getGoals",
@@ -24,8 +32,13 @@ const computed = {
     getMealsKcal: "getMealsKcal",
     getIngredient: "getIngredient",
   }),
+
   consumedKcal: function () {
-    return this.getMealsKcal(this.date);
+    if (this.date == null) {
+      // return this.getMealsKcal(this.todayStringDate());
+    }
+    // return this.getMealsKcal(this.date);
+    return 100;
   },
   goalKcal: function () {
     return this.getGoals.kcal;
