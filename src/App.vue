@@ -17,7 +17,7 @@
         <b-row align-v="center" class="header">
           <header-component
             :title="user.username"
-            :toggleMenu="toggleProfile"
+            :toggleMenu="toggleSidebar"
           ></header-component>
         </b-row>
         <b-row align-v="start" class="content">
@@ -27,7 +27,7 @@
           <footer-component></footer-component>
         </b-row>
         <b-row>
-          <sidebar :toggleProfile="toggleProfile"></sidebar>
+          <sidebar :toggleSidebar="toggleSidebar"></sidebar>
         </b-row>
       </b-col>
     </b-row>
@@ -49,7 +49,7 @@ const components = {
   "footer-component": Footer,
 };
 const methods = {
-  toggleProfile() {
+  toggleSidebar() {
     var div = document.getElementsByClassName("sidebar")[0];
     if (div.style.left == "-100%" || div.style.left == "") {
       div.style.left = "0%";
