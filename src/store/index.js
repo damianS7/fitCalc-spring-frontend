@@ -1,13 +1,21 @@
+import axios from 'axios'
 import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
 
 const state = {
+  // Datos del usuario logeado en la aplicacion
   user: { id: 5, username: "DamianS7", email: "damian@gmail.com", token: null},
 
+  // Datos personales
   profile: {
+    // Edad del usuari
     age: 27,
+    
+    // Altura en cm
     lenght: 177,
+
+    // Historial de pesos del usuario
     weights: {
       "01-01-2021": { weight: 61},
       "04-01-2021": { weight: 62},
@@ -20,22 +28,22 @@ const state = {
       "21-01-2021": { weight: 77}
     },
     
-    // Objetivos del usuario (kcal)
-    // Distribucion de calorias
+    // Objetivos del usuario (kcal) y distribucion de sus macros
     goals: {
       kcal: 3000, proteins: 30, fats: 30, carbohydrates: 40
     },
 
-    // Registro de comidas
+    // Registro de comidas diarias
     meals: {
       // "18-7-2021": { desayuno: [0, 3], merienda:[1, 2], comida: [3], cena: [1], aperitivo: [1] },
       // "19-7-2021": { desayuno: [4], merienda:[], comida: [1], cena: [2], aperitivo: [0] },
-      // "20-7-2021": { desayuno: [4, 1], merienda:[], comida: [0, 2], cena: [4], aperitivo: [0, 3] },
-      "24-7-2021": { desayuno: [0, 3], merienda:[], almuerzo: [], cena: [], aperitivos: [] },
-      // "24-7-2021": { desayuno: [4, 1], merienda:[3], comida: [0, 2], cena: [4], aperitivo: [0, 3] },
+      "25-7-2021": { desayuno: [0, 3], merienda:[], almuerzo: [], cena: [], aperitivos: [] },
+      "26-7-2021": { desayuno: [4, 1], merienda:[3], comida: [0, 2], cena: [4], aperitivo: [0, 3] },
+      "27-7-2021": { desayuno: [4, 1], merienda:[], comida: [0, 2], cena: [4], aperitivo: [0, 3] },
     }
   },
 
+  // Ingredientes disponibles en la app
   ingredients: {
     0: { id: 0, name: 'Queso', proteins: 1, carbohydrates: 1, fats: 1, weight: 100 },
     1: { id: 1, name: 'Leche', proteins: 1, carbohydrates: 1, fats: 1 },
@@ -51,6 +59,8 @@ const state = {
     11: { id: 11, name: 'Guisante', proteins: 1, carbohydrates: 1, fats: 1 },
     12: { id: 12, name: 'Helado nueces de macadamia', proteins: 10, carbohydrates: 46, fats: 44, weight: 100 },
   },
+
+  // Comidas formadas a partir de los ingredientes
   foods: {
     0: { id: 0, name: "Pizza 4 Quesos", ingredients: [ 0, 3, 5 ]},
     1: { id: 1, name: "Pizza Barbacoa", ingredients: [ 0, 3, 5 ]},
@@ -60,12 +70,20 @@ const state = {
     5: { id: 5, name: "Sandwich de tomate y queso", ingredients: [ 0, 4, 5 ]}
   },
   
+  // Opciones de configuracion
   settings: { mealNames: ["desayuno", "almuerzo", "merienda", "cena", "aperitivos"] },
-  isLogged: true,
-  appReady: false
+  
+  // Flag que determina si la app esta lista, es decir, login + inicializacion de datos.
+  appReady: true
 };
 
 const mutations = {
+  SET_USER(state, user) {
+    Vue.set(state, 'user', user);
+  },
+  SET_READY(state, ready) {
+    Vue.set(state, 'appReady', ready);
+  },
   SET_GOAL(state, {goal, value}) {
     Vue.set(state.profile.goals, goal, value);
   },
@@ -103,15 +121,21 @@ const mutations = {
   },
   DELETE_MEAL_SETTING (state, meal) {
     state.settings.mealNames.pop(meal);
+  },
+  LOGOUT (state) {
+    Vue.delete(state.user, "token", null);
   }
 };
 
 const getters = {
-  //KCAL_PER_PROTEIN: 4,
-  //KCAL_PER_CARBOHYDRATE: 4,
-  //KCAL_PER_FAT: 9,
   isLogged() {
-    return state.isLogged;
+    if (state.user.token === null) {
+      return false;
+    }
+    return true;
+  },
+  isAppReady() {
+    return state.appReady;
   },
   getGoals() {
     return state.profile.goals;
@@ -205,6 +229,14 @@ const getters = {
 };
 
 const actions = {
+  async init(context, data) {
+    // context.dispatch("");
+    // Fetch profile, foods, ingredients, etc ...
+    context.commit("SET_READY", true);
+  },
+  async logout(context) {
+    context.commit("LOGOUT");
+  },
   async updateGoal(context, {goal, value}) {
     context.commit("SET_GOAL", { goal, value});
   },
@@ -237,6 +269,36 @@ const actions = {
   },
   async deleteMealFood(context, { mealName, mealDate, foodId }) {
     context.commit("DELETE_FOOD_FROM_MEAL", { mealName, mealDate, foodId });
+  },
+  async login(context, { username, password }) {
+    let data = { username: username, password: password };
+    return await axios.post("http://localhost:8888/api/users/login", data)
+        .then(function (response) {
+          console.log(response);
+            // Si el request tuvo exito (codigo 200)
+            if (response.status == 200) {
+                // Cargar los datos de usuario
+                return {
+                    status: response.status,
+                    data: response.data
+                };
+            }
+        }).catch(function (error) {
+          // Si no se puede alcanzar el servidor ...
+          // Ponemos el codigo y mensaje nosotros ya que si no estara vacio.
+          if(!error.status) {
+            return {
+              status: -1,
+              message: 'Network error'
+            };
+          }
+          if(error.response.status) {
+            return {
+                status: error.response.status,
+                message: error.response.data.message
+            };
+          }
+        });
   },
 };
 

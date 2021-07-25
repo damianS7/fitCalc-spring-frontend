@@ -112,8 +112,18 @@ export default {
         return;
       }
 
+      let user = {
+        id: response.data.id,
+        username: response.data.username,
+        email: response.data.email,
+        token: response.data.token,
+      };
+
+      // Asignamos los datos de usuario en la app
+      this.$store.commit("SET_USER", user);
+
       // Si la respusta es exitosa (200) cargamos los datos en la app
-      this.$store.dispatch("initApp", response.data);
+      this.$store.dispatch("init", response.data);
     },
     async register(event) {
       event.preventDefault();
