@@ -285,10 +285,10 @@ const actions = {
         }).catch(function (error) {
           // Si no se puede alcanzar el servidor ...
           // Ponemos el codigo y mensaje nosotros ya que si no estara vacio.
-          if(!error.status) {
+          if(typeof error.response === "undefined") {
             return {
               status: -1,
-              message: 'Network error'
+              message: "Network error"
             };
           }
           if(error.response.status) {
