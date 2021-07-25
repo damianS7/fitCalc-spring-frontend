@@ -96,6 +96,16 @@
                 </router-link>
               </b-col>
             </b-row>
+            <b-row>
+              <b-col cols="2" sm="1">
+                <font-awesome-icon icon="sign-out-alt" />
+              </b-col>
+              <b-col>
+                <router-link @click.native="logout" to="#">
+                  Logout
+                </router-link>
+              </b-col>
+            </b-row>
           </b-col>
         </b-row>
       </b-col>
@@ -107,7 +117,12 @@
 import ProfileSummary from "@/components/ProfileSummary.vue";
 const components = { "profile-summary": ProfileSummary };
 const props = { toggleSidebar: Function };
-const methods = {};
+const methods = {
+  logout() {
+    this.$store.dispatch("logout");
+    this.toggleSidebar();
+  },
+};
 
 export default { props, components, methods };
 </script>

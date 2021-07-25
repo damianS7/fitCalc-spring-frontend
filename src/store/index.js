@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 const state = {
   // Datos del usuario logeado en la aplicacion
-  user: { id: 5, username: "DamianS7", email: "damian@gmail.com", token: null},
+  user: { id: null, username: null, email: null, token: null},
 
   // Datos personales
   profile: {
@@ -123,16 +123,16 @@ const mutations = {
     state.settings.mealNames.pop(meal);
   },
   LOGOUT (state) {
-    Vue.delete(state.user, "token", null);
+    Vue.set(state.user, "token", null);
   }
 };
 
 const getters = {
   isLogged() {
-    if (state.user.token === null) {
-      return false;
+    if(state.user.token !== null) {
+      return true;
     }
-    return true;
+    return false;
   },
   isAppReady() {
     return state.appReady;
@@ -274,7 +274,6 @@ const actions = {
     let data = { username: username, password: password };
     return await axios.post("http://localhost:8888/api/users/login", data)
         .then(function (response) {
-          console.log(response);
             // Si el request tuvo exito (codigo 200)
             if (response.status == 200) {
                 // Cargar los datos de usuario
@@ -300,6 +299,22 @@ const actions = {
           }
         });
   },
+  async register(context, { username, password, email }) {
+    let data = { username: username, password: password, email: email };
+    return await axios.post("http://localhost:8888/api/users/registration", data)
+        .then(function (response) {
+            return {
+                status: response.status,
+                data: response.data
+            };
+        })
+        .catch(function (error) {
+            return {
+                status: error.response.status,
+                message: error.response.data.message
+            };
+        });
+},
 };
 
 export default new Vuex.Store({
