@@ -123,7 +123,7 @@ export default {
       this.$store.commit("SET_USER", user);
 
       // Si la respusta es exitosa (200) cargamos los datos en la app
-      this.$store.dispatch("init", response.data);
+      await this.$store.dispatch("init");
     },
     async register(event) {
       event.preventDefault();
