@@ -4,6 +4,7 @@ import Dashboard from "@/views/Dashboard.vue";
 import Food from "@/views/foods/Food.vue";
 import FoodIndex from "@/views/foods/FoodIndex.vue";
 import Ingredient from "@/views/ingredients/Ingredient.vue";
+import IngredientCreate from "@/views/ingredients/IngredientCreate.vue";
 import IngredientIndex from "@/views/ingredients/IngredientIndex.vue";
 import MealIndex from "@/views/meals/MealIndex.vue";
 import Weight from "@/views/Weight.vue";
@@ -34,6 +35,11 @@ const routes = [
     path: "/goals",
     name: "Goals",
     component: Goals,
+  },
+  {
+    path: "/ingredients/new",
+    name: "IngredientCreate",
+    component: IngredientCreate
   },
   {
     path: "/ingredients/:ingredientId",

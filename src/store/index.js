@@ -78,7 +78,10 @@ const mutations = {
   DELETE_WEIGHT(state, weightDate) {
     Vue.delete(state.profile.weights, weightDate);
   },
-  NEW_INGREDIENT(state, ingredient) {
+  ADD_INGREDIENT(state, ingredient) {
+    Vue.set(state.ingredients, ingredient.id, ingredient);
+  },
+  UPDATE_INGREDIENT(state, ingredient) {
     Vue.set(state.ingredients, ingredient.id, ingredient);
   },
   DELETE_INGREDIENT(state, ingredientId) {
@@ -227,9 +230,12 @@ const actions = {
     // Obtenemos los ingredientes disponibles
     await axios.get("http://localhost:8888/api/user/ingredients")
       .then(function(response){
+        // response.data.forEach((ingredient) => {
+          // context.commit("ADD_INGREDIENT", ingredient);
+        // });
         let ingredients = {};
-        response.data.reduce((ingredient) => {
-          return ingredients[ingredient.id] = ingredient;
+        response.data.forEach((ingredient) => {
+          ingredients[ingredient.id] = ingredient;
         });
         context.commit("SET_INGREDIENTS", ingredients);
       });
@@ -329,8 +335,24 @@ const actions = {
   async deleteWeight(context, weightDate) {
     context.commit("DELETE_WEIGHT", weightDate);
   },
-  async newIngredient(context, payload) {
-    context.commit("ADD_INGREDIENT", payload);
+  async newIngredient(context, ingredient) {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
+    await axios.post("http://localhost:8888/api/user/ingredients", ingredient)
+      .then(function (response) {
+        // Si el request tuvo exito (codigo 200)
+        if (response.status == 200) {
+          context.commit("ADD_INGREDIENT", response.data);
+        }
+      })
+  },
+  async updateIngredient(context, ingredient) {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
+    await axios.put("http://localhost:8888/api/user/ingredients", ingredient)
+      .then(function (response) {
+        if (response.status == 200) {
+          context.commit("UPDATE_INGREDIENT", response.data);
+        }
+      })
   },
   async deleteIngredient(context, ingredientId) {
     context.commit("DELETE_INGREDIENT", ingredientId);
