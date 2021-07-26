@@ -6,7 +6,7 @@
           {{ food.name }}
         </b-col>
         <b-col cols="2">
-          <router-link :to="{ path: '/food/' + foodId() }">
+          <router-link :to="{ path: '/foods/' + foodId() }">
             <b-button class="btn-sm" variant="primary">
               <font-awesome-icon icon="edit" />
             </b-button>
