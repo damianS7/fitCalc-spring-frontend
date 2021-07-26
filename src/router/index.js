@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import Dashboard from "@/views/Dashboard.vue";
 import Food from "@/views/foods/Food.vue";
 import FoodIndex from "@/views/foods/FoodIndex.vue";
-import Ingredient from "@/views/ingredients/Ingredient.vue";
+import IngredientEdit from "@/views/ingredients/IngredientEdit.vue";
 import IngredientCreate from "@/views/ingredients/IngredientCreate.vue";
 import IngredientIndex from "@/views/ingredients/IngredientIndex.vue";
 import MealIndex from "@/views/meals/MealIndex.vue";
@@ -43,8 +43,8 @@ const routes = [
   },
   {
     path: "/ingredients/:ingredientId",
-    name: "Ingredient",
-    component: Ingredient
+    name: "IngredientEdit",
+    component: IngredientEdit
   },
   {
     path: "/ingredients",
