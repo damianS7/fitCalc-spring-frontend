@@ -265,7 +265,7 @@ const actions = {
         context.commit("SET_SETTINGS", settings);
       });
 
-    await new Promise(r => setTimeout(r, 2000));
+    await new Promise(r => setTimeout(r, 1000));
     context.commit("SET_READY", true);
     // console.log("La app esta lista.");
   },
