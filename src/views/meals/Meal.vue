@@ -56,7 +56,7 @@
 import { mapGetters } from "vuex";
 import MealFoodList from "@/views/meals/MealFoodList.vue";
 const components = { "meal-food-list": MealFoodList };
-const props = ["meal", "date"];
+const props = { meal: String, date: Date };
 
 const data = function () {
   return {
@@ -85,37 +85,43 @@ const methods = {
 const computed = {
   ...mapGetters({
     getMealFoods: "getMealFoods",
+    getMealsFromDate: "getMealsFromDate",
     getFoodIngredients: "getMealFoods",
-    ingredients: "getIngredients",
+    getIngredients: "getIngredients",
     getIngredient: "getIngredient",
     getFood: "getFood",
     getFoods: "getFoods",
+    dateFormat: "dateToString",
   }),
   foods: function () {
-    let foods = this.getMealFoods(this.date);
+    let dateString = this.dateFormat(this.date);
+    let foods = this.getMealFoods(dateString);
     if (foods != null) {
       return foods[this.meal];
     }
   },
   kcal: function () {
-    let foods = this.getMealFoods(this.date);
-    if (foods != null) {
-      let foodKcal = 0;
+    let kcals = 0;
+    let meals = this.getMealsFromDate(this.date);
 
-      foods[this.meal].forEach((foodId) => {
-        const food = this.getFood(foodId);
-        food.ingredients.forEach((ingredientId) => {
-          const ingredient = this.getIngredient(ingredientId);
-          const ingredientKcal =
-            ingredient.fats * 9 +
-            ingredient.proteins * 4 +
-            ingredient.carbohydrates * 4;
-
-          foodKcal += ingredientKcal;
-        });
-      });
-      return foodKcal;
+    if (typeof meals === "undefined") {
+      return kcals;
     }
+
+    let foodsId = meals[this.meal];
+    if (typeof foodsId === "undefined") {
+      return kcals;
+    }
+
+    foodsId.forEach((foodId) => {
+      const food = this.getFood(foodId);
+      food.ingredients.forEach((id) => {
+        const ingredient = this.getIngredient(id);
+        kcals += ingredient.kcals;
+      });
+    });
+
+    return kcals;
   },
 };
 

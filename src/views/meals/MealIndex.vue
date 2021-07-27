@@ -1,7 +1,7 @@
 <template>
   <b-col cols="12">
     <b-row class="mb-3 widget">
-      <meal-summary :date="dateToString()"></meal-summary>
+      <meal-summary :date="selectedDate"></meal-summary>
     </b-row>
     <b-row class="text-center mb-3" align-v="center">
       <b-col cols="2">
@@ -32,7 +32,7 @@
           v-for="meal of mealNames"
           :key="meal"
           :meal="meal"
-          :date="dateToString()"
+          :date="selectedDate"
         ></meal>
       </b-col>
     </b-row>
@@ -61,12 +61,6 @@ const methods = {
     let nextDayDate = new Date();
     nextDayDate.setDate(this.selectedDate.getDate() + 1);
     this.selectedDate = nextDayDate;
-  },
-  dateToString() {
-    let day = this.selectedDate.getDate();
-    let month = this.selectedDate.getMonth() + 1;
-    let year = this.selectedDate.getFullYear();
-    return day + "-" + month + "-" + year;
   },
 };
 const computed = {

@@ -14,31 +14,25 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
-//const props = ["food", "mealDate", "mealName", "addKcal"];
 const props = {
   food: Object,
-  mealDate: String,
+  mealDate: Date,
   mealName: String,
   addKcal: Function,
 };
 const computed = {
   ...mapGetters({
     ingredients: "getIngredients",
-    ingredient: "getIngredient",
+    getIngredient: "getIngredient",
   }),
 
   kcal: function () {
-    let foodKcal = 0;
-    const ingredientsIds = this.food.ingredients;
-    console.log("Ingredientes de: " + this.food.name);
-    ingredientsIds.forEach((id) => {
-      const i = this.ingredient(id);
-      const ingredientKcal = i.fats * 9 + i.proteins * 4 + i.carbohydrates * 4;
-      console.log(id + " -> " + i.name + " kcals: " + ingredientKcal);
-
-      foodKcal += ingredientKcal;
+    let kcals = 0;
+    this.food.ingredients.forEach((ingredientId) => {
+      const ingredient = this.getIngredient(ingredientId);
+      kcals += ingredient.kcals;
     });
-    return foodKcal;
+    return kcals;
   },
 };
 const methods = {

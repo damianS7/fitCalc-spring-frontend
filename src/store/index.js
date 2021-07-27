@@ -185,6 +185,13 @@ const getters = {
     // }
     return state.profile.meals[date];
   },
+  getMealsFromDate: (state, getters) => (date) => {
+    date = getters.dateToString(date);
+    // if(typeof state.profile.meals[date] === 'undefined') {
+    // return null;
+    // }
+    return state.profile.meals[date];
+  },
   getIngredientKcal: (getters) => (ingredientId) => {
     const ingredient = getters.getIngredient(ingredientId);
     let totalKcals =
@@ -250,6 +257,12 @@ const getters = {
       ],
     };
   },
+  dateToString: (getters) => (date) => {
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    return day + "-" + month + "-" + year;
+  }
 };
 
 const actions = {
@@ -417,6 +430,7 @@ const actions = {
     context.commit("ADD_FOOD_TO_MEAL", { mealName, mealDate, foodId });
   },
   async deleteMealFood(context, { mealName, mealDate, foodId }) {
+    mealDate = context.getters.dateToString(mealDate);
     context.commit("DELETE_FOOD_FROM_MEAL", { mealName, mealDate, foodId });
   },
   

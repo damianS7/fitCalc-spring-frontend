@@ -16,7 +16,7 @@ import MealFoodListItem from "@/views/meals/MealFoodListItem.vue";
 const components = { "food-item": MealFoodListItem };
 const props = {
   foodIdList: Array,
-  mealDate: String,
+  mealDate: Date,
   mealName: String,
   addKcal: Function,
 };
