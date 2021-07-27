@@ -151,6 +151,28 @@ const getters = {
   isAppReady() {
     return state.appReady;
   },
+  getIngredient: (state) => (ingredientId) => {
+    return state.ingredients[ingredientId];
+  },
+  getIngredients: (state) => () => {
+    return Object.values(state.ingredients);
+  },
+  getFood: (state) => (foodId) => {
+    return state.foods[foodId];
+  },
+  getFoods: (state) => () => {
+    return Object.values(state.foods);
+  },
+  getSetting: (state) => (settingName) => {
+    return state.settings[settingName];
+  },
+  dateToString: () => (date) => {
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    return day + "-" + month + "-" + year;
+  },
+  // .... comprobar a partir de aqui
   calculateKcals: () => (ingredient) => {
     let kcals = 0;
     kcals += ingredient.fats * FATS_MULTIPLIER;
@@ -161,30 +183,11 @@ const getters = {
   getGoals() {
     return state.profile.goals;
   },
-  getGoal: () => (goalName) => {
+  getGoal: (state) => (goalName) => {
     return state.profile.goals[goalName];
   },
-  getSetting: () => (settingName) => {
-    return state.settings[settingName];
-  },
-  getIngredients() {
-    return Object.values(state.ingredients);
-  },
-  getIngredient: () => (ingredientId) => {
-    return state.ingredients[ingredientId];
-  },
-  getFoods() {
-    return Object.values(state.foods);
-  },
-  getFood: (state) => (foodId) => {
-    return state.foods[foodId];
-  },
-  getMealFoods: () => (date) => {
-    // if(typeof state.profile.meals[date] === 'undefined') {
-    // return null;
-    // }
-    return state.profile.meals[date];
-  },
+  
+  
   getMealsFromDate: (state, getters) => (date) => {
     date = getters.dateToString(date);
     // if(typeof state.profile.meals[date] === 'undefined') {
@@ -257,12 +260,7 @@ const getters = {
       ],
     };
   },
-  dateToString: (getters) => (date) => {
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-    return day + "-" + month + "-" + year;
-  }
+  
 };
 
 const actions = {
