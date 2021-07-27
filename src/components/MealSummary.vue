@@ -19,28 +19,22 @@
 <script>
 import { mapGetters } from "vuex";
 const props = { date: Date };
-const methods = {
-  dateToString() {
-    let day = this.date.getDate();
-    let month = this.date.getMonth() + 1;
-    let year = this.date.getFullYear();
-    return day + "-" + month + "-" + year;
-  },
-};
+const methods = {};
 const computed = {
   ...mapGetters({
     getGoals: "getGoals",
     getFood: "getFood",
-    getMealFoods: "getMealFoods",
+    getMealsFromDate: "getMealsFromDate",
     getMealsKcal: "getMealsKcal",
     getIngredient: "getIngredient",
     calculateKcals: "calculateKcals",
+    dateToString: "dateToString",
     setting: "getSetting",
   }),
 
   consumedKcal: function () {
     let kcals = 0;
-    let meals = this.getMealFoods(this.dateToString());
+    let meals = this.getMealsFromDate(this.date);
 
     if (typeof meals === "undefined") {
       return kcals;
