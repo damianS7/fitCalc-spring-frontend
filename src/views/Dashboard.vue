@@ -4,7 +4,7 @@
       <profile-summary></profile-summary>
     </b-row>
     <b-row class="mb-1 widget">
-      <meal-summary></meal-summary>
+      <meal-summary :date="new Date()"></meal-summary>
     </b-row>
     <b-row class="mb-1 widget">
       <b-col>

@@ -43,7 +43,7 @@ const state = {
 
     // Registro de comidas diarias
     meals: {
-      // "26-7-2021": { desayuno: [4, 1], merienda:[3], comida: [0, 2], cena: [4], aperitivo: [0, 3] },
+      "27-7-2021": { desayuno: [1, 2], merienda:[2], comida: [1, 1], cena: [2], aperitivo: [1, 2] },
     },
   },
 
@@ -176,7 +176,7 @@ const getters = {
   getFoods() {
     return Object.values(state.foods);
   },
-  getFood: () => (foodId) => {
+  getFood: (state) => (foodId) => {
     return state.foods[foodId];
   },
   getMealFoods: () => (date) => {
