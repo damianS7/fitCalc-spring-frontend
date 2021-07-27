@@ -19,7 +19,7 @@
                   text-field="name"
                   value-field="id"
                   v-model="selectedFoodId"
-                  :options="getFoods"
+                  :options="getFoods()"
                 >
                   <template #first>
                     <b-form-select-option :value="null" disabled>
@@ -39,7 +39,6 @@
                 <b-card>
                   <meal-food-list
                     :foodIdList="foods"
-                    :addKcal="addKcal"
                     :mealName="meal"
                     :mealDate="date"
                   ></meal-food-list>
@@ -66,9 +65,6 @@ const data = function () {
 };
 
 const methods = {
-  addKcal(kcal) {
-    this.totalKcal += kcal;
-  },
   addFood() {
     if (this.selectedFoodId == null) {
       return;
@@ -84,20 +80,19 @@ const methods = {
 
 const computed = {
   ...mapGetters({
-    getMealFoods: "getMealFoods",
     getMealsFromDate: "getMealsFromDate",
-    getFoodIngredients: "getMealFoods",
     getIngredients: "getIngredients",
     getIngredient: "getIngredient",
     getFood: "getFood",
     getFoods: "getFoods",
-    dateFormat: "dateToString",
   }),
   foods: function () {
-    let dateString = this.dateFormat(this.date);
-    let foods = this.getMealFoods(dateString);
-    if (foods != null) {
-      return foods[this.meal];
+    // Obtenemos todos las meals de la fecha (desayuno, merienda etc ...)
+    let meals = this.getMealsFromDate(this.date);
+
+    if (meals != null) {
+      // Accedemos a las comidas del desayuno, merienda o lo que sea
+      return meals[this.meal];
     }
   },
   kcal: function () {
