@@ -18,7 +18,6 @@ const props = {
   food: Object,
   mealDate: Date,
   mealName: String,
-  addKcal: Function,
 };
 const computed = {
   ...mapGetters({

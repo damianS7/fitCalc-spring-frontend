@@ -6,7 +6,6 @@
       :food="food(foodId)"
       :mealName="mealName"
       :mealDate="mealDate"
-      :addKcal="addKcal"
     ></food-item>
   </b-col>
 </template>
@@ -18,7 +17,6 @@ const props = {
   foodIdList: Array,
   mealDate: Date,
   mealName: String,
-  addKcal: Function,
 };
 
 const computed = {
