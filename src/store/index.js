@@ -350,12 +350,16 @@ const actions = {
   },
   async updateIngredient(context, ingredient) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
-    await axios.put("http://localhost:8888/api/user/ingredients", ingredient)
+    return await axios.put("http://localhost:8888/api/user/ingredients/" + ingredient.id, ingredient)
       .then(function (response) {
+        // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
           context.commit("UPDATE_INGREDIENT", response.data);
         }
-      })
+        return response.status;
+      }).catch(function (response){
+        return response.status;
+      });
   },
   async deleteIngredient(context, ingredientId) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;

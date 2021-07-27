@@ -91,9 +91,27 @@ const computed = {
 };
 
 const methods = {
-  updateIngredient() {
-    //const ingredientId = this.$route.params.ingredientId;
-    //this.$store.dispatch("deleteIngredient", ingredientId);
+  makeToast(msg, variant) {
+    this.$bvToast.toast(msg, {
+      title: "Ingredient",
+      autoHideDelay: 5000,
+      appendToast: true,
+      solid: true,
+      toaster: "b-toaster-bottom-right",
+      variant: variant,
+    });
+  },
+  async updateIngredient() {
+    let responseStatus = await this.$store.dispatch(
+      "updateIngredient",
+      this.ingredient
+    );
+
+    if (responseStatus == 200) {
+      this.makeToast("Modificado con exito.", "success");
+    } else {
+      this.makeToast("No se pudo modificar el ingredient.", "danger");
+    }
   },
 };
 export default { computed, methods, data };
