@@ -3,7 +3,10 @@
     <b-col cols="12">
       <b-row class="mb-1">
         <b-col cols="8">
-          {{ ingredient.name }}
+          <b>
+            {{ ingredient.name }}
+          </b>
+          <small> ( {{ ingredient.kcals }} kcals ) </small>
         </b-col>
         <b-col cols="4" class="text-right">
           <b-button-group>

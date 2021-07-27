@@ -4,6 +4,8 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 const SERVER_URL = "http://localhost:8888";
 const FATS_MULTIPLIER = 9;
+const PROTEINS_MULTIPLIER = 4;
+const CARBOHYDRATES_MULTIPLIER = 4;
 const KCAL_GRAMS_RATIO = 100;
 
 const state = {
@@ -149,6 +151,13 @@ const getters = {
   isAppReady() {
     return state.appReady;
   },
+  calculateKcals: () => (ingredient) => {
+    let kcals = 0;
+    kcals += ingredient.fats * FATS_MULTIPLIER;
+    kcals += ingredient.proteins * PROTEINS_MULTIPLIER;
+    kcals += ingredient.carbohydrates * CARBOHYDRATES_MULTIPLIER;
+    return kcals;
+  },
   getGoals() {
     return state.profile.goals;
   },
@@ -255,6 +264,7 @@ const actions = {
         // });
         let ingredients = {};
         response.data.forEach((ingredient) => {
+          ingredient.kcals = context.getters.calculateKcals(ingredient);
           ingredients[ingredient.id] = ingredient;
         });
         context.commit("SET_INGREDIENTS", ingredients);
@@ -361,6 +371,7 @@ const actions = {
       .then(function (response) {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
+          response.data.kcals = context.getters.calculateKcals(response.data);
           context.commit("ADD_INGREDIENT", response.data);
         }
         return response.status;
@@ -374,6 +385,7 @@ const actions = {
       .then(function (response) {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
+          response.data.kcals = context.getters.calculateKcals(response.data);
           context.commit("UPDATE_INGREDIENT", response.data);
         }
         return response.status;

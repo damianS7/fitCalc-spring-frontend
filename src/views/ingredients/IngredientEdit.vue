@@ -2,7 +2,8 @@
   <b-col cols="12">
     <b-row align-v="center" class="widget mb-2">
       <b-col cols="8">
-        <b>{{ ingredient.name }}</b>
+        <b>{{ ingredient.name }} </b>
+        <small> ( {{ ingredient.kcals }} kcals )</small>
       </b-col>
       <b-col cols="4" class="text-right">
         <span> Atras </span>
@@ -27,6 +28,7 @@
             <b-form-input
               type="number"
               v-model="ingredient.fats"
+              @update="recalculateKcals(ingredient)"
               placeholder="Grasas por 100g"
             ></b-form-input>
           </b-col>
@@ -37,6 +39,7 @@
             <b-form-input
               type="number"
               v-model="ingredient.proteins"
+              @update="recalculateKcals(ingredient)"
               placeholder="Proteinas por 100g"
             ></b-form-input>
           </b-col>
@@ -47,6 +50,7 @@
             <b-form-input
               type="number"
               v-model="ingredient.carbohydrates"
+              @update="recalculateKcals(ingredient)"
               placeholder="Carbohidratos por 100g"
             ></b-form-input>
           </b-col>
@@ -72,17 +76,13 @@
 import { mapGetters } from "vuex";
 
 const data = function () {
-  return {
-    name: "",
-    fats: 0,
-    proteins: 0,
-    carbohydrates: 0,
-  };
+  return {};
 };
 
 const computed = {
   ...mapGetters({
     getIngredient: "getIngredient",
+    calculateKcals: "calculateKcals",
   }),
   ingredient: function () {
     const ingredientId = this.$route.params.ingredientId;
@@ -91,6 +91,9 @@ const computed = {
 };
 
 const methods = {
+  recalculateKcals() {
+    this.ingredient.kcals = this.calculateKcals(this.ingredient);
+  },
   makeToast(msg, variant) {
     this.$bvToast.toast(msg, {
       title: "Ingredient",

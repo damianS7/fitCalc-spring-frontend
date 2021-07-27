@@ -2,7 +2,8 @@
   <b-col cols="12">
     <b-row align-v="center" class="widget mb-2">
       <b-col>
-        <b>Nuevo Ingrediente</b>
+        <b>{{ name }} </b>
+        <small> ( {{ kcals }} kcal ) </small>
       </b-col>
       <b-col class="text-right">
         <span> Atras </span>
@@ -72,11 +73,17 @@
 <script>
 const data = function () {
   return {
-    name: "",
+    name: "Ingrediente",
     fats: 0,
     proteins: 0,
     carbohydrates: 0,
   };
+};
+
+const computed = {
+  kcals: function () {
+    return this.fats * 9 + this.proteins * 4 + this.carbohydrates * 4;
+  },
 };
 
 const methods = {
@@ -110,7 +117,7 @@ const methods = {
     }
   },
 };
-export default { methods, data };
+export default { methods, data, computed };
 </script>
 
 <style>
