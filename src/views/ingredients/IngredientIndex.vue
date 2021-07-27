@@ -19,12 +19,15 @@
       </b-col>
     </b-row>
     <b-row>
-      <ingredient-list :ingredients="ingredients"></ingredient-list>
+      <ingredient-list
+        :ingredients="ingredients"
+        :deleteIngredient="deleteIngredient"
+      ></ingredient-list>
     </b-row>
   </b-col>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import IngredientList from "@/views/ingredients/IngredientList.vue";
 const components = { "ingredient-list": IngredientList };
 const data = function () {
@@ -32,6 +35,50 @@ const data = function () {
     searchFilter: "",
   };
 };
+
+const methods = {
+  // ...mapActions({ deleteIngredient: "deleteIngredient" }),
+  makeToast(msg, variant) {
+    this.$bvToast.toast(msg, {
+      title: "Ingredient",
+      autoHideDelay: 5000,
+      appendToast: true,
+      solid: true,
+      toaster: "b-toaster-bottom-right",
+      variant: variant,
+    });
+  },
+  async deleteIngredient(ingredient) {
+    let confirmed = await this.deleteIngredientConfirmed(ingredient.name);
+    if (confirmed) {
+      let responseStatus = await this.$store.dispatch(
+        "deleteIngredient",
+        ingredient.id
+      );
+      if (responseStatus == 200) {
+        this.makeToast("Eliminado con exito.", "success");
+      } else {
+        this.makeToast("No se pudo eliminar el ingrediente.", "danger");
+      }
+    }
+  },
+  async deleteIngredientConfirmed(ingredientName) {
+    return await this.$bvModal.msgBoxConfirm(
+      "Deseas borrar el ingrediente: " + ingredientName,
+      {
+        title: "Borrar Ingrediente.",
+        size: "sm",
+        buttonSize: "sm",
+        okVariant: "danger",
+        okTitle: "YES",
+        cancelTitle: "NO",
+        hideHeaderClose: true,
+        centered: true,
+      }
+    );
+  },
+};
+
 const computed = {
   ...mapGetters({ getIngredients: "getIngredients" }),
   ingredients: function () {
@@ -41,7 +88,7 @@ const computed = {
   },
 };
 
-export default { computed, components, data };
+export default { computed, components, data, methods };
 </script>
 
 <style>

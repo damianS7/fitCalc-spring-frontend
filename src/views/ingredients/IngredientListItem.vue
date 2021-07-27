@@ -7,7 +7,11 @@
         </b-col>
         <b-col cols="4" class="text-right">
           <b-button-group>
-            <b-button class="btn-sm" variant="danger">
+            <b-button
+              @click="deleteIngredient(ingredient)"
+              class="btn-sm"
+              variant="danger"
+            >
               <font-awesome-icon icon="trash" />
             </b-button>
             <router-link
@@ -24,8 +28,7 @@
   </b-row>
 </template>
 <script>
-const props = ["ingredient"];
-
+const props = { ingredient: Object, deleteIngredient: Function };
 export default { props };
 </script>
 

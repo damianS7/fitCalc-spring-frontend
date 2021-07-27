@@ -358,7 +358,18 @@ const actions = {
       })
   },
   async deleteIngredient(context, ingredientId) {
-    context.commit("DELETE_INGREDIENT", ingredientId);
+    axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
+    
+    return await axios.delete("http://localhost:8888/api/user/ingredients/" + ingredientId)
+      .then(function (response) {
+        // Si el request tuvo exito (codigo 200)
+        if (response.status == 200) {
+          context.commit("DELETE_INGREDIENT", response.data.id);
+        }
+        return response.status;
+      }).catch(function (response){
+        return response.status;
+      });
   },
   async addIngredientToFood(context, payload) {
     context.commit("ADD_INGREDIENT_TO_FOOD", payload);
