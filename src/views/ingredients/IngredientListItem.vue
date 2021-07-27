@@ -2,15 +2,22 @@
   <b-row>
     <b-col cols="12">
       <b-row class="m-1">
-        <b-col cols="10">
+        <b-col cols="8">
           {{ ingredient.name }}
         </b-col>
-        <b-col cols="2">
-          <router-link :to="{ path: '/ingredients/' + ingredient.id }">
-            <b-button class="btn-sm" variant="primary">
-              <font-awesome-icon icon="edit" />
+        <b-col cols="4" class="text-right">
+          <b-button-group>
+            <b-button class="btn-sm" variant="danger">
+              <font-awesome-icon icon="trash" />
             </b-button>
-          </router-link>
+            <router-link
+              tag="button"
+              class="btn btn-sm btn-primary"
+              :to="{ path: '/ingredients/' + ingredient.id }"
+            >
+              <font-awesome-icon icon="edit" />
+            </router-link>
+          </b-button-group>
         </b-col>
       </b-row>
     </b-col>
