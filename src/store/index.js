@@ -95,7 +95,13 @@ const mutations = {
   SET_FOODS(state, foods) {
     Vue.set(state, "foods", foods);
   },
-  // ....
+  SET_SETTINGS(state, settings) {
+    Vue.set(state, "settings", settings);
+  },
+  SET_TOKEN(state, token) {
+    Vue.set(state.user, "token", token);
+  },
+  // .... A partir de aqui pendiente de revision !
   SET_GOAL(state, { goal, value }) {
     Vue.set(state.profile.goals, goal, value);
   },
@@ -130,12 +136,7 @@ const mutations = {
   DELETE_MEAL_SETTING(state, meal) {
     state.settings.mealNames.pop(meal);
   },
-  SET_SETTINGS(state, settings) {
-    Vue.set(state, "settings", settings);
-  },
-  LOGOUT(state) {
-    Vue.set(state.user, "token", null);
-  },
+  
 };
 
 const getters = {
@@ -337,7 +338,7 @@ const actions = {
       });
   },
   async logout(context) {
-    context.commit("LOGOUT");
+    context.commit("SET_TOKEN", null);
   },
   async updateGoal(context, { goal, value }) {
     context.commit("SET_GOAL", { goal, value });
