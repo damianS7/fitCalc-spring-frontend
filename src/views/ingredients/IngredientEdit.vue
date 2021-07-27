@@ -1,11 +1,11 @@
 <template>
   <b-col cols="12">
-    <b-row align-v="center">
+    <b-row align-v="center" class="widget mb-2">
       <b-col cols="8">
-        <h1>{{ ingredient.name }}</h1>
+        <b>{{ ingredient.name }}</b>
       </b-col>
-      <b-col cols="2">Atras</b-col>
-      <b-col cols="2">
+      <b-col cols="4" class="text-right">
+        <span> Atras </span>
         <router-link to="/ingredients">
           <font-awesome-icon icon="arrow-circle-left" />
         </router-link>

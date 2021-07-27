@@ -2,7 +2,7 @@
   <b-col cols="12">
     <b-row align-v="center" class="widget mb-2">
       <b-col cols="10">
-        <h1>Ingredientes</h1>
+        <b>Ingredientes</b>
       </b-col>
       <b-col class="text-right">
         <router-link :to="{ path: '/ingredients/new' }">
