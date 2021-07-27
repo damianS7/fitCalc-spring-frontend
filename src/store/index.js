@@ -2,6 +2,9 @@ import axios from "axios";
 import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
+const SERVER_URL = "http://localhost:8888";
+const FATS_MULTIPLIER = 9;
+const KCAL_GRAMS_RATIO = 100;
 
 const state = {
   // Datos del usuario logeado en la aplicacion
@@ -43,14 +46,18 @@ const state = {
   },
 
   // Ingredientes disponibles en la app
-  ingredients: {},
+  ingredients: {
+    // Formato 0: {id:1, name: "Tomate", proteins:5, fats: 5, carbohydrates:8}
+  },
 
   // Comidas formadas a partir de los ingredientes
-  foods: {},
+  foods: {
+    // Formato 0: {id:1, name: "Piza 4 Quesos", ingredients: [1, 1, 1, 1]}
+  },
 
   // Opciones de configuracion
   settings: {
-    mealNames: ["desayuno", "almuerzo", "merienda", "cena", "aperitivos"],
+    // mealNames: ["desayuno", "almuerzo", "merienda", "cena", "aperitivos"],
   },
 
   // Flag que determina si la app esta lista, es decir, login + inicializacion de datos.
@@ -64,6 +71,31 @@ const mutations = {
   SET_READY(state, ready) {
     Vue.set(state, "appReady", ready);
   },
+  ADD_INGREDIENT(state, ingredient) {
+    Vue.set(state.ingredients, ingredient.id, ingredient);
+  },
+  UPDATE_INGREDIENT(state, ingredient) {
+    Vue.set(state.ingredients, ingredient.id, ingredient);
+  },
+  DELETE_INGREDIENT(state, ingredientId) {
+    Vue.delete(state.ingredients, ingredientId);
+  },
+  SET_INGREDIENTS(state, ingredients) {
+    Vue.set(state, "ingredients", ingredients);
+  },
+  ADD_FOOD(state, food) {
+    Vue.set(state.foods, food.id, food);
+  },
+  UPDATE_FOOD(state, food) {
+    Vue.set(state.foods, food.id, food);
+  },
+  DELETE_FOOD(state, foodId) {
+    Vue.delete(state.foods, foodId);
+  },
+  SET_FOODS(state, foods) {
+    Vue.set(state, "foods", foods);
+  },
+  // ....
   SET_GOAL(state, { goal, value }) {
     Vue.set(state.profile.goals, goal, value);
   },
@@ -78,27 +110,14 @@ const mutations = {
   DELETE_WEIGHT(state, weightDate) {
     Vue.delete(state.profile.weights, weightDate);
   },
-  ADD_INGREDIENT(state, ingredient) {
-    Vue.set(state.ingredients, ingredient.id, ingredient);
-  },
-  UPDATE_INGREDIENT(state, ingredient) {
-    Vue.set(state.ingredients, ingredient.id, ingredient);
-  },
-  DELETE_INGREDIENT(state, ingredientId) {
-    Vue.delete(state.ingredients, ingredientId);
-  },
-  SET_INGREDIENTS(state, ingredients) {
-    Vue.set(state, "ingredients", ingredients);
-  },
+  
   ADD_INGREDIENT_TO_FOOD(state, payload) {
     state.foods[payload.foodId].ingredients.push(payload.ingredientId);
   },
   REMOVE_INGREDIENT_FROM_FOOD(state, payload) {
     state.foods[payload.foodId].ingredients.pop(payload.ingredientId);
   },
-  SET_FOODS(state, foods) {
-    Vue.set(state, "foods", foods);
-  },
+  
   ADD_FOOD_TO_MEAL(state, { mealName, mealDate, foodId }) {
     state.profile.meals[mealDate][mealName].push(foodId);
   },
@@ -228,7 +247,7 @@ const actions = {
     axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
     
     // Obtenemos los ingredientes disponibles
-    await axios.get("http://localhost:8888/api/user/ingredients")
+    await axios.get(SERVER_URL + "/api/v1/ingredients")
       .then(function(response){
         // response.data.forEach((ingredient) => {
           // context.commit("ADD_INGREDIENT", ingredient);
@@ -240,7 +259,7 @@ const actions = {
         context.commit("SET_INGREDIENTS", ingredients);
       });
 
-    await axios.get("http://localhost:8888/api/user/foods")
+    await axios.get(SERVER_URL + "/api/user/foods")
       .then(function(response){
         let foods = {};
         response.data.map((food) => {
@@ -251,7 +270,7 @@ const actions = {
         context.commit("SET_FOODS", foods);
       });
     
-      await axios.get("http://localhost:8888/api/user/settings")
+      await axios.get(SERVER_URL + "/api/user/settings")
       .then(function(response){
         let settings = {};
         response.data.map((setting) => {
@@ -337,7 +356,7 @@ const actions = {
   },
   async newIngredient(context, ingredient) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
-    return await axios.post("http://localhost:8888/api/user/ingredients", ingredient)
+    return await axios.post(SERVER_URL + "/api/v1/ingredients", ingredient)
       .then(function (response) {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
@@ -350,7 +369,7 @@ const actions = {
   },
   async updateIngredient(context, ingredient) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
-    return await axios.put("http://localhost:8888/api/user/ingredients/" + ingredient.id, ingredient)
+    return await axios.put(SERVER_URL + "/api/v1/ingredients/" + ingredient.id, ingredient)
       .then(function (response) {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
@@ -364,7 +383,7 @@ const actions = {
   async deleteIngredient(context, ingredientId) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
     
-    return await axios.delete("http://localhost:8888/api/user/ingredients/" + ingredientId)
+    return await axios.delete(SERVER_URL + "/api/v1/ingredients/" + ingredientId)
       .then(function (response) {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
