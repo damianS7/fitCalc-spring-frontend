@@ -1,8 +1,8 @@
 <template>
   <b-col cols="12">
     <b-row align-v="center" class="mb-3">
-      <b-col cols="12" class="text-right"
-        >Atras
+      <b-col class="text-right">
+        Atras
         <router-link to="/ingredients">
           <font-awesome-icon icon="arrow-circle-left" />
         </router-link>
@@ -77,18 +77,34 @@ const data = function () {
 };
 
 const methods = {
-  newIngredient() {
+  makeToast(msg, variant) {
+    this.$bvToast.toast(msg, {
+      title: "Ingredient",
+      autoHideDelay: 5000,
+      appendToast: true,
+      solid: true,
+      toaster: "b-toaster-bottom-right",
+      variant: variant,
+    });
+  },
+  async newIngredient() {
     if (this.name.length == 0) {
       return;
     }
 
-    this.$store.dispatch("newIngredient", {
+    let responseStatus = await this.$store.dispatch("newIngredient", {
       id: null,
       name: this.name,
       fats: this.fats,
       carbohydrates: this.carbohydrates,
       proteins: this.proteins,
     });
+
+    if (responseStatus == 200) {
+      this.makeToast("Agregado con exito.", "success");
+    } else {
+      this.makeToast("No se pudo agregar el ingredient.", "danger");
+    }
   },
 };
 export default { methods, data };

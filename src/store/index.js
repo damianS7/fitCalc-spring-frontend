@@ -337,13 +337,16 @@ const actions = {
   },
   async newIngredient(context, ingredient) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
-    await axios.post("http://localhost:8888/api/user/ingredients", ingredient)
+    return await axios.post("http://localhost:8888/api/user/ingredients", ingredient)
       .then(function (response) {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
           context.commit("ADD_INGREDIENT", response.data);
         }
-      })
+        return response.status;
+      }).catch(function (response){
+        return response.status;
+      });
   },
   async updateIngredient(context, ingredient) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
