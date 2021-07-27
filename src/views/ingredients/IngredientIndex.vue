@@ -1,6 +1,6 @@
 <template>
   <b-col cols="12">
-    <b-row align-v="center">
+    <b-row align-v="center" class="widget mb-2">
       <b-col cols="10">
         <h1>Ingredientes</h1>
       </b-col>
@@ -10,7 +10,7 @@
         </router-link>
       </b-col>
     </b-row>
-    <b-row class="mb-2">
+    <b-row class="mb-2 widget">
       <b-col cols="12">
         <b-form-input
           v-model="searchFilter"
@@ -18,7 +18,7 @@
         ></b-form-input>
       </b-col>
     </b-row>
-    <b-row>
+    <b-row class="widget">
       <ingredient-list
         :ingredients="ingredients"
         :deleteIngredient="deleteIngredient"
