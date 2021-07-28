@@ -16,7 +16,7 @@
         </b-row>
         <b-row>
           <b-col>Altura</b-col>
-          <b-col>{{ profile.lenght }} cm</b-col>
+          <b-col>{{ profile.height }} cm</b-col>
         </b-row>
         <b-row>
           <b-col>Edad</b-col>
