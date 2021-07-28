@@ -289,12 +289,11 @@ const actions = {
         context.commit("SET_INGREDIENTS", ingredients);
       });
 
-    await axios.get(SERVER_URL + "/api/user/foods")
+    await axios.get(SERVER_URL + "/api/v1/foods")
       .then(function(response){
         let foods = {};
         response.data.map((food) => {
           // Recuerda convertirlo a string al almacenar foods!
-          food.ingredients = JSON.parse(food.ingredients);
           return foods[food.id] = food;
         });
         context.commit("SET_FOODS", foods);
@@ -424,6 +423,34 @@ const actions = {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
           context.commit("DELETE_INGREDIENT", response.data.id);
+        }
+        return response.status;
+      }).catch(function (response){
+        return response.status;
+      });
+  },
+  async newFood(context, food) {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
+    return await axios.post(SERVER_URL + "/api/v1/foods", food)
+      .then(function (response) {
+        // Si el request tuvo exito (codigo 200)
+        if (response.status == 200) {
+          // response.data.kcals = context.getters.calculateKcals(response.data);
+          context.commit("ADD_FOOD", response.data);
+        }
+        return response.status;
+      }).catch(function (response){
+        return response.status;
+      });
+  },
+  async updateFood(context, food) {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
+    return await axios.put(SERVER_URL + "/api/v1/foods/" + food.id, food)
+      .then(function (response) {
+        // Si el request tuvo exito (codigo 200)
+        if (response.status == 200) {
+          // response.data.kcals = context.getters.calculateKcals(response.data);
+          context.commit("UPDATE_FOOD", response.data);
         }
         return response.status;
       }).catch(function (response){

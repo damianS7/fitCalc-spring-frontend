@@ -17,7 +17,7 @@
           text-field="name"
           value-field="id"
           v-model="selectedIngredientId"
-          :options="ingredients"
+          :options="ingredients()"
         >
           <template #first>
             <b-form-select-option :value="null" disabled>
@@ -36,8 +36,8 @@
       <b-col>
         <b-row
           class="mb-2"
-          v-for="ingredientId of food.ingredients"
-          v-bind:key="ingredientId"
+          v-for="(ingredientId, index) of food.ingredients"
+          :key="index"
         >
           <b-col cols="10">
             {{ getIngredient(ingredientId).name }}
