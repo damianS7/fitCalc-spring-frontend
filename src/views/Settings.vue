@@ -1,18 +1,15 @@
 <template>
   <b-col cols="12">
     <b-row class="mb-1 widget">
-      <b-col cols="12">
-        <b>Configuracion</b>
-      </b-col>
-    </b-row>
-
-    <b-row class="mb-1 widget">
       <b-col>
-        <b-row>
+        <b-row class="mb-2">
           <b-col>
-            <b-row class="mb-1">
-              <b-col> <b>Comidas del dia:</b> </b-col>
-            </b-row>
+            <b>Comidas del dia</b>
+          </b-col>
+        </b-row>
+
+        <b-row class="mb-1">
+          <b-col>
             <b-row class="mb-1" v-for="(meal, index) of meals" :key="index">
               <b-col cols="12">
                 <b-form-input type="text" v-model="meal.name" />
@@ -20,17 +17,42 @@
             </b-row>
           </b-col>
         </b-row>
-        <b-row class="mt-3 mb-1">
+      </b-col>
+    </b-row>
+
+    <b-row class="mb-1 widget">
+      <b-col>
+        <b-row class="mb-2">
+          <b-col> <b>Cambiar password</b> </b-col>
+        </b-row>
+        <b-row class="mb-1">
           <b-col>
-            <b-button
-              @click="saveSettings"
-              type="submit"
-              variant="primary"
-              class="w-100"
-              >Actualizar</b-button
-            >
+            <b-row class="mb-1">
+              <b-col cols="12"><span>Nueva password</span></b-col>
+              <b-col cols="12">
+                <b-form-input type="text" />
+              </b-col>
+            </b-row>
+            <b-row class="mb-1">
+              <b-col cols="12"><span>Repetir password</span></b-col>
+              <b-col cols="12">
+                <b-form-input type="text" />
+              </b-col>
+            </b-row>
           </b-col>
         </b-row>
+      </b-col>
+    </b-row>
+
+    <b-row class="widget mt-3 mb-1">
+      <b-col>
+        <b-button
+          @click="saveSettings"
+          type="submit"
+          variant="primary"
+          class="w-100"
+          >Actualizar</b-button
+        >
       </b-col>
     </b-row>
   </b-col>
