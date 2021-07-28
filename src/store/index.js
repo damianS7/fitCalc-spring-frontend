@@ -373,7 +373,8 @@ const actions = {
     return await axios
       .put(SERVER_URL + "/api/v1/settings/" + setting.key, setting)
       .then(function (response) {
-        context.commit("SET_SETTING", { key: response.data.key, value: response.data.value });
+        let rSetting = {key: response.data.key, value: JSON.parse(response.data.value)};
+        context.commit("SET_SETTING", rSetting);
         return response.status;
       }).catch( (error) => {
         return error.response.status;
