@@ -82,7 +82,7 @@ const methods = {
 const computed = {
   ...mapGetters({ getIngredients: "getIngredients" }),
   ingredients: function () {
-    return this.getIngredients.filter((ingredient) =>
+    return this.getIngredients().filter((ingredient) =>
       ingredient.name.toLowerCase().includes(this.searchFilter.toLowerCase())
     );
   },
