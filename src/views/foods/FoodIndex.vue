@@ -6,7 +6,9 @@
       </b-col>
       <b-col class="text-right">
         <router-link :to="{ path: '/foods/new' }">
-          <b-button class="btn-sm" variant="primary"> + </b-button>
+          <b-button class="btn-sm" variant="primary">
+            <font-awesome-icon icon="plus-square"></font-awesome-icon>
+          </b-button>
         </router-link>
       </b-col>
     </b-row>

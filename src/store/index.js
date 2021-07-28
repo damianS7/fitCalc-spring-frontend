@@ -471,6 +471,7 @@ const actions = {
         return response.status;
       });
   },
+  // ............
   async addIngredientToFood(context, payload) {
     context.commit("ADD_INGREDIENT_TO_FOOD", payload);
   },
