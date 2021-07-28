@@ -6,30 +6,36 @@
     <b-row class="mb-1 widget">
       <b-col>
         <b-form>
-          <b-form-group label="Tu altura:" description="En centimetros.">
-            <b-form-input
-              id="height"
-              type="text"
-              v-model="height"
-              placeholder="Introduce tu altura"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group label="Tu nombre:">
+          <b-form-group label="Nombre">
             <b-form-input
               id="username"
               type="text"
               v-model="username"
-              placeholder="Introduce tu nombre de usuario"
+              :placeholder="user.username"
+            ></b-form-input>
+          </b-form-group>
+          <b-form-group label="Edad">
+            <b-form-input
+              type="number"
+              v-model="age"
+              :placeholder="profile.age.toString()"
             ></b-form-input>
           </b-form-group>
 
-          <b-form-group label="Tu email:">
+          <b-form-group label="Altura" description="En centimetros.">
+            <b-form-input
+              type="number"
+              v-model="height"
+              :placeholder="profile.height.toString()"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Email">
             <b-form-input
               id="email"
               type="email"
               v-model="email"
-              placeholder="Introduce tu correo electronico"
+              :placeholder="user.email"
             ></b-form-input>
           </b-form-group>
 
@@ -64,6 +70,25 @@
 import ProfileSummary from "@/components/ProfileSummary.vue";
 import Weight from "@/views/Weight.vue";
 import { mapGetters, mapState } from "vuex";
+const data = function () {
+  return {
+    username: null,
+    email: null,
+    password: "",
+    repeatedPassword: "",
+    age: null,
+    height: null,
+    weight: null,
+  };
+};
+
+const methods = {
+  updateProfile() {
+    // foreachData
+    // if not null
+    // save
+  },
+};
 
 const computed = {
   ...mapState({
@@ -75,18 +100,6 @@ const computed = {
   }),
 };
 
-const data = function () {
-  return {
-    username: "this.user.username",
-    email: "user.email",
-    password: "******",
-    repeatedPassword: "",
-    age: 33,
-    height: 177,
-    weight: 21,
-  };
-};
-
 const components = {
   "profile-summary": ProfileSummary,
   "weight-chart": Weight,
@@ -96,6 +109,7 @@ export default {
   components,
   computed,
   data,
+  methods,
 };
 </script>
 <style>
