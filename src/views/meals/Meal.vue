@@ -13,7 +13,7 @@
       <b-row>
         <b-col cols="12">
           <b-collapse :id="mealKey + '-collapse'" class="mt-2">
-            <b-row class="mb-1">
+            <b-row class="mb-2" align-v="center">
               <b-col cols="10">
                 <b-form-select
                   text-field="name"
@@ -23,27 +23,25 @@
                 >
                   <template #first>
                     <b-form-select-option :value="null" disabled>
-                      Selecciona una comida para agregar
+                      Selecciona una comida
                     </b-form-select-option>
                   </template>
                 </b-form-select>
               </b-col>
               <b-col cols="2">
-                <b-button @click="addFood" class="btn-block" variant="primary"
-                  >+</b-button
-                >
+                <b-button @click="addFood" class="btn-sm" variant="primary"
+                  ><font-awesome-icon icon="plus-square"></font-awesome-icon
+                ></b-button>
               </b-col>
             </b-row>
-            <b-row>
+            <b-row class="mb-1">
               <b-col>
-                <b-card>
-                  <meal-food-list
-                    :foodIdList="foods"
-                    :mealKey="mealKey"
-                    :mealName="meal.name"
-                    :mealDate="date"
-                  ></meal-food-list>
-                </b-card>
+                <meal-food-list
+                  :foodIdList="foods"
+                  :mealKey="mealKey"
+                  :mealName="meal.name"
+                  :mealDate="date"
+                ></meal-food-list>
               </b-col>
             </b-row>
           </b-collapse>

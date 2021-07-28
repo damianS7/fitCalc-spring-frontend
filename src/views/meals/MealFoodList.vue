@@ -1,14 +1,16 @@
 <template>
-  <b-col cols="12">
-    <food-item
-      v-for="foodId of foodIdList"
-      :key="foodId"
-      :food="food(foodId)"
-      :mealName="mealName"
-      :mealDate="mealDate"
-      :mealKey="mealKey"
-    ></food-item>
-  </b-col>
+  <b-row>
+    <b-col cols="12">
+      <food-item
+        v-for="foodId of foodIdList"
+        :key="foodId"
+        :food="food(foodId)"
+        :mealName="mealName"
+        :mealDate="mealDate"
+        :mealKey="mealKey"
+      ></food-item>
+    </b-col>
+  </b-row>
 </template>
 <script>
 import { mapGetters } from "vuex";
