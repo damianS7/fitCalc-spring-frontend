@@ -30,8 +30,8 @@
       <b-col cols="12">
         <meal
           v-for="(meal, index) of meals"
-          :key="index + 1"
-          :mealKey="index + 1"
+          :key="index"
+          :mealKey="index"
           :meal="meal.name"
           :date="selectedDate"
         ></meal>

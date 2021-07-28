@@ -17,6 +17,17 @@
             </b-row>
           </b-col>
         </b-row>
+        <b-row class="mb-1">
+          <b-col>
+            <b-button
+              @click="saveMeals()"
+              type="submit"
+              variant="primary"
+              class="w-100"
+              >Actualizar</b-button
+            >
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
 
@@ -41,34 +52,43 @@
             </b-row>
           </b-col>
         </b-row>
-      </b-col>
-    </b-row>
-
-    <b-row class="widget mt-3 mb-1">
-      <b-col>
-        <b-button
-          @click="saveSettings"
-          type="submit"
-          variant="primary"
-          class="w-100"
-          >Actualizar</b-button
-        >
+        <b-row class="mb-1">
+          <b-col>
+            <b-button
+              @click="saveSetting('meals')"
+              type="submit"
+              variant="primary"
+              class="w-100"
+              >Cambiar password</b-button
+            >
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
   </b-col>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapGetters } from "vuex";
+import Vue from "vue";
 
 const data = function () {
   return {
-    meal: "",
+    meals: {
+      0: { name: "desayuno" },
+      1: { name: "almuerzo" },
+      2: { name: "merienda" },
+      3: { name: "cena" },
+      4: { name: "aperitivos" },
+    },
   };
 };
 const methods = {
-  async saveSettings() {
-    let responseStatus = await this.$store.dispatch("saveSettings");
+  async saveMeals() {
+    let responseStatus = await this.$store.dispatch("saveSetting", {
+      key: "meals",
+      value: JSON.stringify(this.meals),
+    });
 
     if (responseStatus == 200) {
       this.makeToast("Modificado con exito.", "success");
@@ -92,9 +112,13 @@ const computed = {
   ...mapGetters({
     setting: "getSetting",
   }),
-  meals: function () {
-    return this.setting("meals");
-  },
+};
+
+const mounted = function () {
+  const meals = this.setting("meals");
+  Object.keys(meals).forEach((key) => {
+    Vue.set(this.meals, key, meals[key]);
+  });
 };
 
 const components = {};
@@ -104,6 +128,7 @@ export default {
   computed,
   data,
   methods,
+  mounted,
 };
 </script>
 <style>

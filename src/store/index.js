@@ -44,12 +44,12 @@ const state = {
     // Registro de comidas diarias
     meals: {
       // Formato
-      // "27-7-2021": { 1: [1, 2], 2:[], 3: [], 4: [], 5: [] },
-      "27-7-2021": { 1: [1, 2], 2:[], 3: [], 4: [], 5: [] },
-      "28-7-2021": { 1: [1], 2:[1], 3: [1], 4: [1], 5: [1] },
-      "29-7-2021": { 1: [1], 2:[], 3: [], 4: [], 5: [] },
-      "30-7-2021": { 1: [1], 2:[2], 3: [], 4: [], 5: [] },
-      "31-7-2021": { 1: [1, 1], 2:[], 3: [], 4: [], 5: [] },
+      // "28-7-2021": { 0: [1], 1:[1], 2: [1], 3: [1], 4: [1] },
+      "27-7-2021": { 0: [1, 2], 1:[], 2: [], 3: [], 4: [] },
+      "28-7-2021": { 0: [1], 1:[1], 2: [1], 3: [1], 4: [1] },
+      "29-7-2021": { 0: [1], 1:[], 2: [], 3: [], 4: [] },
+      "30-7-2021": { 0: [1], 1:[2], 2: [], 3: [], 4: [] },
+      "31-7-2021": { 0: [1, 1], 1:[], 2: [], 3: [], 4: [] },
     },
   },
 
@@ -106,7 +106,7 @@ const mutations = {
   SET_SETTINGS(state, settings) {
     Vue.set(state, "settings", settings);
   },
-  UPDATE_SETTING(state, { key, value }) {
+  SET_SETTING(state, { key, value }) {
     Vue.set(state.settings, key, value);
   },
   SET_TOKEN(state, token) {
@@ -299,7 +299,7 @@ const actions = {
         context.commit("SET_FOODS", foods);
       });
     
-      await axios.get(SERVER_URL + "/api/user/settings")
+      await axios.get(SERVER_URL + "/api/v1/settings")
       .then(function(response){
         let settings = {};
         response.data.map((setting) => {
@@ -368,11 +368,12 @@ const actions = {
   async logout(context) {
     context.commit("SET_TOKEN", null);
   },
-  async saveSettings(context) {
-    let settings = context.getters.getSettings();
+  async saveSetting(context, setting) {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
     return await axios
-      .post(SERVER_URL + "/api/v1/settings", settings)
+      .put(SERVER_URL + "/api/v1/settings/" + setting.key, setting)
       .then(function (response) {
+        context.commit("SET_SETTING", { key: response.data.key, value: response.data.value });
         return response.status;
       }).catch( (error) => {
         return error.response.status;
