@@ -1,17 +1,17 @@
 <template>
   <b-col cols="12">
-    <b-row align-v="center">
+    <b-row align-v="center" class="widget mb-2">
       <b-col cols="8">
-        <h1>{{ food.name }}</h1>
+        <b>{{ food.name }}</b>
       </b-col>
-      <b-col cols="2">Atras</b-col>
-      <b-col cols="2">
+      <b-col cols="4" class="text-right">
+        <span> Atras </span>
         <router-link to="/foods">
           <font-awesome-icon icon="arrow-circle-left" />
         </router-link>
       </b-col>
     </b-row>
-    <b-row class="mb-1">
+    <b-row class="widget mb-2">
       <b-col cols="10">
         <b-form-select
           text-field="name"
@@ -32,24 +32,29 @@
         >
       </b-col>
     </b-row>
-    <b-row
-      class="mb-1"
-      v-for="ingredientId of food.ingredients"
-      v-bind:key="ingredientId"
-    >
-      <b-col cols="10">
-        {{ getIngredient(ingredientId).name }}
-      </b-col>
-      <b-col cols="2">
-        <b-button
-          @click="removeIngredient(ingredientId)"
-          class="btn-block"
-          variant="danger"
-          >-</b-button
+    <b-row class="widget mb-2">
+      <b-col>
+        <b-row
+          class="mb-2"
+          v-for="ingredientId of food.ingredients"
+          v-bind:key="ingredientId"
         >
+          <b-col cols="10">
+            {{ getIngredient(ingredientId).name }}
+          </b-col>
+          <b-col cols="2">
+            <b-button
+              @click="removeIngredient(ingredientId)"
+              class="btn-block"
+              variant="danger"
+              >-</b-button
+            >
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
-    <b-row class="mb-1">
+
+    <b-row class="widget mb-1">
       <b-col cols="12">
         <b-button type="submit" variant="primary" class="w-100"
           >Actualizar</b-button
