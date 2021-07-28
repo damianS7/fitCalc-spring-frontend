@@ -1,16 +1,25 @@
 <template>
   <b-row>
     <b-col cols="12">
-      <b-row class="m-1">
-        <b-col cols="10">
-          {{ food.name }}
+      <b-row class="mb-1">
+        <b-col cols="8">
+          <b>
+            {{ food.name }}
+          </b>
         </b-col>
-        <b-col cols="2">
-          <router-link :to="{ path: '/foods/' + foodId() }">
-            <b-button class="btn-sm" variant="primary">
-              <font-awesome-icon icon="edit" />
+        <b-col cols="4" class="text-right">
+          <b-button-group>
+            <b-button @click="deleteFood(food)" class="btn-sm" variant="danger">
+              <font-awesome-icon icon="trash" />
             </b-button>
-          </router-link>
+            <router-link
+              tag="button"
+              class="btn btn-sm btn-primary"
+              :to="{ path: '/foods/' + foodId() }"
+            >
+              <font-awesome-icon icon="edit" />
+            </router-link>
+          </b-button-group>
         </b-col>
       </b-row>
     </b-col>
@@ -18,10 +27,8 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-const props = ["food"];
-const computed = {
-  ...mapGetters({ ingredients: "getIngredients" }),
-};
+const props = { food: Object, deleteFood: Function };
+const computed = {};
 const methods = {
   foodId() {
     return this.food.id.toString();

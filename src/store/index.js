@@ -430,6 +430,20 @@ const actions = {
         return response.status;
       });
   },
+  async deleteFood(context, foodId) {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
+    
+    return await axios.delete(SERVER_URL + "/api/v1/foods/" + foodId)
+      .then(function (response) {
+        // Si el request tuvo exito (codigo 200)
+        if (response.status == 200) {
+          context.commit("DELETE_FOOD", response.data.id);
+        }
+        return response.status;
+      }).catch(function (response){
+        return response.status;
+      });
+  },
   async addIngredientToFood(context, payload) {
     context.commit("ADD_INGREDIENT_TO_FOOD", payload);
   },
