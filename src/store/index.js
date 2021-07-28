@@ -141,13 +141,6 @@ const mutations = {
   DELETE_FOOD_FROM_MEAL(state, { mealKey, mealDate, foodId }) {
     state.profile.meals[mealDate][mealKey].pop(foodId);
   },
-  // delete this ...
-  ADD_MEAL_SETTING(state, meal) {
-    state.settings.meals.push(meal);
-  },
-  DELETE_MEAL_SETTING(state, meal) {
-    state.settings.meals.pop(meal);
-  },
 };
 
 const getters = {
@@ -174,6 +167,9 @@ const getters = {
   },
   getSetting: (state) => (settingName) => {
     return state.settings[settingName];
+  },
+  getSettings: (state) => () => {
+    return state.settings;
   },
   dateToString: () => (date) => {
     let day = date.getDate();
@@ -373,14 +369,18 @@ const actions = {
   async logout(context) {
     context.commit("SET_TOKEN", null);
   },
+  async saveSettings(context) {
+    let settings = context.getters.getSettings();
+    return await axios
+      .post(SERVER_URL + "/api/v1/settings", settings)
+      .then(function (response) {
+        return response.status;
+      }).catch( (error) => {
+        return error.response.status;
+      });
+  },
   async updateGoal(context, { goal, value }) {
     context.commit("SET_GOAL", { goal, value });
-  },
-  async addMealToSettings(context, meal) {
-    context.commit("ADD_MEAL_SETTING", meal);
-  },
-  async deleteMealFromSettings(context, meal) {
-    context.commit("DELETE_MEAL_SETTING", meal);
   },
   async addWeight(context, weight) {
     context.commit("ADD_WEIGHT", weight);

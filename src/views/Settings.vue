@@ -1,49 +1,36 @@
 <template>
   <b-col cols="12">
-    <b-row class="mb-1">
+    <b-row class="mb-1 widget">
       <b-col cols="12">
-        <h1>Configuracion</h1>
+        <b>Configuracion</b>
       </b-col>
     </b-row>
 
-    <b-row class="mb-1">
-      <b-col> <h6>Comidas del dia:</h6> </b-col>
-    </b-row>
-    <b-row class="mb-1">
-      <b-col cols="10">
-        <b-form-select
-          text-field="name"
-          value-field="id"
-          v-model="selectedMeal"
-          :options="meals"
-        >
-          <template #first>
-            <b-form-select-option :value="null" disabled>
-            </b-form-select-option>
-          </template>
-        </b-form-select>
-      </b-col>
-      <b-col cols="2">
-        <b-button @click="deleteMeal()" class="btn-block" variant="danger"
-          >-</b-button
-        >
-      </b-col>
-    </b-row>
-    <b-row class="mb-1">
-      <b-col cols="10">
-        <b-form-input type="text" v-model="newMealName"> </b-form-input>
-      </b-col>
-      <b-col cols="2">
-        <b-button @click="addMeal()" class="btn-block" variant="primary"
-          >+</b-button
-        >
-      </b-col>
-    </b-row>
-    <b-row class="mb-1">
+    <b-row class="mb-1 widget">
       <b-col>
-        <b-button type="submit" variant="primary" class="w-100"
-          >Actualizar</b-button
-        >
+        <b-row>
+          <b-col>
+            <b-row class="mb-1">
+              <b-col> <b>Comidas del dia:</b> </b-col>
+            </b-row>
+            <b-row class="mb-1" v-for="(meal, index) of meals" :key="index">
+              <b-col cols="12">
+                <b-form-input type="text" v-model="meal.name" />
+              </b-col>
+            </b-row>
+          </b-col>
+        </b-row>
+        <b-row class="mt-3 mb-1">
+          <b-col>
+            <b-button
+              @click="saveSettings"
+              type="submit"
+              variant="primary"
+              class="w-100"
+              >Actualizar</b-button
+            >
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
   </b-col>
@@ -54,26 +41,28 @@ import { mapActions, mapGetters, mapState } from "vuex";
 
 const data = function () {
   return {
-    selectedMeal: null,
     meal: "",
-    newMealName: "",
   };
 };
 const methods = {
-  ...mapActions({
-    addMealToSettings: "addMealToSettings",
-    deleteMealFromSettings: "deleteMealFromSettings",
-  }),
-  addMeal() {
-    if (this.newMealName.length > 0) {
-      this.addMealToSettings(this.newMealName);
+  async saveSettings() {
+    let responseStatus = await this.$store.dispatch("saveSettings");
+
+    if (responseStatus == 200) {
+      this.makeToast("Modificado con exito.", "success");
+    } else {
+      this.makeToast("No se pudo guardar.", "danger");
     }
   },
-  deleteMeal() {
-    if (this.selectedMeal == null) {
-      return;
-    }
-    this.deleteMealFromSettings(this.newMealName);
+  makeToast(msg, variant) {
+    this.$bvToast.toast(msg, {
+      title: "Settings",
+      autoHideDelay: 5000,
+      appendToast: true,
+      solid: true,
+      toaster: "b-toaster-bottom-right",
+      variant: variant,
+    });
   },
 };
 
@@ -82,7 +71,7 @@ const computed = {
     setting: "getSetting",
   }),
   meals: function () {
-    return this.setting("mealNames");
+    return this.setting("meals");
   },
 };
 
