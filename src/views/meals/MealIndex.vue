@@ -29,9 +29,10 @@
     <b-row class="mb-3">
       <b-col cols="12">
         <meal
-          v-for="meal of mealNames"
-          :key="meal"
-          :meal="meal"
+          v-for="(meal, index) of meals"
+          :key="index + 1"
+          :mealKey="index + 1"
+          :meal="meal.name"
           :date="selectedDate"
         ></meal>
       </b-col>
@@ -65,8 +66,12 @@ const methods = {
 };
 const computed = {
   ...mapGetters({ foods: "getFoods", getSetting: "getSetting" }),
-  mealNames: function () {
-    return this.getSetting("mealNames");
+  meals: function () {
+    // console.log(Object.keys(this.getSetting("meals")));
+    // console.log(Object.entries(this.getSetting("meals")));
+    // console.log(Object.values(this.getSetting("meals")));
+    return Object.values(this.getSetting("meals"));
+    // return Object.entries(this.getSetting("meals"));
   },
 };
 

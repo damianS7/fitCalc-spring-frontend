@@ -6,6 +6,7 @@
       :food="food(foodId)"
       :mealName="mealName"
       :mealDate="mealDate"
+      :mealKey="mealKey"
     ></food-item>
   </b-col>
 </template>
@@ -16,6 +17,7 @@ const components = { "food-item": MealFoodListItem };
 const props = {
   foodIdList: Array,
   mealDate: Date,
+  mealKey: Number,
   mealName: String,
 };
 

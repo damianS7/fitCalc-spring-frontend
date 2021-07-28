@@ -16,6 +16,7 @@
 import { mapGetters, mapActions } from "vuex";
 const props = {
   food: Object,
+  mealKey: Number,
   mealDate: Date,
   mealName: String,
 };
@@ -43,7 +44,7 @@ const methods = {
       foodId: this.food.id,
     });*/
     this.deleteMealFood({
-      mealName: this.mealName,
+      mealKey: this.mealKey,
       mealDate: this.mealDate,
       foodId: this.food.id,
     });

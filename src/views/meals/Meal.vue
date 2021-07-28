@@ -5,14 +5,14 @@
         <b-col cols="10">{{ meal.toUpperCase() }} ({{ kcal }})</b-col>
         <b-col cols="2" class="text-right">
           <font-awesome-icon
-            v-b-toggle="[meal + '-collapse']"
+            v-b-toggle="[mealKey + '-collapse']"
             icon="arrow-down"
           />
         </b-col>
       </b-row>
       <b-row>
         <b-col cols="12">
-          <b-collapse :id="meal + '-collapse'" class="mt-2">
+          <b-collapse :id="mealKey + '-collapse'" class="mt-2">
             <b-row class="mb-1">
               <b-col cols="10">
                 <b-form-select
@@ -39,7 +39,8 @@
                 <b-card>
                   <meal-food-list
                     :foodIdList="foods"
-                    :mealName="meal"
+                    :mealKey="mealKey"
+                    :mealName="meal.name"
                     :mealDate="date"
                   ></meal-food-list>
                 </b-card>
@@ -55,7 +56,7 @@
 import { mapGetters } from "vuex";
 import MealFoodList from "@/views/meals/MealFoodList.vue";
 const components = { "meal-food-list": MealFoodList };
-const props = { meal: String, date: Date };
+const props = { meal: String, mealKey: Number, date: Date };
 
 const data = function () {
   return {
@@ -71,7 +72,7 @@ const methods = {
     }
 
     this.$store.dispatch("addFoodToMeal", {
-      mealName: this.meal,
+      mealKey: this.mealKey,
       mealDate: this.date,
       foodId: this.selectedFoodId,
     });
@@ -85,14 +86,14 @@ const computed = {
     getIngredient: "getIngredient",
     getFood: "getFood",
     getFoods: "getFoods",
+    mealName: "getMealName",
   }),
   foods: function () {
     // Obtenemos todos las meals de la fecha (desayuno, merienda etc ...)
     let meals = this.getMealsFromDate(this.date);
-
     if (meals != null) {
       // Accedemos a las comidas del desayuno, merienda o lo que sea
-      return meals[this.meal];
+      return meals[this.mealKey];
     }
   },
   kcal: function () {
@@ -103,7 +104,7 @@ const computed = {
       return kcals;
     }
 
-    let foodsId = meals[this.meal];
+    let foodsId = meals[this.mealKey];
     if (typeof foodsId === "undefined") {
       return kcals;
     }
