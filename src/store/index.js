@@ -43,7 +43,13 @@ const state = {
 
     // Registro de comidas diarias
     meals: {
-      "27-7-2021": { desayuno: [1, 2], merienda:[2], comida: [1, 1], cena: [2], aperitivo: [1, 2] },
+      // Formato
+      // "27-7-2021": { 1: [1, 2], 2:[], 3: [], 4: [], 5: [] },
+      "27-7-2021": { 1: [1, 2], 2:[], 3: [], 4: [], 5: [] },
+      "28-7-2021": { 1: [1], 2:[1], 3: [1], 4: [1], 5: [1] },
+      "29-7-2021": { 1: [1], 2:[], 3: [], 4: [], 5: [] },
+      "30-7-2021": { 1: [1], 2:[2], 3: [], 4: [], 5: [] },
+      "31-7-2021": { 1: [1, 1], 2:[], 3: [], 4: [], 5: [] },
     },
   },
 
@@ -59,7 +65,7 @@ const state = {
 
   // Opciones de configuracion
   settings: {
-    // mealNames: ["desayuno", "almuerzo", "merienda", "cena", "aperitivos"],
+    // meals: { 0: { name: "desayuno" } },
   },
 
   // Flag que determina si la app esta lista, es decir, login + inicializacion de datos.
@@ -100,6 +106,9 @@ const mutations = {
   SET_SETTINGS(state, settings) {
     Vue.set(state, "settings", settings);
   },
+  UPDATE_SETTING(state, { key, value }) {
+    Vue.set(state.settings, key, value);
+  },
   SET_TOKEN(state, token) {
     Vue.set(state.user, "token", token);
   },
@@ -126,19 +135,19 @@ const mutations = {
     state.foods[payload.foodId].ingredients.pop(payload.ingredientId);
   },
   
-  ADD_FOOD_TO_MEAL(state, { mealName, mealDate, foodId }) {
-    state.profile.meals[mealDate][mealName].push(foodId);
+  ADD_FOOD_TO_MEAL(state, { mealKey, mealDate, foodId }) {
+    state.profile.meals[mealDate][mealKey].push(foodId);
   },
-  DELETE_FOOD_FROM_MEAL(state, { mealName, mealDate, foodId }) {
-    state.profile.meals[mealDate][mealName].pop(foodId);
+  DELETE_FOOD_FROM_MEAL(state, { mealKey, mealDate, foodId }) {
+    state.profile.meals[mealDate][mealKey].pop(foodId);
   },
+  // delete this ...
   ADD_MEAL_SETTING(state, meal) {
-    state.settings.mealNames.push(meal);
+    state.settings.meals.push(meal);
   },
   DELETE_MEAL_SETTING(state, meal) {
-    state.settings.mealNames.pop(meal);
+    state.settings.meals.pop(meal);
   },
-  
 };
 
 const getters = {
@@ -173,6 +182,9 @@ const getters = {
     return day + "-" + month + "-" + year;
   },
   // .... comprobar a partir de aqui
+  getMealName: (state) => (mealIndex) => {
+    return state.settings.meals[mealIndex].name;
+  },
   calculateKcals: () => (ingredient) => {
     let kcals = 0;
     kcals += ingredient.fats * FATS_MULTIPLIER;
@@ -297,12 +309,12 @@ const actions = {
         let settings = {};
         response.data.map((setting) => {
           // food.ingredients = JSON.parse(food.ingredients);
-          if(setting.key == "mealNames") {
+          if(setting.key == "meals") {
             setting.value = JSON.parse(setting.value);
           }
-
           return settings[setting.key] = setting.value;
         });
+
         context.commit("SET_SETTINGS", settings);
       });
 
@@ -424,12 +436,17 @@ const actions = {
   async removeIngredientFromFood(context, payload) {
     context.commit("REMOVE_INGREDIENT_FROM_FOOD", payload);
   },
-  async addFoodToMeal(context, { mealName, mealDate, foodId }) {
-    context.commit("ADD_FOOD_TO_MEAL", { mealName, mealDate, foodId });
-  },
-  async deleteMealFood(context, { mealName, mealDate, foodId }) {
+  async addFoodToMeal(context, { mealKey, mealDate, foodId }) {
     mealDate = context.getters.dateToString(mealDate);
-    context.commit("DELETE_FOOD_FROM_MEAL", { mealName, mealDate, foodId });
+    context.commit("ADD_FOOD_TO_MEAL", {
+      mealKey, 
+      mealDate, 
+      foodId 
+    });
+  },
+  async deleteMealFood(context, { mealKey, mealDate, foodId }) {
+    mealDate = context.getters.dateToString(mealDate);
+    context.commit("DELETE_FOOD_FROM_MEAL", { mealKey, mealDate, foodId });
   },
   
 };
