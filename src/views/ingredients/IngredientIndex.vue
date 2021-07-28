@@ -4,9 +4,11 @@
       <b-col cols="10">
         <b>Ingredientes</b>
       </b-col>
-      <b-col class="text-right">
+      <b-col cols="2" class="text-right">
         <router-link :to="{ path: '/ingredients/new' }">
-          <b-button class="btn-sm" variant="primary"> + </b-button>
+          <b-button class="btn-sm" variant="primary">
+            <font-awesome-icon icon="plus-square"></font-awesome-icon>
+          </b-button>
         </router-link>
       </b-col>
     </b-row>

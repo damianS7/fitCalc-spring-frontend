@@ -1,11 +1,11 @@
 <template>
   <b-col cols="12">
     <b-row align-v="center" class="widget mb-2">
-      <b-col>
+      <b-col cols="8">
         <b>{{ name }} </b>
         <small> ( {{ kcals }} kcal ) </small>
       </b-col>
-      <b-col class="text-right">
+      <b-col cols="4" class="text-right">
         <span> Atras </span>
         <router-link to="/ingredients">
           <font-awesome-icon icon="arrow-circle-left" />
