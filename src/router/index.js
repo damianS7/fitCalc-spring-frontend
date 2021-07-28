@@ -1,11 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Dashboard from "@/views/Dashboard.vue";
-import Food from "@/views/foods/Food.vue";
 import FoodIndex from "@/views/foods/FoodIndex.vue";
-import IngredientEdit from "@/views/ingredients/IngredientEdit.vue";
-import IngredientCreate from "@/views/ingredients/IngredientCreate.vue";
+import FoodCreate from "@/views/foods/FoodCreate.vue";
+import FoodEdit from "@/views/foods/FoodEdit.vue";
 import IngredientIndex from "@/views/ingredients/IngredientIndex.vue";
+import IngredientCreate from "@/views/ingredients/IngredientCreate.vue";
+import IngredientEdit from "@/views/ingredients/IngredientEdit.vue";
 import MealIndex from "@/views/meals/MealIndex.vue";
 import Weight from "@/views/Weight.vue";
 import Goals from "@/views/Goals.vue";
@@ -52,9 +53,14 @@ const routes = [
     component: IngredientIndex
   },
   {
+    path: "/foods/new",
+    name: "FoodCreate",
+    component: FoodCreate
+  },
+  {
     path: "/foods/:foodId",
-    name: "Food",
-    component: Food
+    name: "FoodEdit",
+    component: FoodEdit
   },
   {
     path: "/foods",
