@@ -18,7 +18,7 @@ const state = {
     age: 27,
 
     // Altura en cm
-    lenght: 177,
+    height: 177,
 
     // Historial de pesos del usuario
     weights: {
@@ -177,16 +177,24 @@ const getters = {
     let year = date.getFullYear();
     return day + "-" + month + "-" + year;
   },
-  // .... comprobar a partir de aqui
-  getMealName: (state) => (mealIndex) => {
-    return state.settings.meals[mealIndex].name;
+  foodKcals: (state, getters) => (food) => {
+    let kcals = 0;
+    food.ingredients.forEach((id) => {
+      const ingredient = getters.getIngredient(id);
+      kcals += getters.ingredientKcals(ingredient);
+    });
+    return kcals;
   },
-  calculateKcals: () => (ingredient) => {
+  ingredientKcals: () => (ingredient) => {
     let kcals = 0;
     kcals += ingredient.fats * FATS_MULTIPLIER;
     kcals += ingredient.proteins * PROTEINS_MULTIPLIER;
     kcals += ingredient.carbohydrates * CARBOHYDRATES_MULTIPLIER;
     return kcals;
+  },
+  // .... comprobar a partir de aqui
+  getMealName: (state) => (mealIndex) => {
+    return state.settings.meals[mealIndex].name;
   },
   getGoals() {
     return state.profile.goals;
@@ -194,8 +202,6 @@ const getters = {
   getGoal: (state) => (goalName) => {
     return state.profile.goals[goalName];
   },
-  
-  
   getMealsFromDate: (state, getters) => (date) => {
     date = getters.dateToString(date);
     // if(typeof state.profile.meals[date] === 'undefined') {
@@ -203,34 +209,7 @@ const getters = {
     // }
     return state.profile.meals[date];
   },
-  getIngredientKcal: (getters) => (ingredientId) => {
-    const ingredient = getters.getIngredient(ingredientId);
-    let totalKcals =
-      ingredient.fats * 9 +
-      ingredient.carbohydrates * 4 +
-      ingredient.proteins * 4;
-    return totalKcals;
-  },
-  getFoodKcal: (getters) => (foodId) => {
-    let totalKcals = 0;
-    const food = getters.getFood(foodId);
-    food.forEach((ingredientId) => {
-      totalKcals += getters.getIngredientKcal(ingredientId);
-    });
-    return totalKcals;
-  },
-  getMealsKcal: (getters) => (date) => {
-    let totalKcals = 0;
-    const meals = state.profile.meals[date];
-
-    Object.keys(meals).forEach((meal) => {
-      meals[meal].forEach((foodId) => {
-        totalKcals += getters.getFoodKcal(foodId);
-      });
-    });
-
-    return totalKcals;
-  },
+  
   getLastWeightDate() {
     const weights = getters.getWeights();
     const totalWeights = Object.keys(weights).length - 1;
@@ -283,7 +262,7 @@ const actions = {
         // });
         let ingredients = {};
         response.data.forEach((ingredient) => {
-          ingredient.kcals = context.getters.calculateKcals(ingredient);
+          ingredient.kcals = context.getters.ingredientKcals(ingredient);
           ingredients[ingredient.id] = ingredient;
         });
         context.commit("SET_INGREDIENTS", ingredients);
@@ -395,7 +374,7 @@ const actions = {
       .then(function (response) {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
-          response.data.kcals = context.getters.calculateKcals(response.data);
+          response.data.kcals = context.getters.ingredientKcals(response.data);
           context.commit("ADD_INGREDIENT", response.data);
         }
         return response.status;
@@ -409,7 +388,7 @@ const actions = {
       .then(function (response) {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
-          response.data.kcals = context.getters.calculateKcals(response.data);
+          response.data.kcals = context.getters.ingredientKcals(response.data);
           context.commit("UPDATE_INGREDIENT", response.data);
         }
         return response.status;
@@ -437,7 +416,7 @@ const actions = {
       .then(function (response) {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
-          // response.data.kcals = context.getters.calculateKcals(response.data);
+          // response.data.kcals = context.getters.ingredientKcals(response.data);
           context.commit("ADD_FOOD", response.data);
         }
         return response.status;
@@ -451,7 +430,7 @@ const actions = {
       .then(function (response) {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
-          // response.data.kcals = context.getters.calculateKcals(response.data);
+          // response.data.kcals = context.getters.ingredientKcals(response.data);
           context.commit("UPDATE_FOOD", response.data);
         }
         return response.status;
