@@ -1,13 +1,15 @@
 <template>
   <b-row class="mb-3">
     <b-col cols="12">
-      <b-row>
-        <b-col cols="10">{{ meal.toUpperCase() }} ({{ kcal }})</b-col>
+      <b-row align-v="center">
+        <b-col cols="10">
+          <b>{{ meal.toUpperCase() }} </b>
+          <small>({{ kcal }} kcal)</small>
+        </b-col>
         <b-col cols="2" class="text-right">
-          <font-awesome-icon
-            v-b-toggle="[mealKey + '-collapse']"
-            icon="arrow-down"
-          />
+          <b-button class="btn-sm" v-b-toggle="[mealKey + '-collapse']">
+            <font-awesome-icon icon="arrow-down" />
+          </b-button>
         </b-col>
       </b-row>
       <b-row>
