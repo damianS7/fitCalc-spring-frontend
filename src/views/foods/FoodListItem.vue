@@ -6,6 +6,7 @@
           <b>
             {{ food.name }}
           </b>
+          <small> ( {{ foodKcals(food) }} kcals ) </small>
         </b-col>
         <b-col cols="4" class="text-right">
           <b-button-group>
@@ -28,7 +29,11 @@
 <script>
 import { mapGetters } from "vuex";
 const props = { food: Object, deleteFood: Function };
-const computed = {};
+const computed = {
+  ...mapGetters({
+    foodKcals: "foodKcals",
+  }),
+};
 const methods = {
   foodId() {
     return this.food.id.toString();
