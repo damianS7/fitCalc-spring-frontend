@@ -139,10 +139,23 @@ const mutations = {
   },
   
   ADD_FOOD_TO_MEAL(state, { mealKey, mealDate, foodId }) {
-    state.profile.meals[mealDate][mealKey].push(foodId);
+    let meals = state.profile.meals;
+    
+    // Si no existe ningun objeto para la fecha indicada se crea
+    if (typeof meals[mealDate] === "undefined") {
+      Vue.set(state.profile.meals, mealDate, {} ); 
+    }
+
+    let meal = meals[mealDate];
+    // Si no existe la comida indicada en dentro de la fecha, se crea
+    if(typeof meal[mealKey] === "undefined") {
+      Vue.set(state.profile.meals[mealDate], mealKey, [] );  
+    }
+
+    // Finalmente se agrega
+    meal[mealKey].push(foodId);
   },
   DELETE_FOOD_FROM_MEAL(state, { mealKey, mealDate, foodIndex }) {
-    // state.profile.meals[mealDate][mealKey].pop(foodId);
     Vue.delete(state.profile.meals[mealDate][mealKey], foodIndex );
   },
 };
