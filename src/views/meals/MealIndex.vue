@@ -10,15 +10,14 @@
       <b-col cols="8">
         <b-form-datepicker
           today-button
-          reset-button
           close-button
           :date-format-options="{
-            day: 'numeric',
-            month: 'numeric',
             year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
           }"
-          v-model="selectedDate"
           value-as-date
+          v-model="selectedDate"
           locale="es"
         ></b-form-datepicker>
       </b-col>
@@ -32,7 +31,7 @@
           v-for="(meal, index) of meals"
           :key="index"
           :mealKey="index"
-          :meal="meal.name"
+          :mealName="meals[index].name"
           :date="selectedDate"
         ></meal>
       </b-col>
@@ -54,24 +53,20 @@ const methods = {
     return new Date();
   },
   prevDay() {
-    let prevDayDate = new Date();
-    prevDayDate.setDate(this.selectedDate.getDate() - 1);
+    let prevDayDate = new Date(this.selectedDate);
+    prevDayDate.setDate(prevDayDate.getDate() - 1);
     this.selectedDate = prevDayDate;
   },
   nextDay() {
-    let nextDayDate = new Date();
-    nextDayDate.setDate(this.selectedDate.getDate() + 1);
+    let nextDayDate = new Date(this.selectedDate);
+    nextDayDate.setDate(nextDayDate.getDate() + 1);
     this.selectedDate = nextDayDate;
   },
 };
 const computed = {
   ...mapGetters({ foods: "getFoods", getSetting: "getSetting" }),
   meals: function () {
-    // console.log(Object.keys(this.getSetting("meals")));
-    // console.log(Object.entries(this.getSetting("meals")));
-    // console.log(Object.values(this.getSetting("meals")));
-    return Object.values(this.getSetting("meals"));
-    // return Object.entries(this.getSetting("meals"));
+    return this.getSetting("meals");
   },
 };
 
