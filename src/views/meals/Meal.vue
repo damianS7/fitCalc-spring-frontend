@@ -109,6 +109,7 @@ const computed = {
         foods.push(food);
       }
     });
+    return foods;
   },
   kcal: function () {
     let kcals = 0;

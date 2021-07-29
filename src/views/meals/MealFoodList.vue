@@ -22,9 +22,9 @@ const props = {
   mealName: String,
   mealDate: Date,
 };
-
 const computed = {};
-export default { components, props, computed };
+const mounted = function () {};
+export default { components, props, computed, mounted };
 </script>
 <style>
 </style>
