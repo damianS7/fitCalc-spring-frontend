@@ -43,8 +43,12 @@ const computed = {
     Object.keys(meals).forEach((meal) => {
       let foods = meals[meal];
       foods.forEach((foodId) => {
-        let ingredients = this.getFood(foodId).ingredients;
-        ingredients.forEach((ingredientId) => {
+        const food = this.getFood(foodId);
+        // Si meals contiene un ID de comida que fue eliminado ...
+        if (typeof food === "undefined") {
+          return;
+        }
+        food.ingredients.forEach((ingredientId) => {
           let ingredient = this.getIngredient(ingredientId);
           kcals += ingredient.kcals;
         });
