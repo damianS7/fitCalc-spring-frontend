@@ -15,10 +15,10 @@ const state = {
   // Datos personales
   profile: {
     // Edad del usuario
-    age: null,
+    age: 0,
 
     // Altura en cm
-    height: null,
+    height: 0,
 
     // Historial de pesos del usuario
     weights: {
