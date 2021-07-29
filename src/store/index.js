@@ -14,23 +14,17 @@ const state = {
 
   // Datos personales
   profile: {
-    // Edad del usuari
-    age: 27,
+    // Edad del usuario
+    age: null,
 
     // Altura en cm
-    height: 177,
+    height: null,
 
     // Historial de pesos del usuario
     weights: {
-      "01-01-2021": { weight: 61 },
-      "04-01-2021": { weight: 62 },
-      "07-01-2021": { weight: 63 },
-      "09-01-2021": { weight: 64 },
-      "11-01-2021": { weight: 65 },
-      "13-01-2021": { weight: 66 },
-      "14-01-2021": { weight: 67 },
-      "17-01-2021": { weight: 71 },
-      "21-01-2021": { weight: 77 },
+      // Formato
+      "2021-7-28": { weight: 71 },
+      "2021-7-29": { weight: 68 },
     },
 
     // Objetivos del usuario (kcal) y distribucion de sus macros
@@ -44,12 +38,10 @@ const state = {
     // Registro de comidas diarias
     meals: {
       // Formato
-      // "28-7-2021": { 0: [1], 1:[1], 2: [1], 3: [1], 4: [1] },
-      "27-7-2021": { 0: [1, 2], 1:[], 2: [], 3: [], 4: [] },
-      "28-7-2021": { 0: [1], 1:[1], 2: [1], 3: [1], 4: [1] },
-      "29-7-2021": { 0: [1], 1:[], 2: [], 3: [], 4: [] },
-      "30-7-2021": { 0: [1], 1:[2], 2: [], 3: [], 4: [] },
-      "31-7-2021": { 0: [1, 1], 1:[], 2: [], 3: [], 4: [] },
+      // "2021-7-29": { 0: [1], 1:[1], 2: [1], 3: [1], 4: [1] },
+      "2021-7-28": { 0: [1], 1:[1], 2: [1], 3: [1], 4: [1] },
+      "2021-7-29": { 0: [1], 1:[], 2: [1], 3: [1], 4: [1] },
+      "2021-7-30": { 0: [1], 1:[2], 2: [], 3: [], 4: [] },
     },
   },
 
@@ -106,6 +98,9 @@ const mutations = {
   SET_SETTINGS(state, settings) {
     Vue.set(state, "settings", settings);
   },
+  SET_PROFILE(state, profile) {
+    Vue.set(state, "profile", profile);
+  },
   SET_SETTING(state, { key, value }) {
     Vue.set(state.settings, key, value);
   },
@@ -121,8 +116,9 @@ const mutations = {
     Vue.set(state.profile, "goals", goals);
   },
   // ADD_WEIGHT_TO_HISTORY?
-  ADD_WEIGHT(state, obj) {
-    Vue.set(state.profile.weights, obj.date, { weight: obj.weight });
+  ADD_WEIGHT(state, {date, weight}) {
+    Vue.set(state.profile.weights, date, { weight });
+    // Vue.set(state.profile.weights, obj.date, { weight: obj.weight });
   },
   DELETE_WEIGHT(state, weightDate) {
     Vue.delete(state.profile.weights, weightDate);
@@ -175,7 +171,7 @@ const getters = {
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
-    return day + "-" + month + "-" + year;
+    return year + "-" + month + "-" + day;
   },
   foodKcals: (state, getters) => (food) => {
     let kcals = 0;
@@ -277,6 +273,11 @@ const actions = {
         });
         context.commit("SET_FOODS", foods);
       });
+
+      await axios.get(SERVER_URL + "/api/v1/users/profile")
+      .then(function(response){
+        // context.commit("SET_PROFILE", response.data);
+      });
     
       await axios.get(SERVER_URL + "/api/v1/settings")
       .then(function(response){
@@ -359,11 +360,20 @@ const actions = {
         return error.response.status;
       });
   },
-  async updateGoal(context, { goal, value }) {
-    context.commit("SET_GOAL", { goal, value });
-  },
   async addWeight(context, weight) {
-    context.commit("ADD_WEIGHT", weight);
+    axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
+    const date = context.getters.dateToString(new Date());
+    return await axios.post(SERVER_URL + "/api/v1/users/profile/weight", weight)
+    .then(function (response) {
+      // Si el request tuvo exito (codigo 200)
+      if (response.status == 200) {
+          // context.commit("ADD_WEIGHT", { date, weight });
+          context.commit("ADD_WEIGHT", response.data);
+        }
+        return response.status;
+      }).catch(function (response){
+        return response.status;
+      });
   },
   async deleteWeight(context, weightDate) {
     context.commit("DELETE_WEIGHT", weightDate);
@@ -453,6 +463,9 @@ const actions = {
       });
   },
   // ............
+  async updateGoal(context, { goal, value }) {
+    context.commit("SET_GOAL", { goal, value });
+  },
   async addIngredientToFood(context, payload) {
     context.commit("ADD_INGREDIENT_TO_FOOD", payload);
   },

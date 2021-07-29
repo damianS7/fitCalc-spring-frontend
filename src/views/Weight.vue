@@ -41,7 +41,7 @@
           <b-col cols="12" sm="10" class="mb-2">
             <b-form-input
               id="weight"
-              v-model="add_weight"
+              v-model="weight"
               type="number"
               min="1"
               max="400"
@@ -66,7 +66,7 @@ const components = { "weight-chart": WeightChart };
 const data = function () {
   return {
     selectedWeightDate: null,
-    add_weight: "",
+    weight: null,
   };
 };
 
@@ -84,8 +84,10 @@ const computed = {
 
 const methods = {
   addWeight() {
-    const obj = { date: "31-01-2021", weight: this.add_weight };
-    this.$store.dispatch("addWeight", obj);
+    if (this.weight == null) {
+      return;
+    }
+    this.$store.dispatch("addWeight", this.weight);
   },
   deleteSelectedWeight() {
     if (this.selectedWeightDate == null) {
