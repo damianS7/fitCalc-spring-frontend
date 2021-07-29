@@ -14,8 +14,8 @@
           </b-col>
         </b-row>
 
-        <b-row class="mb-1">
-          <b-col cols="12" sm="10" class="mb-2">
+        <b-row class="mb-2">
+          <b-col cols="9">
             <b-form-select
               id="inline-form-custom-select-pref"
               v-model="selectedWeightDate"
@@ -28,17 +28,14 @@
               </template>
             </b-form-select>
           </b-col>
-          <b-col class="mb-2">
-            <b-button
-              @click="deleteSelectedWeight"
-              class="w-100"
-              variant="danger"
-              >-</b-button
-            >
+          <b-col cols="3" class="text-right">
+            <b-button @click="deleteSelectedWeight" variant="danger">
+              <font-awesome-icon icon="trash"
+            /></b-button>
           </b-col>
         </b-row>
-        <b-row>
-          <b-col cols="12" sm="10" class="mb-2">
+        <b-row class="mb-1">
+          <b-col cols="9">
             <b-form-input
               id="weight"
               v-model="weight"
@@ -48,10 +45,10 @@
               placeholder="Introduce tu peso de hoy"
             ></b-form-input>
           </b-col>
-          <b-col class="mb-2">
-            <b-button @click="addWeight()" class="w-100" variant="primary"
-              >+</b-button
-            >
+          <b-col cols="3" class="mb-2 text-right">
+            <b-button @click="addWeight()" variant="primary"
+              ><font-awesome-icon icon="plus-square"
+            /></b-button>
           </b-col>
         </b-row>
       </b-col>
