@@ -84,6 +84,16 @@ const data = function () {
   };
 };
 const methods = {
+  makeToast(msg, variant) {
+    this.$bvToast.toast(msg, {
+      title: "Settings",
+      autoHideDelay: 5000,
+      appendToast: true,
+      solid: true,
+      toaster: "b-toaster-bottom-right",
+      variant: variant,
+    });
+  },
   async saveMeals() {
     let responseStatus = await this.$store.dispatch("saveSetting", {
       key: "meals",
@@ -96,16 +106,7 @@ const methods = {
       this.makeToast("No se pudo guardar.", "danger");
     }
   },
-  makeToast(msg, variant) {
-    this.$bvToast.toast(msg, {
-      title: "Settings",
-      autoHideDelay: 5000,
-      appendToast: true,
-      solid: true,
-      toaster: "b-toaster-bottom-right",
-      variant: variant,
-    });
-  },
+  
 };
 
 const computed = {
