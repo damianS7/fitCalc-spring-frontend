@@ -16,22 +16,24 @@
 import { mapGetters, mapActions } from "vuex";
 const props = {
   food: Object,
-  mealKey: Number,
-  mealDate: Date,
+  mealKey: String,
   mealName: String,
+  mealDate: Date,
 };
 const computed = {
   ...mapGetters({
     ingredients: "getIngredients",
     getIngredient: "getIngredient",
+    getFood: "getFood",
   }),
-
   kcal: function () {
     let kcals = 0;
+    // if (this.food != null) {
     this.food.ingredients.forEach((ingredientId) => {
       const ingredient = this.getIngredient(ingredientId);
       kcals += ingredient.kcals;
     });
+    // }
     return kcals;
   },
 };

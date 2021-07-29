@@ -2,12 +2,12 @@
   <b-row>
     <b-col cols="12">
       <food-item
-        v-for="foodId of foodIdList"
-        :key="foodId"
-        :food="food(foodId)"
+        v-for="(food, index) of foods"
+        :key="index"
+        :food="food"
+        :mealKey="mealKey"
         :mealName="mealName"
         :mealDate="mealDate"
-        :mealKey="mealKey"
       ></food-item>
     </b-col>
   </b-row>
@@ -17,15 +17,13 @@ import { mapGetters } from "vuex";
 import MealFoodListItem from "@/views/meals/MealFoodListItem.vue";
 const components = { "food-item": MealFoodListItem };
 const props = {
-  foodIdList: Array,
-  mealDate: Date,
-  mealKey: Number,
+  foods: Array,
+  mealKey: String,
   mealName: String,
+  mealDate: Date,
 };
 
-const computed = {
-  ...mapGetters({ food: "getFood" }),
-};
+const computed = {};
 export default { components, props, computed };
 </script>
 <style>
