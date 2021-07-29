@@ -23,57 +23,57 @@ const routes = [
   },
   {
     path: "/weight",
-    name: "Weight",
+    name: "SEGUIMIENTO",
     component: Weight,
   },
   {
     path: "/macros",
-    name: "Macros",
+    name: "MACROS",
     component: Macros,
   },
   {
     path: "/goals",
-    name: "Goals",
+    name: "OBJETIVOS",
     component: Goals,
   },
   {
     path: "/ingredients/new",
-    name: "IngredientCreate",
+    name: "NUEVO INGREDIENTE",
     component: IngredientCreate
   },
   {
     path: "/ingredients/:ingredientId",
-    name: "IngredientEdit",
+    name: "EDITAR INGREDIENTE",
     component: IngredientEdit
   },
   {
     path: "/ingredients",
-    name: "IngredientIndex",
+    name: "INGREDIENTE",
     component: IngredientIndex
   },
   {
     path: "/foods/new",
-    name: "FoodCreate",
+    name: "CREAR COMIDA",
     component: Food
   },
   {
     path: "/foods/:foodId",
-    name: "FoodEdit",
+    name: "EDITAR COMIDA",
     component: Food
   },
   {
     path: "/foods",
-    name: "FoodIndex",
+    name: "COMIDAS",
     component: FoodIndex
   },
   {
     path: "/meals",
-    name: "MealIndex",
+    name: "DIARIO COMIDAS",
     component: MealIndex
   },
   {
     path: "/profile",
-    name: "Profile",
+    name: "PERFIL",
     component: Profile
   },
   {
