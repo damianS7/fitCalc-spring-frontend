@@ -82,7 +82,7 @@ const data = function () {
 const computed = {
   ...mapGetters({
     getIngredient: "getIngredient",
-    calculateKcals: "calculateKcals",
+    calculateKcals: "ingredientKcals",
   }),
   ingredient: function () {
     const ingredientId = this.$route.params.ingredientId;
