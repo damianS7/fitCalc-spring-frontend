@@ -3,7 +3,7 @@
     <b-col cols="12">
       <b-row align-v="center">
         <b-col cols="10">
-          <b>{{ meal.toUpperCase() }} </b>
+          <b>{{ mealName.toUpperCase() }} </b>
           <small>({{ kcal }} kcal)</small>
         </b-col>
         <b-col cols="2" class="text-right">
@@ -39,9 +39,9 @@
             <b-row class="mb-1">
               <b-col>
                 <meal-food-list
-                  :foodIdList="foods"
+                  :foods="foods"
                   :mealKey="mealKey"
-                  :mealName="meal.name"
+                  :mealName="mealName"
                   :mealDate="date"
                 ></meal-food-list>
               </b-col>
@@ -56,7 +56,7 @@
 import { mapGetters } from "vuex";
 import MealFoodList from "@/views/meals/MealFoodList.vue";
 const components = { "meal-food-list": MealFoodList };
-const props = { meal: String, mealKey: Number, date: Date };
+const props = { mealName: String, mealKey: String, date: Date };
 
 const data = function () {
   return {
@@ -86,15 +86,29 @@ const computed = {
     getIngredient: "getIngredient",
     getFood: "getFood",
     getFoods: "getFoods",
-    mealName: "getMealName",
   }),
   foods: function () {
+    let foods = [];
     // Obtenemos todos las meals de la fecha (desayuno, merienda etc ...)
     let meals = this.getMealsFromDate(this.date);
-    if (meals != null) {
-      // Accedemos a las comidas del desayuno, merienda o lo que sea
-      return meals[this.mealKey];
+
+    // Si no existen comidas(profile.meals[this.date]) para la fecha indicada ...
+    if (typeof meals === "undefined") {
+      return foods;
     }
+
+    let foodIds = meals[this.mealKey];
+    // Si no existe la meal indicada ... (puede haber meals sin algun comida)
+    if (typeof foodIds === "undefined") {
+      return foods;
+    }
+
+    foodIds.forEach((foodId) => {
+      const food = this.getFood(foodId);
+      if (typeof food !== "undefined") {
+        foods.push(food);
+      }
+    });
   },
   kcal: function () {
     let kcals = 0;
@@ -111,6 +125,10 @@ const computed = {
 
     foodsId.forEach((foodId) => {
       const food = this.getFood(foodId);
+      if (typeof food === "undefined") {
+        return;
+      }
+
       food.ingredients.forEach((id) => {
         const ingredient = this.getIngredient(id);
         kcals += ingredient.kcals;
