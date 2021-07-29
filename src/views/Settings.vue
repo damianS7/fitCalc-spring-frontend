@@ -74,13 +74,7 @@ import Vue from "vue";
 
 const data = function () {
   return {
-    meals: {
-      0: { name: "desayuno" },
-      1: { name: "almuerzo" },
-      2: { name: "merienda" },
-      3: { name: "cena" },
-      4: { name: "aperitivos" },
-    },
+    meals: {},
   };
 };
 const methods = {
@@ -106,7 +100,6 @@ const methods = {
       this.makeToast("No se pudo guardar.", "danger");
     }
   },
-  
 };
 
 const computed = {

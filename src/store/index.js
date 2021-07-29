@@ -2,7 +2,7 @@ import axios from "axios";
 import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
-const SERVER_URL = "http://192.168.0.21:8888";
+const SERVER_URL = "http://192.168.0.18:8888";
 const FATS_MULTIPLIER = 9;
 const PROTEINS_MULTIPLIER = 4;
 const CARBOHYDRATES_MULTIPLIER = 4;
