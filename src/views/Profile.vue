@@ -21,7 +21,6 @@
               :placeholder="profile.age.toString()"
             ></b-form-input>
           </b-form-group>
-
           <b-form-group label="Altura" description="En centimetros.">
             <b-form-input
               type="number"
@@ -29,7 +28,6 @@
               :placeholder="profile.height.toString()"
             ></b-form-input>
           </b-form-group>
-
           <b-form-group label="Email">
             <b-form-input
               id="email"
@@ -38,7 +36,6 @@
               :placeholder="user.email"
             ></b-form-input>
           </b-form-group>
-
           <b-form-group label="Cambiar password:">
             <b-form-input
               id="pass1"
@@ -55,11 +52,13 @@
               placeholder="Repite tu nueva password"
             ></b-form-input>
           </b-form-group>
-          <b-form-group label=" ">
-            <b-button type="submit" variant="primary" class="w-100"
-              >Actualizar</b-button
-            >
-          </b-form-group>
+          <b-button
+            @click="updateProfile()"
+            type="submit"
+            variant="primary"
+            class="w-100"
+            >Actualizar</b-button
+          >
         </b-form>
       </b-col>
     </b-row>
