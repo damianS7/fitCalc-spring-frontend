@@ -5,6 +5,7 @@
         v-for="(food, index) of foods"
         :key="index"
         :food="food"
+        :foodIndex="index"
         :mealKey="mealKey"
         :mealName="mealName"
         :mealDate="mealDate"

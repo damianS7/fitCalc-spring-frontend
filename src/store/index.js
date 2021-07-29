@@ -141,8 +141,9 @@ const mutations = {
   ADD_FOOD_TO_MEAL(state, { mealKey, mealDate, foodId }) {
     state.profile.meals[mealDate][mealKey].push(foodId);
   },
-  DELETE_FOOD_FROM_MEAL(state, { mealKey, mealDate, foodId }) {
-    state.profile.meals[mealDate][mealKey].pop(foodId);
+  DELETE_FOOD_FROM_MEAL(state, { mealKey, mealDate, foodIndex }) {
+    // state.profile.meals[mealDate][mealKey].pop(foodId);
+    Vue.delete(state.profile.meals[mealDate][mealKey], foodIndex );
   },
 };
 
@@ -487,9 +488,9 @@ const actions = {
       foodId 
     });
   },
-  async deleteMealFood(context, { mealKey, mealDate, foodId }) {
+  async deleteMealFood(context, { mealKey, mealDate, foodIndex }) {
     mealDate = context.getters.dateToString(mealDate);
-    context.commit("DELETE_FOOD_FROM_MEAL", { mealKey, mealDate, foodId });
+    context.commit("DELETE_FOOD_FROM_MEAL", { mealKey, mealDate, foodIndex });
   },
   
 };

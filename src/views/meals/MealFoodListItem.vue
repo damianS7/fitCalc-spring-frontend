@@ -16,6 +16,7 @@
 import { mapGetters, mapActions } from "vuex";
 const props = {
   food: Object,
+  foodIndex: Number,
   mealKey: String,
   mealName: String,
   mealDate: Date,
@@ -40,19 +41,11 @@ const computed = {
 const methods = {
   ...mapActions(["deleteMealFood"]),
   deleteFoodFromMeal() {
-    /*this.$store.dispatch("deleteMealFood", {
-      mealName: this.mealName,
-      mealDate: this.mealDate,
-      foodId: this.food.id,
-    });*/
     this.deleteMealFood({
       mealKey: this.mealKey,
       mealDate: this.mealDate,
-      foodId: this.food.id,
+      foodIndex: this.foodIndex,
     });
-  },
-  foodId() {
-    return this.food.id.toString();
   },
 };
 export default { computed, props, methods };
