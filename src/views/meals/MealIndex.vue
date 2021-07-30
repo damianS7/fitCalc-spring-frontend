@@ -13,12 +13,11 @@
           close-button
           :date-format-options="{
             year: 'numeric',
-            month: 'numeric',
-            day: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
           }"
           value-as-date
           v-model="selectedDate"
-          locale="es"
         ></b-form-datepicker>
       </b-col>
       <b-col cols="2">

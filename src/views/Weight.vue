@@ -1,11 +1,5 @@
 <template>
   <b-col cols="12">
-    <b-row class="mb-2">
-      <b-col cols="12">
-        <h1>Seguimiento</h1>
-      </b-col>
-    </b-row>
-
     <b-row class="mb-1 widget">
       <b-col>
         <b-row>

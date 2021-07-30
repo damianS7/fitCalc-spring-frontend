@@ -2,7 +2,7 @@ import axios from "axios";
 import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
-const SERVER_URL = "http://192.168.0.18:8888";
+const SERVER_URL = "http://192.168.0.21:8888";
 const FATS_MULTIPLIER = 9;
 const PROTEINS_MULTIPLIER = 4;
 const CARBOHYDRATES_MULTIPLIER = 4;
@@ -114,6 +114,15 @@ const mutations = {
   SET_TOKEN(state, token) {
     Vue.set(state.user, "token", token);
   },
+  // Agrega un peso al historial
+  ADD_WEIGHT(state, { date, weight }) {
+    Vue.set(state.profile.weights, date, { weight } );
+    // Vue.set(state.profile.weights, obj.date, { weight: obj.weight });
+  },
+  // Borra un peso de una fecha especificada
+  DELETE_WEIGHT(state, date) {
+    Vue.delete(state.profile.weights, date);
+  },
   // .... A partir de aqui pendiente de revision !
   SET_GOAL(state, { goal, value }) {
     Vue.set(state.profile.goals, goal, value);
@@ -122,14 +131,7 @@ const mutations = {
     // esto no funciona creo ...
     Vue.set(state.profile, "goals", goals);
   },
-  // ADD_WEIGHT_TO_HISTORY?
-  ADD_WEIGHT(state, {date, weight}) {
-    Vue.set(state.profile.weights, date, { weight });
-    // Vue.set(state.profile.weights, obj.date, { weight: obj.weight });
-  },
-  DELETE_WEIGHT(state, weightDate) {
-    Vue.delete(state.profile.weights, weightDate);
-  },
+  
   
   ADD_INGREDIENT_TO_FOOD(state, payload) {
     state.foods[payload.foodId].ingredients.push(payload.ingredientId);
@@ -189,10 +191,11 @@ const getters = {
     return state.settings;
   },
   dateToString: () => (date) => {
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-    return year + "-" + month + "-" + day;
+    // let day = date.getDate();
+    // let month = date.getMonth() + 1;
+    // let year = date.getFullYear();
+    // return year + "-" + month + "-" + day;
+    return date.toISOString().split('T')[0]
   },
   foodKcals: (state, getters) => (food) => {
     let kcals = 0;
@@ -297,7 +300,9 @@ const actions = {
 
       await axios.get(SERVER_URL + "/api/v1/users/profile")
       .then(function(response){
-        // context.commit("SET_PROFILE", response.data);
+        if(response.status == 200) {
+          context.commit("SET_PROFILE", response.data);
+        }
       });
     
       await axios.get(SERVER_URL + "/api/v1/settings")
@@ -384,6 +389,7 @@ const actions = {
   async addWeight(context, weight) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
     const date = context.getters.dateToString(new Date());
+    context.commit("ADD_WEIGHT", { date, weight });
     return await axios.post(SERVER_URL + "/api/v1/users/profile/weight", weight)
     .then(function (response) {
       // Si el request tuvo exito (codigo 200)
