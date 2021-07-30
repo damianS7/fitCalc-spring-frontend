@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-const props = { date: Date };
+const props = { date: String };
 const methods = {};
 const computed = {
   ...mapGetters({
@@ -30,28 +30,22 @@ const computed = {
     calculateKcals: "calculateKcals",
     dateToString: "dateToString",
     setting: "getSetting",
+    foodKcals: "foodKcals",
   }),
 
   consumedKcal: function () {
     let kcals = 0;
     let meals = this.getMealsFromDate(this.date);
 
-    if (typeof meals === "undefined") {
-      return kcals;
-    }
-
     Object.keys(meals).forEach((meal) => {
       let foods = meals[meal];
+      if (!Array.isArray(foods)) {
+        return;
+      }
+
       foods.forEach((foodId) => {
         const food = this.getFood(foodId);
-        // Si meals contiene un ID de comida que fue eliminado ...
-        if (typeof food === "undefined") {
-          return;
-        }
-        food.ingredients.forEach((ingredientId) => {
-          let ingredient = this.getIngredient(ingredientId);
-          kcals += ingredient.kcals;
-        });
+        kcals += this.foodKcals(food);
       });
     });
 

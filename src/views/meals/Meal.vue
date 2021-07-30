@@ -56,7 +56,7 @@
 import { mapGetters } from "vuex";
 import MealFoodList from "@/views/meals/MealFoodList.vue";
 const components = { "meal-food-list": MealFoodList };
-const props = { mealName: String, mealKey: String, date: Date };
+const props = { mealName: String, mealKey: String, date: String };
 
 const data = function () {
   return {

@@ -191,13 +191,14 @@ const getters = {
     return state.settings;
   },
   dateToString: () => (date) => {
-    // let day = date.getDate();
-    // let month = date.getMonth() + 1;
-    // let year = date.getFullYear();
-    // return year + "-" + month + "-" + day;
-    return date.toISOString().split('T')[0]
+    return date.toISOString().split('T')[0];
   },
   foodKcals: (state, getters) => (food) => {
+    // Si meals contiene un ID de comida que fue eliminado ...
+    if (typeof food === "undefined") {
+      return 0;
+    }
+
     let kcals = 0;
     food.ingredients.forEach((id) => {
       const ingredient = getters.getIngredient(id);
@@ -206,6 +207,10 @@ const getters = {
     return kcals;
   },
   ingredientKcals: () => (ingredient) => {
+    if (typeof ingredient === "undefined") {
+      return 0;
+    }
+
     let kcals = 0;
     kcals += ingredient.fats * FATS_MULTIPLIER;
     kcals += ingredient.proteins * PROTEINS_MULTIPLIER;
@@ -223,13 +228,14 @@ const getters = {
     return state.profile.goals[goalName];
   },
   getMealsFromDate: (state, getters) => (date) => {
-    date = getters.dateToString(date);
-    // if(typeof state.profile.meals[date] === 'undefined') {
-    // return null;
-    // }
-    return state.profile.meals[date];
+    // date = getters.dateToString(date);
+    let meals = state.profile.meals[date];
+    if(typeof meals === 'undefined') {
+      return {};
+    }
+
+    return meals;
   },
-  
   getLastWeightDate() {
     const weights = getters.getWeights();
     const totalWeights = Object.keys(weights).length - 1;

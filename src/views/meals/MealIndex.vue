@@ -16,7 +16,6 @@
             month: '2-digit',
             day: '2-digit',
           }"
-          value-as-date
           v-model="selectedDate"
         ></b-form-datepicker>
       </b-col>
@@ -49,21 +48,26 @@ const data = function () {
 };
 const methods = {
   today() {
-    return new Date();
+    // return new Date();
+    return new Date().toISOString().split("T")[0];
   },
   prevDay() {
     let prevDayDate = new Date(this.selectedDate);
     prevDayDate.setDate(prevDayDate.getDate() - 1);
-    this.selectedDate = prevDayDate;
+    this.selectedDate = this.dateToString(prevDayDate);
   },
   nextDay() {
     let nextDayDate = new Date(this.selectedDate);
     nextDayDate.setDate(nextDayDate.getDate() + 1);
-    this.selectedDate = nextDayDate;
+    this.selectedDate = this.dateToString(nextDayDate);
   },
 };
 const computed = {
-  ...mapGetters({ foods: "getFoods", getSetting: "getSetting" }),
+  ...mapGetters({
+    foods: "getFoods",
+    getSetting: "getSetting",
+    dateToString: "dateToString",
+  }),
   meals: function () {
     return this.getSetting("meals");
   },

@@ -19,7 +19,7 @@ const props = {
   foodIndex: Number,
   mealKey: String,
   mealName: String,
-  mealDate: Date,
+  mealDate: String,
 };
 const computed = {
   ...mapGetters({

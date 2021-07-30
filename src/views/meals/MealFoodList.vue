@@ -21,7 +21,7 @@ const props = {
   foods: Array,
   mealKey: String,
   mealName: String,
-  mealDate: Date,
+  mealDate: String,
 };
 const computed = {};
 const mounted = function () {};
