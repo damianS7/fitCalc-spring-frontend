@@ -1,14 +1,8 @@
 <template>
   <b-col cols="12">
     <b-row align-v="center" class="widget mb-2">
-      <b-col cols="8">
+      <b-col>
         <b-form-input type="text" v-model="food.name"></b-form-input>
-      </b-col>
-      <b-col cols="4" class="text-right">
-        <span> Atras </span>
-        <router-link to="/foods">
-          <font-awesome-icon icon="arrow-circle-left" />
-        </router-link>
       </b-col>
     </b-row>
     <b-row class="widget mb-2" align-v="center">
