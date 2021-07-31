@@ -60,11 +60,20 @@
         <b-row class="mt-1 mb-1">
           <b-col>
             <b-button
+              v-if="isEditing()"
               @click="updateIngredient"
               type="submit"
               variant="primary"
               class="w-100"
               >Actualizar</b-button
+            >
+            <b-button
+              v-if="!isEditing()"
+              @click="createIngredient"
+              type="submit"
+              variant="primary"
+              class="w-100"
+              >Crear</b-button
             >
           </b-col>
         </b-row>
@@ -77,7 +86,16 @@
 import { mapGetters } from "vuex";
 
 const data = function () {
-  return {};
+  return {
+    ingredient: {
+      id: null,
+      name: "Sin nombre",
+      fats: 0,
+      proteins: 0,
+      carbohydrates: 0,
+      kcals: 0,
+    },
+  };
 };
 
 const computed = {
@@ -85,13 +103,15 @@ const computed = {
     getIngredient: "getIngredient",
     calculateKcals: "ingredientKcals",
   }),
-  ingredient: function () {
-    const ingredientId = this.$route.params.ingredientId;
-    return this.getIngredient(ingredientId);
-  },
 };
 
 const methods = {
+  isEditing() {
+    if (this.ingredient.id == null) {
+      return false;
+    }
+    return true;
+  },
   recalculateKcals() {
     this.ingredient.kcals = this.calculateKcals(this.ingredient);
   },
@@ -105,20 +125,46 @@ const methods = {
       variant: variant,
     });
   },
+  ingredientIdFromUrl() {
+    const ingredientId = this.$route.params.ingredientId;
+    if (typeof ingredientId === "undefined") {
+      return null;
+    }
+    return ingredientId;
+  },
+  async createIngredient() {
+    let responseStatus = await this.$store.dispatch(
+      "newIngredient",
+      this.ingredient
+    );
+
+    if (responseStatus != 200) {
+      this.makeToast("No se pudo crear el ingrediente.", "danger");
+    }
+  },
   async updateIngredient() {
     let responseStatus = await this.$store.dispatch(
       "updateIngredient",
       this.ingredient
     );
 
-    if (responseStatus == 200) {
-      this.makeToast("Modificado con exito.", "success");
-    } else {
-      this.makeToast("No se pudo modificar el ingredient.", "danger");
+    if (responseStatus != 200) {
+      this.makeToast("No se pudo modificar el ingrediente.", "danger");
     }
   },
 };
-export default { computed, methods, data };
+
+const mounted = function () {
+  this.ingredient.id = this.ingredientIdFromUrl();
+  if (this.ingredient.id != null) {
+    // Obtenemos el ingrediente
+    const ingredient = this.getIngredient(this.ingredient.id);
+    // Clonado de objeto para evitar reactividad no deseada ya que la modificacion se hace
+    // a traves de updateIngredient y el objeto enviado por el servidor
+    Object.assign(this.ingredient, ingredient);
+  }
+};
+export default { computed, methods, data, mounted };
 </script>
 
 <style>
