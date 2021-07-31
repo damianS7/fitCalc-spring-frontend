@@ -115,9 +115,8 @@ const mutations = {
     Vue.set(state.user, "token", token);
   },
   // Agrega un peso al historial
-  ADD_WEIGHT(state, { date, weight }) {
-    Vue.set(state.profile.weights, date, { weight } );
-    // Vue.set(state.profile.weights, obj.date, { weight: obj.weight });
+  ADD_WEIGHT(state, weight) {
+    Vue.set(state.profile.weights, weight.date, weight );
   },
   // Borra un peso de una fecha especificada
   DELETE_WEIGHT(state, date) {
@@ -228,7 +227,6 @@ const getters = {
     return state.profile.goals[goalName];
   },
   getMealsFromDate: (state, getters) => (date) => {
-    // date = getters.dateToString(date);
     let meals = state.profile.meals[date];
     if(typeof meals === 'undefined') {
       return {};
@@ -245,22 +243,35 @@ const getters = {
     const date = getters.getLastWeightDate();
     return getters.getWeight(date);
   },
-  getWeights() {
+  getWeights: (state) => () => {
     return state.profile.weights;
   },
   getWeightsDates() {
     return Object.keys(state.profile.weights);
   },
   getWeight(date) {
-    return state.profile.weights[date].weight;
-  },
-  getChartDataWeights() {
-    const dates = Object.keys(getters.getWeights());
-    const weights = [];
+    const weight = state.profile.weights[date];
+    if(typeof weight !== "undefined") {
+      return state.profile.weights[date].weight;
+    }
 
-    dates.forEach((date) => {
-      weights.push(getters.getWeight(date));
+    return 0;
+  },
+  getChartDataWeights: (state, getters) => () => {
+    // const dates = Object.keys(getters.getWeights());
+    let sortedWeighs = Object.values(getters.getWeights()).sort( function (weightA, weightB) {
+      const dateA = new Date(weightA.date);
+      const dateB = new Date(weightB.date);
+      
+      return dateA - dateB;
     });
+    let weights = [];
+    let dates = [];
+
+    sortedWeighs.forEach( (weight) => {
+      dates.push(weight.date);
+      weights.push(weight.weight);
+    }); 
 
     return {
       labels: dates,
@@ -385,8 +396,10 @@ const actions = {
     return await axios
       .put(SERVER_URL + "/api/v1/settings/" + setting.key, setting)
       .then(function (response) {
-        let rSetting = {key: response.data.key, value: JSON.parse(response.data.value)};
-        context.commit("SET_SETTING", rSetting);
+        if(response.status == 200) {
+          let rSetting = {key: response.data.key, value: JSON.parse(response.data.value)};
+          context.commit("SET_SETTING", rSetting);
+        }
         return response.status;
       }).catch( (error) => {
         return error.response.status;
@@ -395,8 +408,7 @@ const actions = {
   async addWeight(context, weight) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
     const date = context.getters.dateToString(new Date());
-    context.commit("ADD_WEIGHT", { date, weight });
-    return await axios.post(SERVER_URL + "/api/v1/users/profile/weight", weight)
+    return await axios.post(SERVER_URL + "/api/v1/users/profile/weight", { date, weight })
     .then(function (response) {
       // Si el request tuvo exito (codigo 200)
       if (response.status == 200) {
@@ -404,12 +416,23 @@ const actions = {
           context.commit("ADD_WEIGHT", response.data);
         }
         return response.status;
-      }).catch(function (response){
-        return response.status;
+      }).catch(function (error){
+        return error.response.status;
       });
   },
-  async deleteWeight(context, weightDate) {
-    context.commit("DELETE_WEIGHT", weightDate);
+  async deleteWeight(context, date) {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
+    return await axios.delete(SERVER_URL + "/api/v1/users/profile/weight", { date })
+    .then(function (response) {
+      // Si el request tuvo exito (codigo 200)
+      if (response.status == 200) {
+          // context.commit("ADD_WEIGHT", { date, weight });
+          context.commit("DELETE_WEIGHT", response.data);
+        }
+        return response.status;
+      }).catch(function (error){
+        return error.response.status;
+      });
   },
   async newIngredient(context, ingredient) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
@@ -506,7 +529,6 @@ const actions = {
     context.commit("REMOVE_INGREDIENT_FROM_FOOD", payload);
   },
   async addFoodToMeal(context, { mealKey, mealDate, foodId }) {
-    mealDate = context.getters.dateToString(mealDate);
     context.commit("ADD_FOOD_TO_MEAL", {
       mealKey, 
       mealDate, 
@@ -514,7 +536,6 @@ const actions = {
     });
   },
   async deleteMealFood(context, { mealKey, mealDate, foodIndex }) {
-    mealDate = context.getters.dateToString(mealDate);
     context.commit("DELETE_FOOD_FROM_MEAL", { mealKey, mealDate, foodIndex });
   },
   
