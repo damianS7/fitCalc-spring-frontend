@@ -7,7 +7,7 @@
         </a>
         <b> {{ this.$route.name.toUpperCase() }} </b>
       </b-col>
-      <b-col cols="4">
+      <b-col cols="4" class="text-right">
         <b-button class="btn-sm" @click="$router.go(-1)">
           Atras
           <font-awesome-icon icon="arrow-circle-left" />
