@@ -1,15 +1,9 @@
 <template>
   <b-col cols="12">
     <b-row align-v="center" class="widget mb-2">
-      <b-col cols="8">
+      <b-col>
         <b>{{ ingredient.name }} </b>
         <small> ( {{ ingredient.kcals }} kcals )</small>
-      </b-col>
-      <b-col cols="4" class="text-right">
-        <span> Atras </span>
-        <router-link to="/ingredients">
-          <font-awesome-icon icon="arrow-circle-left" />
-        </router-link>
       </b-col>
     </b-row>
     <b-row class="widget">
@@ -25,16 +19,8 @@
         </b-row>
         <b-row class="mb-2">
           <b-col cols="12">
-            <b-form-input
-              type="number"
-              v-model="ingredient.fats"
-              @update="recalculateKcals(ingredient)"
-              placeholder="Grasas por 100g"
-            ></b-form-input>
+            <b>Proteins: </b>
           </b-col>
-        </b-row>
-
-        <b-row class="mb-2">
           <b-col cols="12">
             <b-form-input
               type="number"
@@ -45,7 +31,10 @@
           </b-col>
         </b-row>
 
-        <b-row class="mb-3">
+        <b-row class="mb-2">
+          <b-col cols="12">
+            <b>Carbohidratos</b>
+          </b-col>
           <b-col cols="12">
             <b-form-input
               type="number"
@@ -55,8 +44,20 @@
             ></b-form-input>
           </b-col>
         </b-row>
-
-        <b-row class="mb-1">
+        <b-row class="mb-2">
+          <b-col cols="12">
+            <b>Grasas</b>
+          </b-col>
+          <b-col cols="12">
+            <b-form-input
+              type="number"
+              v-model="ingredient.fats"
+              @update="recalculateKcals(ingredient)"
+              placeholder="Grasas por 100g"
+            ></b-form-input>
+          </b-col>
+        </b-row>
+        <b-row class="mt-1 mb-1">
           <b-col>
             <b-button
               @click="updateIngredient"
