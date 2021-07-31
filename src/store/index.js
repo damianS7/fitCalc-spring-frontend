@@ -98,6 +98,9 @@ const mutations = {
   SET_PROFILE(state, profile) {
     Vue.set(state, "profile", profile);
   },
+  UPDATE_PROFILE(state, { key, value }) {
+    Vue.set(state.profile, key, value);
+  },
   SET_SETTING(state, { key, value }) {
     Vue.set(state.settings, key, value);
   },
@@ -116,6 +119,10 @@ const mutations = {
   // .... A partir de aqui pendiente de revision !
   // .... A partir de aqui pendiente de revision !
   // .... A partir de aqui pendiente de revision !
+  SET_LOGIN_DETAILS(state, { username, email }) {
+    Vue.set(state.user, "username", username);
+    Vue.set(state.user, "email", email);
+  },
   SET_GOAL(state, { goal, value }) {
     Vue.set(state.profile.goals, goal, value);
   },
@@ -157,6 +164,18 @@ const getters = {
   },
   isAppReady: (state) => () => {
     return state.appReady;
+  },
+  getAge: (state) => () => {
+    if (typeof state.profile.age !== "undefined") {
+      return state.profile.age;
+    }
+    return 0;
+  },
+  getHeight: (state) => () => {
+    if (typeof state.profile.height !== "undefined") {
+      return state.profile.height;
+    }
+    return 0;
   },
   getIngredient: (state) => (ingredientId) => {
     return state.ingredients[ingredientId];
@@ -484,6 +503,34 @@ const actions = {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
           context.commit("DELETE_FOOD", response.data.id);
+        }
+        return response.status;
+      }).catch(function (response){
+        return response.status;
+      });
+  },
+  async updateLoginDetails(context, details) {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
+    return await axios.put(SERVER_URL + "/api/v1/users", details)
+      .then(function (response) {
+        // Si el request tuvo exito (codigo 200)
+        if(response.status == 200) {
+          context.commit("SET_LOGIN_DETAILS", response.data);
+          // context.commit("LOGOUT");
+        }
+        return response.status;
+      }).catch(function (response){
+        return response.status;
+      });
+  },
+  async updateProfile(context, payload) {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
+    return await axios.put(SERVER_URL + "/api/v1/users/profile", payload)
+      .then(function (response) {
+        // Si el request tuvo exito (codigo 200)
+        if(response.status == 200) {
+          context.commit("UPDATE_PROFILE", { key: "age", value: response.data.age });
+          context.commit("UPDATE_PROFILE", { key: "height", value: response.data.height });
         }
         return response.status;
       }).catch(function (response){
