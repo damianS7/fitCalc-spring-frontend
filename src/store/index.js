@@ -234,27 +234,26 @@ const getters = {
 
     return meals;
   },
-  getLastWeightDate() {
+  getLastWeightDate: (state, getters) => () => {
     const weights = getters.getWeights();
     const totalWeights = Object.keys(weights).length - 1;
     return Object.keys(weights)[totalWeights];
   },
-  getLastWeight() {
+  getLastWeight: (state, getters) => () => {
     const date = getters.getLastWeightDate();
     return getters.getWeight(date);
   },
   getWeights: (state) => () => {
     return state.profile.weights;
   },
-  getWeightsDates() {
+  getWeightsDates: (state) => () => {
     return Object.keys(state.profile.weights);
   },
-  getWeight(date) {
+  getWeight: (state) => (date) => {
     const weight = state.profile.weights[date];
     if(typeof weight !== "undefined") {
       return state.profile.weights[date].weight;
     }
-
     return 0;
   },
   getChartDataWeights: (state, getters) => () => {

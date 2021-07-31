@@ -12,7 +12,7 @@
       <b-col cols="8" class="text-right">
         <b-row>
           <b-col>Peso</b-col>
-          <b-col>{{ lastWeight }} kg</b-col>
+          <b-col>{{ lastWeight() }} kg</b-col>
         </b-row>
         <b-row>
           <b-col>Altura</b-col>
