@@ -406,20 +406,6 @@ const actions = {
         return error.response.status;
       });
   },
-  async deleteWeight(context, date) {
-    axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
-    return await axios.delete(SERVER_URL + "/api/v1/users/profile/weight", { date })
-    .then(function (response) {
-      // Si el request tuvo exito (codigo 200)
-      if (response.status == 200) {
-          // context.commit("ADD_WEIGHT", { date, weight });
-          context.commit("DELETE_WEIGHT", response.data);
-        }
-        return response.status;
-      }).catch(function (error){
-        return error.response.status;
-      });
-  },
   async newIngredient(context, ingredient) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
     return await axios.post(SERVER_URL + "/api/v1/ingredients", ingredient)
