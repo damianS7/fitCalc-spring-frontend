@@ -4,7 +4,7 @@
       <b-col>
         <b-row>
           <b-col class="mb-3">
-            <weight-chart :chartData="chartData"> </weight-chart>
+            <weight-chart :chartData="chartData()"> </weight-chart>
           </b-col>
         </b-row>
 
@@ -74,18 +74,38 @@ const computed = {
 };
 
 const methods = {
-  addWeight() {
+  makeToast(msg, variant) {
+    this.$bvToast.toast(msg, {
+      title: "SEGUIMIENTO",
+      autoHideDelay: 5000,
+      appendToast: true,
+      solid: true,
+      toaster: "b-toaster-bottom-right",
+      variant: variant,
+    });
+  },
+  async addWeight() {
     if (this.weight == null) {
       return;
     }
-    this.$store.dispatch("addWeight", this.weight);
+    let responseStatus = await this.$store.dispatch("addWeight", this.weight);
+    if (responseStatus != 200) {
+      this.makeToast("No se pudo agregar el peso.", "danger");
+    }
   },
-  deleteSelectedWeight() {
+  async deleteSelectedWeight() {
     if (this.selectedWeightDate == null) {
       return;
     }
 
-    this.$store.dispatch("deleteWeight", this.selectedWeightDate);
+    let response = await this.$store.dispatch(
+      "deleteWeight",
+      this.selectedWeightDate
+    );
+
+    if (response.status != 200) {
+      this.makeToast("No se pudo eliminar el peso.", "danger");
+    }
   },
 };
 
