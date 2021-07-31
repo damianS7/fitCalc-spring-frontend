@@ -75,6 +75,54 @@ const computed = {
 export default { components, methods, computed };
 </script>
 <style>
-@import "./assets/css/app.css";
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.header,
+.content,
+.footer,
+.sidebar {
+  background: #eeef;
+}
+
+.header,
+.content,
+.footer {
+  padding: 10px;
+  margin: 0;
+}
+
+.footer {
+  height: 60px;
+  border-top: 1px solid black;
+}
+
+.content {
+  height: calc(100% - 120px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-break: break-all;
+  margin: 0;
+}
+
+.content .widget {
+  background: #fff;
+  padding: 10px 0;
+  border-radius: 0.25rem !important;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+:link,
+:visited {
+  text-decoration: none;
+  color: #212529;
+}
 </style>
 

@@ -20,3 +20,10 @@
 const props = ["title", "toggleMenu"];
 export default { props };
 </script>
+<style>
+.header {
+  height: 60px;
+  border-bottom: 1px solid black;
+  padding: 0;
+}
+</style>

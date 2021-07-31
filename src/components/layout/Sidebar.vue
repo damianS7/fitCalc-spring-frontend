@@ -127,4 +127,35 @@ const methods = {
 export default { props, components, methods };
 </script>
 <style>
+.side {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  top: 0;
+  border-radius: 5px;
+  box-shadow: 0 -0 5px gray;
+}
+
+.sidebar {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  position: absolute;
+  top: 0%;
+  left: -100%;
+  -webkit-transition: left 1s ease;
+  transition: left 1s ease;
+  box-shadow: 0 0 12px gray;
+  z-index: 9999;
+}
+
+.sidebar .content {
+  height: calc(100% - 60px);
+}
+
+.sidebar .content .menu .row {
+  margin: 12px 0;
+}
 </style>

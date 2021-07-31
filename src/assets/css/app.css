@@ -59,11 +59,6 @@ body {
   box-shadow: 0 -0 5px gray;
 }
 
-:link,
-:visited {
-  text-decoration: none;
-  color: #212529;
-}
 
 .sidebar {
   padding: 0;
@@ -89,3 +84,10 @@ body {
 .sidebar .content .menu .row {
   margin: 12px 0;
 }
+
+:link,
+:visited {
+  text-decoration: none;
+  color: #212529;
+}
+
