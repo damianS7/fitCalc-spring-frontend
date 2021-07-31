@@ -48,7 +48,7 @@ const routes = [
   },
   {
     path: "/ingredients",
-    name: "INGREDIENTE",
+    name: "INGREDIENTES",
     component: IngredientIndex
   },
   {
