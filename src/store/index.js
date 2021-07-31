@@ -23,8 +23,7 @@ const state = {
     // Historial de pesos del usuario
     weights: {
       // Formato
-      "2021-7-28": { weight: 71 },
-      "2021-7-29": { weight: 68 },
+      // "2021-7-28": { weight: 71 },
     },
 
     // Objetivos del usuario (kcal) y distribucion de sus macros
@@ -38,17 +37,8 @@ const state = {
     // Registro de comidas diarias
     meals: {
       // Formato
-      // "2021-7-29": { 0: [1], 1:[1], 2: [1], 3: [1], 4: [1] },
-      "2021-7-28": { meal1: [1], meal2:[1], meal3: [1], meal4: [1], meal5: [1] },
-      "2021-7-29": { meal1: [1], meal2:[], meal3: [1], meal4: [1], meal5: [1] },
-      "2021-7-30": { meal1: [1], meal2:[1], meal3: [], meal4: [], meal5: [] },
-      "2021-7-31": { meal1: [1], meal2:[2], meal3: [], meal4: [], meal5: [] },
-      "2021-8-1": { meal1: [1], meal2:[1], meal3: [1], meal4: [1], meal5: [1] },
-      "2021-8-2": { meal1: [1], meal2:[1], meal3: [1], meal4: [1], meal5: [1] },
-      "2021-8-3": { meal1: [1], meal2:[1], meal3: [1], meal4: [1], meal5: [1] },
-      "2021-8-4": { meal1: [], meal2:[], meal3: [], meal4: [], meal5: [] },
-      "2021-8-5": { meal1: [1], meal5: [1] },
-      "2021-8-6": { meal1: [], meal5: [] },
+      // "2021-7-28": { meal1: [1], meal2:[1], meal3: [1], meal4: [], meal5: [1] },
+      // "2021-8-6": { meal1: [], meal5: [] },
     },
   },
 
@@ -78,6 +68,9 @@ const mutations = {
   SET_READY(state, ready) {
     Vue.set(state, "appReady", ready);
   },
+  SET_INGREDIENTS(state, ingredients) {
+    Vue.set(state, "ingredients", ingredients);
+  },
   ADD_INGREDIENT(state, ingredient) {
     Vue.set(state.ingredients, ingredient.id, ingredient);
   },
@@ -87,8 +80,8 @@ const mutations = {
   DELETE_INGREDIENT(state, ingredientId) {
     Vue.delete(state.ingredients, ingredientId);
   },
-  SET_INGREDIENTS(state, ingredients) {
-    Vue.set(state, "ingredients", ingredients);
+  SET_FOODS(state, foods) {
+    Vue.set(state, "foods", foods);
   },
   ADD_FOOD(state, food) {
     Vue.set(state.foods, food.id, food);
@@ -98,9 +91,6 @@ const mutations = {
   },
   DELETE_FOOD(state, foodId) {
     Vue.delete(state.foods, foodId);
-  },
-  SET_FOODS(state, foods) {
-    Vue.set(state, "foods", foods);
   },
   SET_SETTINGS(state, settings) {
     Vue.set(state, "settings", settings);
@@ -123,15 +113,12 @@ const mutations = {
     Vue.delete(state.profile.weights, date);
   },
   // .... A partir de aqui pendiente de revision !
+  // .... A partir de aqui pendiente de revision !
+  // .... A partir de aqui pendiente de revision !
+  // .... A partir de aqui pendiente de revision !
   SET_GOAL(state, { goal, value }) {
     Vue.set(state.profile.goals, goal, value);
   },
-  SET_GOALS(state, goals) {
-    // esto no funciona creo ...
-    Vue.set(state.profile, "goals", goals);
-  },
-  
-  
   ADD_INGREDIENT_TO_FOOD(state, payload) {
     state.foods[payload.foodId].ingredients.push(payload.ingredientId);
   },
@@ -162,13 +149,13 @@ const mutations = {
 };
 
 const getters = {
-  isLogged() {
+  isLogged: (state) => () => {
     if (state.user.token !== null) {
       return true;
     }
     return false;
   },
-  isAppReady() {
+  isAppReady: (state) => () => {
     return state.appReady;
   },
   getIngredient: (state) => (ingredientId) => {

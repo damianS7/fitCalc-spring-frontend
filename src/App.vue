@@ -1,15 +1,19 @@
 <template>
   <b-container class="h-100">
-    <b-row v-if="!isLogged" align-v="center" class="h-100">
+    <b-row v-if="!isLogged()" align-v="center" class="h-100">
       <login></login>
     </b-row>
-    <b-row v-if="isLogged && !appReady" align-v="center" class="h-100 w-100">
+    <b-row
+      v-if="isLogged() && !appReady()"
+      align-v="center"
+      class="h-100 w-100"
+    >
       <b-col cols="12">
         <b-overlay show rounded="sm"> </b-overlay>
       </b-col>
     </b-row>
     <b-row
-      v-if="isLogged && appReady"
+      v-if="isLogged() && appReady()"
       align-v="center"
       class="justify-content-center h-100 p-3"
     >
