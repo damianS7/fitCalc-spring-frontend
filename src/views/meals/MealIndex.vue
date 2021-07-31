@@ -31,8 +31,16 @@
           :mealKey="index"
           :mealName="meals[index].name"
           :date="selectedDate"
+          :foodPicker="foodPicker"
         ></meal>
       </b-col>
+    </b-row>
+    <b-row>
+      <food-picker
+        :mealKey="foodPickerMealKey"
+        :mealName="foodPickerMealName"
+        :date="selectedDate"
+      ></food-picker>
     </b-row>
   </b-col>
 </template>
@@ -40,15 +48,26 @@
 import { mapGetters } from "vuex";
 import Meal from "@/views/meals/Meal.vue";
 import MealSummary from "@/components/MealSummary.vue";
-const components = { meal: Meal, "meal-summary": MealSummary };
+import MealFoodPicker from "@/views/meals/MealFoodPicker.vue";
+const components = {
+  meal: Meal,
+  "meal-summary": MealSummary,
+  "food-picker": MealFoodPicker,
+};
 const data = function () {
   return {
     selectedDate: this.today(),
+    foodPickerMealKey: null,
+    foodPickerMealName: null,
   };
 };
 const methods = {
+  foodPicker(mealName, mealKey) {
+    this.foodPickerMealName = mealName;
+    this.foodPickerMealKey = mealKey;
+    this.$bvModal.show("foodPicker");
+  },
   today() {
-    // return new Date();
     return new Date().toISOString().split("T")[0];
   },
   prevDay() {
@@ -72,7 +91,6 @@ const computed = {
     return this.getSetting("meals");
   },
 };
-
 export default {
   methods,
   components,

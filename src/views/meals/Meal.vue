@@ -2,40 +2,28 @@
   <b-row class="mb-3">
     <b-col cols="12">
       <b-row align-v="center">
-        <b-col cols="10">
+        <b-col cols="12">
           <b>{{ mealName.toUpperCase() }} </b>
           <small>({{ kcal }} kcal)</small>
-        </b-col>
-        <b-col cols="2" class="text-right">
-          <b-button class="btn-sm" v-b-toggle="[mealKey + '-collapse']">
+
+          <b-button
+            class="btn-sm float-right ml-1"
+            v-b-toggle="[mealKey + '-collapse']"
+          >
             <font-awesome-icon icon="arrow-down" />
+          </b-button>
+          <b-button
+            @click="foodPicker(mealName, mealKey)"
+            class="btn-sm float-right"
+            variant="primary"
+          >
+            <font-awesome-icon icon="plus-square" />
           </b-button>
         </b-col>
       </b-row>
       <b-row>
         <b-col cols="12">
           <b-collapse :id="mealKey + '-collapse'" class="mt-2">
-            <b-row class="mb-2" align-v="center">
-              <b-col cols="10">
-                <b-form-select
-                  text-field="name"
-                  value-field="id"
-                  v-model="selectedFoodId"
-                  :options="getFoods()"
-                >
-                  <template #first>
-                    <b-form-select-option :value="null" disabled>
-                      Selecciona una comida
-                    </b-form-select-option>
-                  </template>
-                </b-form-select>
-              </b-col>
-              <b-col cols="2">
-                <b-button @click="addFood" class="btn-sm" variant="primary"
-                  ><font-awesome-icon icon="plus-square"></font-awesome-icon
-                ></b-button>
-              </b-col>
-            </b-row>
             <b-row class="mb-1">
               <b-col>
                 <meal-food-list
@@ -55,8 +43,15 @@
 <script>
 import { mapGetters } from "vuex";
 import MealFoodList from "@/views/meals/MealFoodList.vue";
-const components = { "meal-food-list": MealFoodList };
-const props = { mealName: String, mealKey: String, date: String };
+const components = {
+  "meal-food-list": MealFoodList,
+};
+const props = {
+  mealName: String,
+  mealKey: String,
+  date: String,
+  foodPicker: Function,
+};
 
 const data = function () {
   return {
@@ -82,7 +77,6 @@ const methods = {
 const computed = {
   ...mapGetters({
     getMealsFromDate: "getMealsFromDate",
-    getIngredients: "getIngredients",
     getIngredient: "getIngredient",
     getFood: "getFood",
     getFoods: "getFoods",
