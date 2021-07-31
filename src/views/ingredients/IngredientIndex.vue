@@ -57,9 +57,7 @@ const methods = {
         "deleteIngredient",
         ingredient.id
       );
-      if (responseStatus == 200) {
-        this.makeToast("Eliminado con exito.", "success");
-      } else {
+      if (responseStatus != 200) {
         this.makeToast("No se pudo eliminar el ingrediente.", "danger");
       }
     }

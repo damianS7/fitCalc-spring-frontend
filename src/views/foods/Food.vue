@@ -118,17 +118,13 @@ const methods = {
 
     let responseStatus = await this.$store.dispatch("newFood", this.food);
 
-    if (responseStatus == 200) {
-      this.makeToast("Agregado con exito.", "success");
-    } else {
+    if (responseStatus != 200) {
       this.makeToast("No se pudo agregar la comida.", "danger");
     }
   },
   async updateFood() {
     let responseStatus = await this.$store.dispatch("updateFood", this.food);
-    if (responseStatus == 200) {
-      this.makeToast("Actualizado con exito.", "success");
-    } else {
+    if (responseStatus != 200) {
       this.makeToast("No se pudo actualizar la comida.", "danger");
     }
   },
@@ -146,9 +142,9 @@ const mounted = function () {
   this.food.id = this.foodIdFromUrl();
   if (this.food.id != null) {
     const food = this.getFood(this.food.id);
-    this.food.id = food.id;
-    this.food.name = food.name;
-    this.food.ingredients = food.ingredients;
+    // Clonado de objeto para evitar reactividad no deseada ya que la modificacion se hace
+    // a traves de updateIngredient y el objeto enviado por el servidor
+    Object.assign(this.food, food);
   }
 };
 

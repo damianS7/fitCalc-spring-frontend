@@ -60,9 +60,7 @@ const methods = {
     let confirmed = await this.deleteFoodConfirm(food);
     if (confirmed) {
       let responseStatus = await this.$store.dispatch("deleteFood", food.id);
-      if (responseStatus == 200) {
-        this.makeToast("Eliminado con exito.", "success");
-      } else {
+      if (responseStatus != 200) {
         this.makeToast("No se pudo eliminar la comida.", "danger");
       }
     }
