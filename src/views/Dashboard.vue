@@ -4,11 +4,11 @@
       <profile-summary></profile-summary>
     </b-row>
     <b-row class="mb-1 widget">
-      <meal-summary :date="new Date()"></meal-summary>
+      <meal-summary :date="date"></meal-summary>
     </b-row>
     <b-row class="mb-1 widget">
       <b-col>
-        <weight-chart :chartData="chartData"></weight-chart>
+        <weight-chart :chartData="chartData()"></weight-chart>
       </b-col>
     </b-row>
   </b-col>
@@ -29,7 +29,11 @@ const methods = {};
 const computed = {
   ...mapGetters({
     chartData: "getChartDataWeights",
+    dateToString: "dateToString",
   }),
+  date: function () {
+    return this.dateToString(new Date());
+  },
 };
 export default {
   methods,
