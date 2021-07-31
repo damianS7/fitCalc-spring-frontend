@@ -2,22 +2,20 @@
   <b-row class="mb-3">
     <b-col cols="12">
       <b-row align-v="center">
-        <b-col cols="12">
+        <b-col cols="8">
           <b>{{ mealName.toUpperCase() }} </b>
           <small>({{ kcal }} kcal)</small>
-
-          <b-button
-            class="btn-sm float-right ml-1"
-            v-b-toggle="[mealKey + '-collapse']"
-          >
-            <font-awesome-icon icon="arrow-down" />
-          </b-button>
+        </b-col>
+        <b-col cols="4" class="text-right">
           <b-button
             @click="foodPicker(mealName, mealKey)"
-            class="btn-sm float-right"
+            class="btn-sm mr-1"
             variant="primary"
           >
             <font-awesome-icon icon="plus-square" />
+          </b-button>
+          <b-button class="btn-sm" v-b-toggle="[mealKey + '-collapse']">
+            <font-awesome-icon icon="arrow-down" />
           </b-button>
         </b-col>
       </b-row>
