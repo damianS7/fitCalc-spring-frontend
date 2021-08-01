@@ -33,13 +33,13 @@ const state = {
       fats: 30,
       carbohydrates: 40,
     },
+  },
 
-    // Registro de comidas diarias
-    meals: {
-      // Formato
-      // "2021-7-28": { meal1: [1], meal2:[1], meal3: [1], meal4: [], meal5: [1] },
-      // "2021-8-6": { meal1: [], meal5: [] },
-    },
+  // Registro de comidas diarias
+  meals: {
+    // Formato
+    // "2021-7-28": { meal1: [1], meal2:[1], meal3: [1], meal4: [], meal5: [1] },
+    // "2021-8-6": { meal1: [], meal5: [] },
   },
 
   // Ingredientes disponibles en la app
@@ -132,28 +132,31 @@ const mutations = {
   REMOVE_INGREDIENT_FROM_FOOD(state, payload) {
     state.foods[payload.foodId].ingredients.pop(payload.ingredientId);
   },
+  SET_MEALS(state, meals) {
+    Vue.set(state, "meals", meals); 
+  },
   SET_MEAL(state, meal) {
-    Vue.set(state.profile.meals, meal.date, meal ); 
+    Vue.set(state.meals, meal.date, meal ); 
   },
   ADD_FOOD_TO_MEAL(state, { mealKey, mealDate, foodId }) {
-    let meals = state.profile.meals;
+    let meals = state.meals;
     
     // Si no existe ningun objeto para la fecha indicada se crea
     if (typeof meals[mealDate] === "undefined") {
-      Vue.set(state.profile.meals, mealDate, {} ); 
+      Vue.set(state.meals, mealDate, {} ); 
     }
 
     let meal = meals[mealDate];
     // Si no existe la comida indicada en dentro de la fecha, se crea
     if(typeof meal[mealKey] === "undefined") {
-      Vue.set(state.profile.meals[mealDate], mealKey, [] );  
+      Vue.set(state.meals[mealDate], mealKey, [] );  
     }
 
     // Finalmente se agrega
     meal[mealKey].push(foodId);
   },
   DELETE_FOOD_FROM_MEAL(state, { mealKey, mealDate, foodIndex }) {
-    Vue.delete(state.profile.meals[mealDate][mealKey], foodIndex );
+    Vue.delete(state.meals[mealDate][mealKey], foodIndex );
   },
 };
 
@@ -235,7 +238,7 @@ const getters = {
     return state.profile.goals[goalName];
   },
   getMealsFromDate: (state, getters) => (date) => {
-    let meals = state.profile.meals[date];
+    let meals = state.meals[date];
     if(typeof meals === 'undefined') {
       return {};
     }
@@ -320,6 +323,11 @@ const actions = {
           return foods[food.id] = food;
         });
         context.commit("SET_FOODS", foods);
+      });
+
+      await axios.get(SERVER_URL + "/api/v1/user/meals")
+      .then(function(response){
+        context.commit("SET_MEALS", response.data.meals);
       });
 
       await axios.get(SERVER_URL + "/api/v1/users/profile")
