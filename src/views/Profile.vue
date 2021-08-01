@@ -5,31 +5,34 @@
     </b-row>
     <b-row class="mb-1 widget">
       <b-col>
-        <b-form-group label="Edad">
-          <b-form-input
-            type="number"
-            v-model="age"
-            :placeholder="age.toString()"
-          ></b-form-input>
-        </b-form-group>
-        <b-form-group label="Altura" description="En centimetros.">
-          <b-form-input
-            type="number"
-            v-model="height"
-            :placeholder="height.toString()"
-          ></b-form-input>
-        </b-form-group>
-
-        <b-button
-          @click="updateProfile()"
-          type="submit"
-          variant="primary"
-          class="w-100"
-          >Actualizar</b-button
-        >
+        <b-row class="mb-1" align-v="center">
+          <b-col><b>Datos personales</b></b-col>
+        </b-row>
+        <b-row class="mb-1" align-v="center">
+          <b-col cols="8">Edad</b-col>
+          <b-col cols="4">
+            <b-form-input
+              type="number"
+              v-model="age"
+              :placeholder="age.toString()"
+            ></b-form-input>
+          </b-col>
+        </b-row>
+        <b-row align-v="center">
+          <b-col cols="8">Altura</b-col>
+          <b-col cols="4">
+            <b-form-input
+              type="number"
+              v-model="height"
+              :placeholder="height.toString()"
+            ></b-form-input>
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
-
+    <b-row class="mb-1 widget">
+      <goals-slot :makeToast="makeToast"></goals-slot>
+    </b-row>
     <b-row class="mb-1 widget">
       <b-col>
         <b-row class="mb-2">
@@ -94,11 +97,11 @@
 
 <script>
 import ProfileSummary from "@/components/ProfileSummary.vue";
+import Goals from "@/views/Goals.vue";
 import Weight from "@/views/Weight.vue";
-import { mapGetters, mapState } from "vuex";
+import { mapGetters, mapState, mapActions } from "vuex";
 const data = function () {
   return {
-    profile: { age: 0, height: 0 },
     user: { username: "", email: "" },
     password: "",
     repeatedPassword: "",
@@ -106,6 +109,7 @@ const data = function () {
 };
 
 const methods = {
+  ...mapActions({ updateProfile: "updateProfile" }),
   makeToast(msg, variant) {
     this.$bvToast.toast(msg, {
       title: "Profile",
@@ -115,29 +119,6 @@ const methods = {
       toaster: "b-toaster-bottom-right",
       variant: variant,
     });
-  },
-  async updateProfile() {
-    if (
-      this.profile.age == null ||
-      this.profile.height == null ||
-      this.profile.age == 0 ||
-      this.profile.height == 0
-    ) {
-      this.makeToast(
-        "Los campos edad y altura no pueden estar vacios.",
-        "danger"
-      );
-      return;
-    }
-
-    let responseStatus = await this.$store.dispatch("updateProfile", {
-      age: this.profile.age,
-      height: this.profile.height,
-    });
-
-    if (responseStatus != 200) {
-      this.makeToast("No se pudo actualizar el perfil.", "danger");
-    }
   },
   async updateLoginDetails() {
     if (this.user.email.length < 6) {
@@ -197,16 +178,29 @@ const computed = {
     get() {
       return this.getAge();
     },
-    set(value) {
-      this.profile.age = value;
+    async set(value) {
+      let responseStatus = await this.$store.dispatch("updateProfile", {
+        age: value,
+        height: this.height,
+      });
+      if (responseStatus != 200) {
+        this.makeToast("No se pudo actualizar el perfil.", "danger");
+      }
     },
   },
   height: {
     get() {
       return this.getHeight();
     },
-    set(value) {
-      this.profile.height = value;
+    async set(value) {
+      let responseStatus = await this.$store.dispatch("updateProfile", {
+        age: this.age,
+        height: value,
+      });
+
+      if (responseStatus != 200) {
+        this.makeToast("No se pudo actualizar el perfil.", "danger");
+      }
     },
   },
 };
@@ -214,6 +208,7 @@ const computed = {
 const components = {
   "profile-summary": ProfileSummary,
   "weight-chart": Weight,
+  "goals-slot": Goals,
 };
 
 export default {
