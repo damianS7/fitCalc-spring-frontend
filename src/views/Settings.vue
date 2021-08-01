@@ -34,33 +34,33 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Vue from "vue";
-
+import { mapActions, mapGetters } from "vuex";
 const data = function () {
   return {
-    meals: {},
+    meals: {
+      meal1: { name: "breakfast" },
+      meal2: { name: "supper" },
+      meal3: { name: "lunch" },
+      meal4: { name: "dinner" },
+      meal5: { name: "snacks" },
+    },
   };
 };
 const methods = {
-  makeToast(msg, variant) {
-    this.$bvToast.toast(msg, {
-      title: "Settings",
-      autoHideDelay: 5000,
-      appendToast: true,
-      solid: true,
-      toaster: "b-toaster-bottom-right",
-      variant: variant,
-    });
-  },
+  ...mapActions({ makeToast: "makeToast" }),
   async saveMeals() {
-    let responseStatus = await this.$store.dispatch("saveSetting", {
+    const response = await this.$store.dispatch("saveSetting", {
       key: "meals",
       value: JSON.stringify(this.meals),
     });
 
-    if (responseStatus != 200) {
-      this.makeToast("No se pudo guardar los cambios.", "danger");
+    if (response.status != 200) {
+      this.makeToast({
+        vm: this,
+        msg: "No se pudo guardar los cambios.",
+        title: "Settings",
+        variant: "danger",
+      });
     }
   },
 };
@@ -74,14 +74,11 @@ const computed = {
 const mounted = function () {
   const meals = this.setting("meals");
   Object.keys(meals).forEach((key) => {
-    Vue.set(this.meals, key, meals[key]);
+    Object.assign(this.meals[key], "name", meals[key]);
   });
 };
 
-const components = {};
-
 export default {
-  components,
   computed,
   data,
   methods,

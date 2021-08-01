@@ -415,9 +415,9 @@ const actions = {
           let rSetting = {key: response.data.key, value: JSON.parse(response.data.value)};
           context.commit("SET_SETTING", rSetting);
         }
-        return response.status;
+        return response;
       }).catch( (error) => {
-        return error.response.status;
+        return error.response;
       });
   },
   async addWeight(context, weight) {
@@ -427,15 +427,14 @@ const actions = {
     .then(function (response) {
       // Si el request tuvo exito (codigo 200)
       if (response.status == 200) {
-          // context.commit("ADD_WEIGHT", { date, weight });
           context.commit("ADD_WEIGHT", response.data);
         }
-        return response.status;
+        return response;
       }).catch(function (error){
-        return error.response.status;
+        return error.response;
       });
   },
-  async newIngredient(context, ingredient) {
+  async addIngredient(context, ingredient) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
     return await axios.post(SERVER_URL + "/api/v1/ingredients", ingredient)
       .then(function (response) {
@@ -598,6 +597,16 @@ const actions = {
       cancelTitle: "NO",
       hideHeaderClose: true,
       centered: true,
+    });
+  },
+  async makeToast(context, { vm, msg, title, variant }) {
+    vm.$bvToast.toast(msg, {
+      title: title,
+      autoHideDelay: 5000,
+      appendToast: false,
+      solid: true,
+      toaster: "b-toaster-bottom-right",
+      variant: variant,
     });
   },
   // ............

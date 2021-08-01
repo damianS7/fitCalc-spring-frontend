@@ -134,7 +134,7 @@ const methods = {
   },
   async createIngredient() {
     let responseStatus = await this.$store.dispatch(
-      "newIngredient",
+      "addIngredient",
       this.ingredient
     );
 
