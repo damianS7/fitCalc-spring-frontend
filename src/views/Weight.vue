@@ -29,46 +29,36 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import WeightChart from "@/components/WeightChart.vue";
 const components = { "weight-chart": WeightChart };
 const data = function () {
   return {
-    selectedWeightDate: null,
-    weight: null,
+    weight: 0,
   };
 };
 
 const computed = {
-  ...mapState({
-    user: "user",
-    profile: "profile",
-  }),
   ...mapGetters({
-    lastWeight: "getLastWeight",
-    getWeights: "getWeightsDates",
     chartData: "getChartDataWeights",
   }),
 };
 
 const methods = {
-  makeToast(msg, variant) {
-    this.$bvToast.toast(msg, {
-      title: "SEGUIMIENTO",
-      autoHideDelay: 5000,
-      appendToast: true,
-      solid: true,
-      toaster: "b-toaster-bottom-right",
-      variant: variant,
-    });
-  },
+  ...mapActions({ makeToast: "makeToast" }),
+
   async addWeight() {
-    if (this.weight == null) {
+    if (this.weight == 0 || this.weight == null) {
       return;
     }
-    let responseStatus = await this.$store.dispatch("addWeight", this.weight);
-    if (responseStatus != 200) {
-      this.makeToast("No se pudo agregar el peso.", "danger");
+    const response = await this.$store.dispatch("addWeight", this.weight);
+    if (response.status != 200) {
+      this.makeToast({
+        vm: this,
+        msg: "No se pudo agregar el peso.",
+        title: "SEGUIMIENTO",
+        variant: "danger",
+      });
     }
   },
 };
