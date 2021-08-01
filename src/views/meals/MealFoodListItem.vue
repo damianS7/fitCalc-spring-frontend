@@ -1,14 +1,11 @@
 <template>
-  <b-row>
+  <b-row class="food">
     <b-col cols="12">
-      <b-row class="m-1">
-        <b-col cols="10"> {{ food.name }} ({{ kcal }}) </b-col>
-        <b-col cols="2">
-          <b-button class="btn-sm" variant="danger" @click="deleteFoodFromMeal">
-            <font-awesome-icon icon="trash" />
-          </b-button>
-        </b-col>
-      </b-row>
+      <b-button class="btn-sm" variant="danger" @click="deleteFoodFromMeal">
+        <font-awesome-icon icon="trash" />
+      </b-button>
+      {{ food.name }}
+      <b-badge pill variant="primary"> {{ kcal }} kcal </b-badge>
     </b-col>
   </b-row>
 </template>
@@ -41,6 +38,7 @@ const computed = {
 const methods = {
   ...mapActions(["deleteMealFood"]),
   deleteFoodFromMeal() {
+    // Mostrar modal YES OR NO para borrar
     this.deleteMealFood({
       mealKey: this.mealKey,
       mealDate: this.mealDate,
@@ -52,4 +50,8 @@ export default { computed, props, methods };
 </script>
 
 <style>
+.meal .food {
+  margin: 0;
+  padding: 5px 0;
+}
 </style>

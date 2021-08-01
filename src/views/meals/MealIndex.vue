@@ -23,8 +23,8 @@
         <font-awesome-icon icon="arrow-right" @click="nextDay" />
       </b-col>
     </b-row>
-    <b-row class="widget mb-3">
-      <b-col cols="12">
+    <b-row>
+      <b-col cols="12" class="p-0">
         <meal
           v-for="(meal, index) of meals"
           :key="index"

@@ -1,12 +1,12 @@
 <template>
-  <b-row class="mb-3">
+  <b-row class="mb-3 meal widget">
     <b-col cols="12">
-      <b-row align-v="center">
-        <b-col cols="8">
+      <b-row align-v="center" class="header">
+        <b-col cols="8" class="pr-0">
           <b>{{ mealName.toUpperCase() }} </b>
-          <small>({{ kcal }} kcal)</small>
+          <b-badge pill variant="primary"> {{ kcal }} kcal</b-badge>
         </b-col>
-        <b-col cols="4" class="text-right">
+        <b-col cols="4" class="text-right pl-0">
           <b-button
             @click="foodPicker(mealName, mealKey)"
             class="btn-sm mr-1"
@@ -19,22 +19,18 @@
           </b-button>
         </b-col>
       </b-row>
-      <b-row>
-        <b-col cols="12">
-          <b-collapse :id="mealKey + '-collapse'" class="mt-2">
-            <b-row class="mb-1">
-              <b-col>
-                <meal-food-list
-                  :foods="foods"
-                  :mealKey="mealKey"
-                  :mealName="mealName"
-                  :mealDate="date"
-                ></meal-food-list>
-              </b-col>
-            </b-row>
-          </b-collapse>
-        </b-col>
-      </b-row>
+      <b-collapse :id="mealKey + '-collapse'">
+        <b-row class="m-0 body">
+          <b-col cols="12">
+            <meal-food-list
+              :foods="foods"
+              :mealKey="mealKey"
+              :mealName="mealName"
+              :mealDate="date"
+            ></meal-food-list>
+          </b-col>
+        </b-row>
+      </b-collapse>
     </b-col>
   </b-row>
 </template>
@@ -145,3 +141,30 @@ export default {
   mounted,
 };
 </script>
+<style>
+.meal {
+  margin: 0px;
+}
+
+.food > div[class*="col-"],
+.meal > div[class*="col-"] {
+  padding: 0;
+}
+
+.meal.widget {
+  padding: 0 !important;
+}
+
+.meal .header {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  border: none;
+}
+
+.meal .body {
+  border-top: 1px solid black;
+}
+</style>
