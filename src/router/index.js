@@ -8,7 +8,6 @@ import IngredientCreate from "@/views/ingredients/Ingredient.vue";
 import IngredientEdit from "@/views/ingredients/Ingredient.vue";
 import MealIndex from "@/views/meals/MealIndex.vue";
 import Weight from "@/views/Weight.vue";
-import Goals from "@/views/Goals.vue";
 import Settings from "@/views/Settings.vue";
 import Macros from "@/views/Macros.vue";
 import Profile from "@/views/Profile.vue";
@@ -30,11 +29,6 @@ const routes = [
     path: "/macros",
     name: "MACROS",
     component: Macros,
-  },
-  {
-    path: "/goals",
-    name: "OBJETIVOS",
-    component: Goals,
   },
   {
     path: "/ingredients/new",

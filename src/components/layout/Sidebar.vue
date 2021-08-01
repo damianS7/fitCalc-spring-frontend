@@ -48,16 +48,6 @@
             </b-row>
             <b-row>
               <b-col cols="2" sm="1">
-                <font-awesome-icon icon="bullseye" />
-              </b-col>
-              <b-col>
-                <router-link @click.native="toggleSidebar" to="/goals">
-                  Objetivos
-                </router-link>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col cols="2" sm="1">
                 <font-awesome-icon icon="chart-pie" />
               </b-col>
               <b-col>
