@@ -1,5 +1,5 @@
 <template>
-  <b-row class="mb-3 meal widget">
+  <b-row class="mb-2 meal widget">
     <b-col cols="12">
       <b-row align-v="center" class="header">
         <b-col cols="8" class="pr-0">
