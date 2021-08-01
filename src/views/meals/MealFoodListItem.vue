@@ -19,7 +19,7 @@ const props = {
   mealDate: String,
 };
 const methods = {
-  ...mapActions(["deleteMealFood", "confirmDialog"]),
+  ...mapActions(["deleteFoodFromMeal", "confirmDialog"]),
   async removeFood(food) {
     // Antes de borrar la comida, se requiere confirmacion
     if (
@@ -34,7 +34,7 @@ const methods = {
     this.deleteFoodFromMeal({
       mealKey: this.mealKey,
       mealDate: this.mealDate,
-      foodIndex: this.foodIndex,
+      foodId: this.foodIndex,
     });
   },
 };

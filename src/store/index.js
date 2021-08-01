@@ -563,16 +563,10 @@ const actions = {
   async addFoodToMeal(context, { mealKey, mealDate, foodId }) {
     const payload = { meal: mealKey, date: mealDate, foodId };
     axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
-    return await axios.post(SERVER_URL + "/api/v1/user/meals", payload)
+    return await axios.post(SERVER_URL + "/api/v1/user/meals/food/add", payload)
       .then(function (response) {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
-          // const meal = response.data;
-          // context.commit("ADD_FOOD_TO_MEAL", {
-          //   mealKey, 
-          //   mealDate, 
-          //   foodId 
-          // });
           context.commit("SET_MEAL", response.data);
         }
         return response.status;
@@ -582,12 +576,13 @@ const actions = {
   },
   async deleteFoodFromMeal(context, { mealKey, mealDate, foodIndex }) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
+    const payload = { meal: mealKey, date: mealDate, foodId: foodIndex };
     
-    return await axios.delete(SERVER_URL + "/api/v1/user/meals")
+    return await axios.post(SERVER_URL + "/api/v1/user/meals/food/delete", payload)
       .then(function (response) {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
-          context.commit("DELETE_FOOD_FROM_MEAL", { mealKey, mealDate, foodIndex });
+          context.commit("SET_MEAL", response.data);
         }
         return response.status;
       }).catch(function (error){
