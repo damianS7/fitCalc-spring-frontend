@@ -132,7 +132,9 @@ const mutations = {
   REMOVE_INGREDIENT_FROM_FOOD(state, payload) {
     state.foods[payload.foodId].ingredients.pop(payload.ingredientId);
   },
-  
+  SET_MEAL(state, meal) {
+    Vue.set(state.profile.meals, meal.date, meal ); 
+  },
   ADD_FOOD_TO_MEAL(state, { mealKey, mealDate, foodId }) {
     let meals = state.profile.meals;
     
@@ -435,8 +437,8 @@ const actions = {
           context.commit("ADD_INGREDIENT", response.data);
         }
         return response.status;
-      }).catch(function (response){
-        return response.status;
+      }).catch(function (error){
+        return error.response.status;
       });
   },
   async updateIngredient(context, ingredient) {
@@ -449,8 +451,8 @@ const actions = {
           context.commit("UPDATE_INGREDIENT", response.data);
         }
         return response.status;
-      }).catch(function (response){
-        return response.status;
+      }).catch(function (error){
+        return error.response.status;
       });
   },
   async deleteIngredient(context, ingredientId) {
@@ -463,8 +465,8 @@ const actions = {
           context.commit("DELETE_INGREDIENT", response.data.id);
         }
         return response.status;
-      }).catch(function (response){
-        return response.status;
+      }).catch(function (error){
+        return error.response.status;
       });
   },
   async newFood(context, food) {
@@ -477,8 +479,8 @@ const actions = {
           context.commit("ADD_FOOD", response.data);
         }
         return response.status;
-      }).catch(function (response){
-        return response.status;
+      }).catch(function (error){
+        return error.response.status;
       });
   },
   async updateFood(context, food) {
@@ -491,8 +493,8 @@ const actions = {
           context.commit("UPDATE_FOOD", response.data);
         }
         return response.status;
-      }).catch(function (response){
-        return response.status;
+      }).catch(function (error){
+        return error.response.status;
       });
   },
   async deleteFood(context, foodId) {
@@ -505,8 +507,8 @@ const actions = {
           context.commit("DELETE_FOOD", response.data.id);
         }
         return response.status;
-      }).catch(function (response){
-        return response.status;
+      }).catch(function (error){
+        return error.response.status;
       });
   },
   async updateLoginDetails(context, details) {
@@ -550,22 +552,57 @@ const actions = {
         return response.status;
       });
   },
+  async addFoodToMeal(context, { mealKey, mealDate, foodId }) {
+    const payload = { meal: mealKey, date: mealDate, foodId };
+    axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
+    return await axios.post(SERVER_URL + "/api/v1/user/meals", payload)
+      .then(function (response) {
+        // Si el request tuvo exito (codigo 200)
+        if (response.status == 200) {
+          // const meal = response.data;
+          // context.commit("ADD_FOOD_TO_MEAL", {
+          //   mealKey, 
+          //   mealDate, 
+          //   foodId 
+          // });
+          context.commit("SET_MEAL", response.data);
+        }
+        return response.status;
+      }).catch(function (error){
+        return error.response.status;
+      });
+  },
+  async deleteFoodFromMeal(context, { mealKey, mealDate, foodIndex }) {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
+    
+    return await axios.delete(SERVER_URL + "/api/v1/user/meals")
+      .then(function (response) {
+        // Si el request tuvo exito (codigo 200)
+        if (response.status == 200) {
+          context.commit("DELETE_FOOD_FROM_MEAL", { mealKey, mealDate, foodIndex });
+        }
+        return response.status;
+      }).catch(function (error){
+        return error.response.status;
+      });
+  },
+  async confirmDialog(context, { vm, msg }) {
+    return await vm.$bvModal.msgBoxConfirm(msg, {
+      size: "sm",
+      buttonSize: "sm",
+      okVariant: "danger",
+      okTitle: "YES",
+      cancelTitle: "NO",
+      hideHeaderClose: true,
+      centered: true,
+    });
+  },
   // ............
   async addIngredientToFood(context, payload) {
     context.commit("ADD_INGREDIENT_TO_FOOD", payload);
   },
   async removeIngredientFromFood(context, payload) {
     context.commit("REMOVE_INGREDIENT_FROM_FOOD", payload);
-  },
-  async addFoodToMeal(context, { mealKey, mealDate, foodId }) {
-    context.commit("ADD_FOOD_TO_MEAL", {
-      mealKey, 
-      mealDate, 
-      foodId 
-    });
-  },
-  async deleteMealFood(context, { mealKey, mealDate, foodIndex }) {
-    context.commit("DELETE_FOOD_FROM_MEAL", { mealKey, mealDate, foodIndex });
   },
   
 };
