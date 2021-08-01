@@ -6,10 +6,9 @@ import Food from "@/views/foods/Food.vue";
 import IngredientIndex from "@/views/ingredients/IngredientIndex.vue";
 import IngredientCreate from "@/views/ingredients/Ingredient.vue";
 import IngredientEdit from "@/views/ingredients/Ingredient.vue";
-import MealIndex from "@/views/meals/MealIndex.vue";
+import MealsRecord from "@/views/meals/MealsRecord.vue";
 import Weight from "@/views/Weight.vue";
 import Settings from "@/views/Settings.vue";
-import Macros from "@/views/Macros.vue";
 import Profile from "@/views/Profile.vue";
 
 Vue.use(VueRouter);
@@ -24,11 +23,6 @@ const routes = [
     path: "/weight",
     name: "SEGUIMIENTO",
     component: Weight,
-  },
-  {
-    path: "/macros",
-    name: "MACROS",
-    component: Macros,
   },
   {
     path: "/ingredients/new",
@@ -63,7 +57,8 @@ const routes = [
   {
     path: "/meals",
     name: "DIARIO COMIDAS",
-    component: MealIndex
+    component: MealsRecord
+  
   },
   {
     path: "/profile",

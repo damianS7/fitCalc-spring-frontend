@@ -1,9 +1,6 @@
 <template>
   <b-col cols="12">
-    <b-row class="mb-3 widget">
-      <meal-summary :date="selectedDate"></meal-summary>
-    </b-row>
-    <b-row class="text-center widget mb-3" align-v="center">
+    <b-row class="text-center widget mb-2" align-v="center">
       <b-col cols="2">
         <font-awesome-icon icon="arrow-left" @click="prevDay" />
       </b-col>
@@ -22,6 +19,12 @@
       <b-col cols="2">
         <font-awesome-icon icon="arrow-right" @click="nextDay" />
       </b-col>
+    </b-row>
+    <b-row class="mb-2 widget">
+      <meal-summary :date="selectedDate"></meal-summary>
+    </b-row>
+    <b-row class="mb-2 widget">
+      <macro-slot :date="selectedDate"></macro-slot>
     </b-row>
     <b-row>
       <b-col cols="12" class="p-0">
@@ -47,12 +50,14 @@
 <script>
 import { mapGetters } from "vuex";
 import Meal from "@/views/meals/Meal.vue";
+import Macro from "@/components/Macro.vue";
 import MealSummary from "@/components/MealSummary.vue";
 import MealFoodPicker from "@/views/meals/MealFoodPicker.vue";
 const components = {
   meal: Meal,
   "meal-summary": MealSummary,
   "food-picker": MealFoodPicker,
+  "macro-slot": Macro,
 };
 const data = function () {
   return {
