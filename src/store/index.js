@@ -123,8 +123,8 @@ const mutations = {
     Vue.set(state.user, "username", username);
     Vue.set(state.user, "email", email);
   },
-  SET_GOAL(state, { goal, value }) {
-    Vue.set(state.profile.goals, goal, value);
+  UPDATE_GOALS(state, goals) {
+    Vue.set(state.profile, "goals", goals);
   },
   ADD_INGREDIENT_TO_FOOD(state, payload) {
     state.foods[payload.foodId].ingredients.push(payload.ingredientId);
@@ -537,10 +537,20 @@ const actions = {
         return response.status;
       });
   },
-  // ............
-  async updateGoal(context, { goal, value }) {
-    context.commit("SET_GOAL", { goal, value });
+  async updateGoals(context, goal) {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
+    return await axios.put(SERVER_URL + "/api/v1/users/goals", goal)
+    .then(function (response) {
+      // Si el request tuvo exito (codigo 200)
+      if(response.status == 200) {
+          context.commit("UPDATE_GOALS", response.data );
+        }
+        return response.status;
+      }).catch(function (response){
+        return response.status;
+      });
   },
+  // ............
   async addIngredientToFood(context, payload) {
     context.commit("ADD_INGREDIENT_TO_FOOD", payload);
   },

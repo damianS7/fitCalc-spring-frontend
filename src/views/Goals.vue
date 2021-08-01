@@ -1,13 +1,11 @@
 <template>
   <b-col cols="12">
-    <b-row align-v="center">
-      <b-col cols="12">
-        <h1>Objetivos</h1>
-      </b-col>
+    <b-row>
+      <b-col> <b>Objetivos</b> <font-awesome-icon icon="bullseye" /> </b-col>
     </b-row>
     <b-row class="mb-1">
-      <b-col cols="9"> Calorias diarias </b-col>
-      <b-col>
+      <b-col cols="8"> Calorias diarias </b-col>
+      <b-col cols="4">
         <b-form-input
           v-model="dailyKcal"
           type="number"
@@ -19,8 +17,8 @@
       </b-col>
     </b-row>
     <b-row class="mb-1">
-      <b-col cols="9"> Carbohidratos ({{ carbohydrates }}%) </b-col>
-      <b-col>
+      <b-col cols="8"> Carbohidratos ({{ carbohydrates }}%) </b-col>
+      <b-col cols="4">
         <b-form-input
           v-model="carbohydrates"
           type="number"
@@ -32,8 +30,8 @@
       </b-col>
     </b-row>
     <b-row class="mb-1">
-      <b-col cols="9"> Proteinas ({{ proteins }}%) </b-col>
-      <b-col>
+      <b-col cols="8"> Proteinas ({{ proteins }}%) </b-col>
+      <b-col cols="4">
         <b-form-input
           v-model="proteins"
           type="number"
@@ -45,8 +43,8 @@
       </b-col>
     </b-row>
     <b-row class="mb-1">
-      <b-col cols="9"> Grasas ({{ fats }}%) </b-col>
-      <b-col>
+      <b-col cols="8"> Grasas ({{ fats }}%) </b-col>
+      <b-col cols="4">
         <b-form-input
           v-model="fats"
           type="number"
@@ -57,25 +55,14 @@
         ></b-form-input>
       </b-col>
     </b-row>
-    <b-row class="mb-1">
-      <b-col cols="12">
-        <b-button
-          @click="saveChanges()"
-          type="submit"
-          variant="primary"
-          class="w-100"
-          >Actualizar</b-button
-        >
-      </b-col>
-    </b-row>
   </b-col>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+const props = { makeToast: Function };
 const methods = {
-  ...mapActions({ updateGoal: "updateGoal" }),
-  saveChanges() {},
+  ...mapActions({ updateGoals: "updateGoals" }),
 };
 
 const computed = {
@@ -84,49 +71,73 @@ const computed = {
     get() {
       return this.getGoal("kcal");
     },
-    set(value) {
-      this.updateGoal({
-        goal: "kcal",
-        value,
+    async set(value) {
+      const responseStatus = await this.updateGoals({
+        proteins: this.proteins,
+        fats: this.fats,
+        carbohydrates: this.carbohydrates,
+        kcal: value,
       });
+
+      if (responseStatus != 200) {
+        this.makeToast("No se pudo actualizar el objetivo.", "danger");
+      }
     },
   },
   proteins: {
     get() {
       return this.getGoal("proteins");
     },
-    set(value) {
-      this.updateGoal({
-        goal: "proteins",
-        value,
+    async set(value) {
+      const responseStatus = await this.updateGoals({
+        proteins: value,
+        fats: this.fats,
+        carbohydrates: this.carbohydrates,
+        kcal: this.dailyKcal,
       });
+
+      if (responseStatus != 200) {
+        this.makeToast("No se pudo actualizar el objetivo.", "danger");
+      }
     },
   },
   carbohydrates: {
     get() {
       return this.getGoal("carbohydrates");
     },
-    set(value) {
-      this.updateGoal({
-        goal: "carbohydrates",
-        value,
+    async set(value) {
+      const responseStatus = await this.updateGoals({
+        proteins: this.proteins,
+        fats: this.fats,
+        carbohydrates: value,
+        kcal: this.dailyKcal,
       });
+
+      if (responseStatus != 200) {
+        this.makeToast("No se pudo actualizar el objetivo.", "danger");
+      }
     },
   },
   fats: {
     get() {
       return this.getGoal("fats");
     },
-    set(value) {
-      this.updateGoal({
-        goal: "fats",
-        value,
+    async set(value) {
+      const responseStatus = await this.updateGoals({
+        proteins: this.proteins,
+        fats: value,
+        carbohydrates: this.carbohydrates,
+        kcal: this.dailyKcal,
       });
+
+      if (responseStatus != 200) {
+        this.makeToast("No se pudo actualizar el objetivo.", "danger");
+      }
     },
   },
 };
 
-export default { methods, computed };
+export default { methods, computed, props };
 </script>
 
 <style>
