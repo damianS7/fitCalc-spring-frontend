@@ -101,29 +101,19 @@ export default {
 
       // Llamada a la accion LOGIN con los datos introducidos por el usuario y
       // Obtenemos la respuesta enviada por el servidor.
-      let response = await this.$store.dispatch("login", {
+      let response = await this.$store.dispatch("user/login", {
         username: this.username,
         password: this.password,
       });
 
       // Si la respuesta no es exitosa, mostramos el error
       if (response.status != 200) {
-        this.errorMessage = response.message;
+        this.errorMessage = response.data;
         return;
       }
 
-      let user = {
-        id: response.data.id,
-        username: response.data.username,
-        email: response.data.email,
-        token: response.data.token,
-      };
-
-      // Asignamos los datos de usuario en la app
-      this.$store.commit("SET_USER", user);
-
       // Si la respusta es exitosa (200) cargamos los datos en la app
-      await this.$store.dispatch("init");
+      await this.$store.dispatch("app/init");
     },
     async register(event) {
       event.preventDefault();
@@ -131,7 +121,7 @@ export default {
         return;
       }
 
-      let response = await this.$store.dispatch("register", {
+      let response = await this.$store.dispatch("user/register", {
         username: this.username,
         password: this.password,
         email: this.email,
@@ -141,7 +131,7 @@ export default {
         this.successMessage =
           "Usuario: " + response.data.username + " creado con exito.";
       } else {
-        this.errorMessage = response.message;
+        this.errorMessage = response.data;
       }
     },
     // Metodo para cambiar entre vista de usuario y registro

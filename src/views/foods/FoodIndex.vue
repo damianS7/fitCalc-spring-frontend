@@ -26,7 +26,7 @@
   </b-col>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import FoodList from "@/views/foods/FoodList.vue";
 const components = { "food-list": FoodList };
 const data = function () {
@@ -36,7 +36,7 @@ const data = function () {
 };
 
 const computed = {
-  ...mapGetters({ getFoods: "getFoods" }),
+  ...mapGetters({ getFoods: "foods/getFoods" }),
   foods: function () {
     return this.getFoods().filter((food) =>
       food.name.toLowerCase().includes(this.searchFilter.toLowerCase())
@@ -45,37 +45,28 @@ const computed = {
 };
 
 const methods = {
-  // ...mapActions({ deleteIngredient: "deleteIngredient" }),
-  makeToast(msg, variant) {
-    this.$bvToast.toast(msg, {
-      title: "Comida",
-      autoHideDelay: 5000,
-      appendToast: true,
-      solid: true,
-      toaster: "b-toaster-bottom-right",
-      variant: variant,
-    });
-  },
+  ...mapActions({
+    confirmDialog: "app/confirmDialog",
+    makeToast: "app/makeToast",
+  }),
+
   async deleteFood(food) {
-    let confirmed = await this.deleteFoodConfirm(food);
+    const confirmed = await this.confirmDialog({
+      vm: this,
+      msg: "Deseas eliminar " + food.name,
+    });
+
     if (confirmed) {
-      let responseStatus = await this.$store.dispatch("deleteFood", food.id);
-      if (responseStatus != 200) {
-        this.makeToast("No se pudo eliminar la comida.", "danger");
+      let response = await this.$store.dispatch("foods/deleteFood", food.id);
+      if (response.status != 200) {
+        this.makeToast({
+          vm: this,
+          msg: "No se pudo eliminar la comida.",
+          title: "Comidas",
+          variant: "danger",
+        });
       }
     }
-  },
-  async deleteFoodConfirm(food) {
-    return await this.$bvModal.msgBoxConfirm("Deseas borrar: " + food.name, {
-      title: "Borrar Comida.",
-      size: "sm",
-      buttonSize: "sm",
-      okVariant: "danger",
-      okTitle: "YES",
-      cancelTitle: "NO",
-      hideHeaderClose: true,
-      centered: true,
-    });
   },
 };
 

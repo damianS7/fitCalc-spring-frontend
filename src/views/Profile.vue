@@ -47,8 +47,8 @@
                   <b-form-input
                     id="username"
                     type="text"
-                    v-model="username"
-                    :placeholder="user.username"
+                    v-model="input.username"
+                    :placeholder="username"
                   ></b-form-input>
                 </b-form-group>
               </b-col>
@@ -59,22 +59,29 @@
                   <b-form-input
                     id="email"
                     type="email"
-                    v-model="email"
-                    :placeholder="user.email"
+                    v-model="input.email"
+                    :placeholder="email"
                   ></b-form-input>
                 </b-form-group>
               </b-col>
             </b-row>
             <b-row class="mb-1">
+              <b-col cols="12"><span>Password actual</span></b-col>
+              <b-col cols="12">
+                <b-form-input v-model="input.oldPassword" type="password" />
+              </b-col>
               <b-col cols="12"><span>Nueva password</span></b-col>
               <b-col cols="12">
-                <b-form-input v-model="password" type="password" />
+                <b-form-input v-model="input.password" type="password" />
               </b-col>
             </b-row>
             <b-row class="mb-3">
               <b-col cols="12"><span>Repetir password</span></b-col>
               <b-col cols="12">
-                <b-form-input v-model="repeatedPassword" type="password" />
+                <b-form-input
+                  v-model="input.repeatedPassword"
+                  type="password"
+                />
               </b-col>
             </b-row>
             <b-row>
@@ -102,104 +109,121 @@ import Weight from "@/views/Weight.vue";
 import { mapGetters, mapState, mapActions } from "vuex";
 const data = function () {
   return {
-    user: { username: "", email: "" },
-    password: "",
-    repeatedPassword: "",
+    input: {
+      username: "",
+      email: "",
+      oldPassword: "",
+      password: "",
+      repeatedPassword: "",
+    },
   };
 };
 
 const methods = {
-  ...mapActions({ updateProfile: "updateProfile" }),
-  makeToast(msg, variant) {
-    this.$bvToast.toast(msg, {
-      title: "Profile",
-      autoHideDelay: 5000,
-      appendToast: true,
-      solid: true,
-      toaster: "b-toaster-bottom-right",
-      variant: variant,
-    });
-  },
+  ...mapActions({
+    updateProfile: "profile/updateProfile",
+    makeToast: "app/makeToast",
+  }),
   async updateLoginDetails() {
-    if (this.user.email.length < 6) {
-      this.makeToast("Los campos debe tener mas de 6 caracteres.", "danger");
-      return;
+    let payload = {
+      username: this.username,
+      email: this.email,
+      oldPassword: this.input.oldPassword,
+      newPassword: "",
+    };
+
+    if (this.input.username.length > 0) {
+      payload.username = this.input.username;
     }
 
-    if (this.password.length < 2) {
-      this.makeToast("La password debe tener mas de 6 caracteres.", "danger");
-      return;
+    if (this.input.email.length > 0) {
+      payload.email = this.input.email;
     }
 
-    if (this.password.toString() === this.repeatedPassword.toString()) {
-      console.log(this.password);
-      console.log(this.repeatedPassword);
+    if (this.input.password.length > 0) {
+      payload.newPassword = this.input.password;
+    }
+
+    if (this.input.password !== this.input.repeatedPassword) {
+      // console.log(this.password);
+      // console.log(this.repeatedPassword);
       // this.makeToast("Las password no coinciden.", "danger");
       // return;
     }
 
-    let responseStatus = await this.$store.dispatch("updateLoginDetails", {
-      username: this.user.username,
-      email: this.user.email,
-      password: this.password,
-    });
+    let response = await this.$store.dispatch(
+      "user/updateLoginDetails",
+      payload
+    );
 
-    if (responseStatus != 200) {
-      this.makeToast("No se pudo cambiar la password.", "danger");
+    if (response.status != 200) {
+      this.makeToast({
+        vm: this,
+        msg: "No se pudo cambiar la password.",
+        title: "Settings",
+        variant: "danger",
+      });
     }
   },
 };
 
 const computed = {
   ...mapState({
-    getUser: "user",
-  }),
-  ...mapGetters({
-    getAge: "getAge",
-    getHeight: "getHeight",
+    user: (state) => state.user,
+    profile: (state) => state.profile,
   }),
   username: {
     get() {
-      return this.getUser.username;
+      return this.user.username;
     },
     set(value) {
-      this.user.username = value;
+      this.input.username = value;
     },
   },
   email: {
     get() {
-      return this.getUser.email;
+      return this.user.email;
     },
     set(value) {
-      this.user.email = value;
+      this.input.email = value;
     },
   },
   age: {
     get() {
-      return this.getAge();
+      return this.profile.age;
     },
     async set(value) {
-      let responseStatus = await this.$store.dispatch("updateProfile", {
+      let response = await this.updateProfile({
         age: value,
         height: this.height,
       });
-      if (responseStatus != 200) {
-        this.makeToast("No se pudo actualizar el perfil.", "danger");
+      if (response.status != 200) {
+        this.makeToast({
+          vm: this,
+          msg: "No se pudo actualizar el perfil.",
+          title: "Settings",
+          variant: "danger",
+        });
       }
     },
   },
   height: {
     get() {
-      return this.getHeight();
+      return this.profile.height;
     },
     async set(value) {
-      let responseStatus = await this.$store.dispatch("updateProfile", {
+      let response = await this.updateProfile({
         age: this.age,
         height: value,
       });
 
-      if (responseStatus != 200) {
-        this.makeToast("No se pudo actualizar el perfil.", "danger");
+      if (response.status != 200) {
+        this.makeToast({
+          vm: this,
+          msg: "No se pudo actualizar el perfil.",
+          title: "Settings",
+          variant: "danger",
+        });
       }
     },
   },

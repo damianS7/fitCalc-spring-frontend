@@ -59,7 +59,7 @@ const data = function () {
 
 const methods = {
   addFood(foodId) {
-    this.$store.dispatch("addFoodToMeal", {
+    this.$store.dispatch("meals/addFoodToMeal", {
       mealKey: this.mealKey,
       mealDate: this.date,
       foodId,
@@ -68,7 +68,7 @@ const methods = {
 };
 
 const computed = {
-  ...mapGetters({ getFoods: "getFoods" }),
+  ...mapGetters({ getFoods: "foods/getFoods" }),
   foods: function () {
     return this.getFoods().filter((food) =>
       food.name.toLowerCase().includes(this.searchFilter.toLowerCase())

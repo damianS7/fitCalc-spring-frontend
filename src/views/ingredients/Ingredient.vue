@@ -19,7 +19,7 @@
         </b-row>
         <b-row class="mb-2">
           <b-col cols="12">
-            <b>Proteins: </b>
+            <b>Proteinas: </b>
           </b-col>
           <b-col cols="12">
             <b-form-input
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 const data = function () {
   return {
@@ -100,12 +100,16 @@ const data = function () {
 
 const computed = {
   ...mapGetters({
-    getIngredient: "getIngredient",
-    calculateKcals: "ingredientKcals",
+    getIngredient: "ingredients/getIngredient",
+    calculateKcals: "ingredients/ingredientKcals",
   }),
 };
 
 const methods = {
+  ...mapActions({
+    addIngredient: "ingredients/addIngredient",
+    makeToast: "app/makeToast",
+  }),
   isEditing() {
     if (this.ingredient.id == null) {
       return false;
@@ -115,16 +119,6 @@ const methods = {
   recalculateKcals() {
     this.ingredient.kcals = this.calculateKcals(this.ingredient);
   },
-  makeToast(msg, variant) {
-    this.$bvToast.toast(msg, {
-      title: "Ingredient",
-      autoHideDelay: 5000,
-      appendToast: true,
-      solid: true,
-      toaster: "b-toaster-bottom-right",
-      variant: variant,
-    });
-  },
   ingredientIdFromUrl() {
     const ingredientId = this.$route.params.ingredientId;
     if (typeof ingredientId === "undefined") {
@@ -133,23 +127,29 @@ const methods = {
     return ingredientId;
   },
   async createIngredient() {
-    let responseStatus = await this.$store.dispatch(
-      "addIngredient",
-      this.ingredient
-    );
-
-    if (responseStatus != 200) {
-      this.makeToast("No se pudo crear el ingrediente.", "danger");
+    let response = await this.addIngredient(this.ingredient);
+    if (response.status != 200) {
+      this.makeToast({
+        vm: this,
+        msg: "No se pudo crear el ingrediente.",
+        title: "Ingredients",
+        variant: "danger",
+      });
     }
   },
   async updateIngredient() {
-    let responseStatus = await this.$store.dispatch(
-      "updateIngredient",
+    let response = await this.$store.dispatch(
+      "ingredients/updateIngredient",
       this.ingredient
     );
 
-    if (responseStatus != 200) {
-      this.makeToast("No se pudo modificar el ingrediente.", "danger");
+    if (response.status != 200) {
+      this.makeToast({
+        vm: this,
+        msg: "No se pudo modificar el ingrediente.",
+        title: "Ingredients",
+        variant: "danger",
+      });
     }
   },
 };

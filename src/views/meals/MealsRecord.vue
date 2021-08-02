@@ -88,9 +88,8 @@ const methods = {
 };
 const computed = {
   ...mapGetters({
-    foods: "getFoods",
-    getSetting: "getSetting",
-    dateToString: "dateToString",
+    getSetting: "settings/getSetting",
+    dateToString: "app/dateToString",
   }),
   meals: function () {
     return this.getSetting("meals");

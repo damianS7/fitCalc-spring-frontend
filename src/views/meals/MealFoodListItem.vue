@@ -19,7 +19,10 @@ const props = {
   mealDate: String,
 };
 const methods = {
-  ...mapActions(["deleteFoodFromMeal", "confirmDialog"]),
+  ...mapActions({
+    deleteFoodFromMeal: "meals/deleteFoodFromMeal",
+    confirmDialog: "app/confirmDialog",
+  }),
   async removeFood(food) {
     // Antes de borrar la comida, se requiere confirmacion
     if (
@@ -40,7 +43,7 @@ const methods = {
 };
 const computed = {
   ...mapGetters({
-    getFoodKcals: "foodKcals",
+    getFoodKcals: "app/foodKcals",
   }),
 };
 

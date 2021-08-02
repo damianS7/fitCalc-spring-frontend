@@ -39,48 +39,31 @@ const data = function () {
 };
 
 const methods = {
-  // ...mapActions({ deleteIngredient: "deleteIngredient" }),
-  makeToast(msg, variant) {
-    this.$bvToast.toast(msg, {
-      title: "Ingredient",
-      autoHideDelay: 5000,
-      appendToast: true,
-      solid: true,
-      toaster: "b-toaster-bottom-right",
-      variant: variant,
-    });
-  },
+  ...mapActions({
+    confirmDialog: "app/confirmDialog",
+    makeToast: "app/makeToast",
+  }),
   async deleteIngredient(ingredient) {
-    let confirmed = await this.deleteIngredientConfirmed(ingredient.name);
+    const confirmed = await this.confirmDialog({
+      vm: this,
+      msg: "Deseas eliminar " + ingredient.name,
+    });
+
     if (confirmed) {
-      let responseStatus = await this.$store.dispatch(
-        "deleteIngredient",
+      let response = await this.$store.dispatch(
+        "ingredients/deleteIngredient",
         ingredient.id
       );
-      if (responseStatus != 200) {
+
+      if (response.status != 200) {
         this.makeToast("No se pudo eliminar el ingrediente.", "danger");
       }
     }
   },
-  async deleteIngredientConfirmed(ingredientName) {
-    return await this.$bvModal.msgBoxConfirm(
-      "Deseas borrar el ingrediente: " + ingredientName,
-      {
-        title: "Borrar Ingrediente.",
-        size: "sm",
-        buttonSize: "sm",
-        okVariant: "danger",
-        okTitle: "YES",
-        cancelTitle: "NO",
-        hideHeaderClose: true,
-        centered: true,
-      }
-    );
-  },
 };
 
 const computed = {
-  ...mapGetters({ getIngredients: "getIngredients" }),
+  ...mapGetters({ getIngredients: "ingredients/getIngredients" }),
   ingredients: function () {
     return this.getIngredients().filter((ingredient) =>
       ingredient.name.toLowerCase().includes(this.searchFilter.toLowerCase())

@@ -31,14 +31,16 @@ import { mapGetters, mapState } from "vuex";
 
 const computed = {
   ...mapState({
-    profile: "profile",
+    profile: (state) => state.profile,
   }),
   ...mapGetters({
-    lastWeight: "getLastWeight",
+    lastWeight: "weights/getLastWeight",
   }),
 };
+const mounted = function () {};
 
 export default {
   computed,
+  mounted,
 };
 </script>

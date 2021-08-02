@@ -22,15 +22,10 @@ const props = { date: String };
 const methods = {};
 const computed = {
   ...mapGetters({
-    getGoals: "getGoals",
-    getFood: "getFood",
-    getMealsFromDate: "getMealsFromDate",
-    getMealsKcal: "getMealsKcal",
-    getIngredient: "getIngredient",
-    calculateKcals: "calculateKcals",
-    dateToString: "dateToString",
-    setting: "getSetting",
-    foodKcals: "foodKcals",
+    getGoals: "goals/getGoals",
+    getFood: "foods/getFood",
+    getMealsFromDate: "meals/getMealsFromDate",
+    foodKcals: "app/foodKcals",
   }),
 
   consumedKcal: function () {

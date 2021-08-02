@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 const data = function () {
   return {
@@ -82,16 +82,7 @@ const data = function () {
 };
 
 const methods = {
-  makeToast(msg, variant) {
-    this.$bvToast.toast(msg, {
-      title: "Comidas",
-      autoHideDelay: 5000,
-      appendToast: true,
-      solid: true,
-      toaster: "b-toaster-bottom-right",
-      variant: variant,
-    });
-  },
+  ...mapActions({ makeToast: "app/makeToast" }),
   isEditing() {
     if (this.food.id == null) {
       return false;
@@ -106,6 +97,10 @@ const methods = {
     return foodId;
   },
   addIngredient() {
+    if (this.selectedIngredientId == null) {
+      return;
+    }
+
     this.food.ingredients.push(this.selectedIngredientId);
   },
   removeIngredient(ingredientId) {
@@ -116,25 +111,36 @@ const methods = {
       return;
     }
 
-    let responseStatus = await this.$store.dispatch("newFood", this.food);
+    const response = await this.$store.dispatch("foods/addFood", this.food);
 
-    if (responseStatus != 200) {
-      this.makeToast("No se pudo agregar la comida.", "danger");
+    if (response.status != 200) {
+      this.makeToast({
+        vm: this,
+        msg: "No se pudo agregar la comida.",
+        title: "Comidas",
+        variant: "danger",
+      });
     }
   },
   async updateFood() {
-    let responseStatus = await this.$store.dispatch("updateFood", this.food);
-    if (responseStatus != 200) {
-      this.makeToast("No se pudo actualizar la comida.", "danger");
+    const response = await this.$store.dispatch("foods/updateFood", this.food);
+
+    if (response.status != 200) {
+      this.makeToast({
+        vm: this,
+        msg: "No se pudo actualizar la comida.",
+        title: "Comidas",
+        variant: "danger",
+      });
     }
   },
 };
 
 const computed = {
   ...mapGetters({
-    getFood: "getFood",
-    getIngredient: "getIngredient",
-    getIngredients: "getIngredients",
+    getFood: "foods/getFood",
+    getIngredient: "ingredients/getIngredient",
+    getIngredients: "ingredients/getIngredients",
   }),
 };
 

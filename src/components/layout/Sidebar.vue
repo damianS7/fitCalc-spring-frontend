@@ -109,7 +109,7 @@ const components = { "profile-summary": ProfileSummary };
 const props = { toggleSidebar: Function };
 const methods = {
   logout() {
-    this.$store.dispatch("logout");
+    this.$store.dispatch("user/logout");
     this.toggleSidebar();
   },
 };

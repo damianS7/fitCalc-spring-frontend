@@ -67,8 +67,8 @@ const computed = {
     user: "user",
   }),
   ...mapGetters({
-    isLogged: "isLogged",
-    appReady: "isAppReady",
+    isLogged: "user/isLogged",
+    appReady: "app/isAppReady",
   }),
 };
 

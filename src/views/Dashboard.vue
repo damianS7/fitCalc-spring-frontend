@@ -28,8 +28,8 @@ const methods = {};
 
 const computed = {
   ...mapGetters({
-    chartData: "getChartDataWeights",
-    dateToString: "dateToString",
+    chartData: "weights/getChartDataWeights",
+    dateToString: "app/dateToString",
   }),
   date: function () {
     return this.dateToString(new Date());
