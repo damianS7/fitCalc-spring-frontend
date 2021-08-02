@@ -60,9 +60,11 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-const props = { makeToast: Function };
 const methods = {
-  ...mapActions({ updateGoals: "goals/updateGoals" }),
+  ...mapActions({
+    updateGoals: "goals/updateGoals",
+    makeToast: "app/makeToast",
+  }),
 };
 
 const computed = {
@@ -72,15 +74,20 @@ const computed = {
       return this.getGoal("kcal");
     },
     async set(value) {
-      const responseStatus = await this.updateGoals({
+      const response = await this.updateGoals({
         proteins: this.proteins,
         fats: this.fats,
         carbohydrates: this.carbohydrates,
         kcal: value,
       });
 
-      if (responseStatus != 200) {
-        this.makeToast("No se pudo actualizar el objetivo.", "danger");
+      if (response.status != 200) {
+        this.makeToast({
+          vm: this,
+          msg: "No se pudo actualizar el objetivo.",
+          title: "Objetivos",
+          variant: "danger",
+        });
       }
     },
   },
@@ -89,15 +96,20 @@ const computed = {
       return this.getGoal("proteins");
     },
     async set(value) {
-      const responseStatus = await this.updateGoals({
+      const response = await this.updateGoals({
         proteins: value,
         fats: this.fats,
         carbohydrates: this.carbohydrates,
         kcal: this.dailyKcal,
       });
 
-      if (responseStatus != 200) {
-        this.makeToast("No se pudo actualizar el objetivo.", "danger");
+      if (response.status != 200) {
+        this.makeToast({
+          vm: this,
+          msg: "No se pudo actualizar el objetivo.",
+          title: "Objetivos",
+          variant: "danger",
+        });
       }
     },
   },
@@ -106,15 +118,20 @@ const computed = {
       return this.getGoal("carbohydrates");
     },
     async set(value) {
-      const responseStatus = await this.updateGoals({
+      const response = await this.updateGoals({
         proteins: this.proteins,
         fats: this.fats,
         carbohydrates: value,
         kcal: this.dailyKcal,
       });
 
-      if (responseStatus != 200) {
-        this.makeToast("No se pudo actualizar el objetivo.", "danger");
+      if (response.status != 200) {
+        this.makeToast({
+          vm: this,
+          msg: "No se pudo actualizar el objetivo.",
+          title: "Objetivos",
+          variant: "danger",
+        });
       }
     },
   },
@@ -123,21 +140,26 @@ const computed = {
       return this.getGoal("fats");
     },
     async set(value) {
-      const responseStatus = await this.updateGoals({
+      const response = await this.updateGoals({
         proteins: this.proteins,
         fats: value,
         carbohydrates: this.carbohydrates,
         kcal: this.dailyKcal,
       });
 
-      if (responseStatus != 200) {
-        this.makeToast("No se pudo actualizar el objetivo.", "danger");
+      if (response.status != 200) {
+        this.makeToast({
+          vm: this,
+          msg: "No se pudo actualizar el objetivo.",
+          title: "Objetivos",
+          variant: "danger",
+        });
       }
     },
   },
 };
 
-export default { methods, computed, props };
+export default { methods, computed };
 </script>
 
 <style>

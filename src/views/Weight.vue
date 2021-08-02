@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import WeightChart from "@/components/WeightChart.vue";
 const components = { "weight-chart": WeightChart };
 const data = function () {

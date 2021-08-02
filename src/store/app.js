@@ -90,7 +90,7 @@ const actions = {
       }
     });
 
-    await axios.get(SERVER_URL + "/api/v1/settings").then(function (response) {
+    await axios.get(SERVER_URL + "/api/v1/user/settings").then(function (response) {
       let settings = {};
       response.data.map((setting) => {
         // food.ingredients = JSON.parse(food.ingredients);

@@ -31,7 +31,7 @@
       </b-col>
     </b-row>
     <b-row class="mb-1 widget">
-      <goals-slot :makeToast="makeToast"></goals-slot>
+      <goals-slot></goals-slot>
     </b-row>
     <b-row class="mb-1 widget">
       <b-col>

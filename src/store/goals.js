@@ -15,7 +15,7 @@ const mutations = {
     Object.assign(state, goals);
   },
   UPDATE_GOALS(state, goals) {
-    Vue.set(state, "goals", goals);
+    Vue.set(state, "", goals);
   },
 };
 
@@ -31,16 +31,16 @@ const getters = {
 const actions = {
   async updateGoals({ commit, rootGetters }, goal) {
     return await axios
-      .put(SERVER_URL + "/api/v1/users/goals", goal)
+      .put(SERVER_URL + "/api/v1/user/goal", goal)
       .then(function (response) {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
           commit("UPDATE_GOALS", response.data);
         }
-        return response.status;
+        return response;
       })
-      .catch(function (response) {
-        return response.status;
+      .catch(function (error) {
+        return error.response;
       });
   },
 };
