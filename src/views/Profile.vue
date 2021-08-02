@@ -72,7 +72,7 @@
               </b-col>
               <b-col cols="12"><span>Nueva password</span></b-col>
               <b-col cols="12">
-                <b-form-input v-model="input.password" type="password" />
+                <b-form-input v-model="input.newPassword" type="password" />
               </b-col>
             </b-row>
             <b-row class="mb-3">
@@ -106,14 +106,14 @@
 import ProfileSummary from "@/components/ProfileSummary.vue";
 import Goals from "@/views/Goals.vue";
 import Weight from "@/views/Weight.vue";
-import { mapGetters, mapState, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 const data = function () {
   return {
     input: {
       username: "",
       email: "",
       oldPassword: "",
-      password: "",
+      newPassword: "",
       repeatedPassword: "",
     },
   };
@@ -132,23 +132,31 @@ const methods = {
       newPassword: "",
     };
 
+    // Por defecto el campo solo muestra el placeholder y esta vacio
+    // Si se introduce algun nombre de usuario, lo sustituimos en el paypload
+    // por el establecido por defecto (que es el mismo nombre actual)
     if (this.input.username.length > 0) {
       payload.username = this.input.username;
     }
 
+    // Hacemos lo mismo para el email
     if (this.input.email.length > 0) {
       payload.email = this.input.email;
     }
 
-    if (this.input.password.length > 0) {
-      payload.newPassword = this.input.password;
-    }
-
-    if (this.input.password !== this.input.repeatedPassword) {
-      // console.log(this.password);
-      // console.log(this.repeatedPassword);
-      // this.makeToast("Las password no coinciden.", "danger");
-      // return;
+    // Lo mismo si se establece una password nueva
+    if (this.input.newPassword.length > 0) {
+      // Comprobamos que las passwords coincidan
+      if (this.input.newPassword !== this.input.repeatedPassword) {
+        this.makeToast({
+          vm: this,
+          msg: "Las password no coinciden.",
+          title: "Perfil",
+          variant: "danger",
+        });
+        return;
+      }
+      payload.newPassword = this.input.newPassword;
     }
 
     let response = await this.$store.dispatch(
