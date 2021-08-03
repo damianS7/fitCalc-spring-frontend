@@ -40,13 +40,12 @@ const data = function () {
 
 const computed = {
   ...mapGetters({
-    chartData: "weights/getChartDataWeights",
+    chartData: "weights/chartData",
   }),
 };
 
 const methods = {
   ...mapActions({ makeToast: "app/makeToast" }),
-
   async addWeight() {
     if (this.weight == 0 || this.weight == null) {
       return;

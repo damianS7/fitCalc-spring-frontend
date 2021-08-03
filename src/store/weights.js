@@ -3,27 +3,15 @@ import Vue from "vue";
 import { SERVER_URL } from "./constants.js";
 
 const state = {
-  // Formato
-  // "2021-7-28": { weight: 71 },
-};
-
-const mutations = {
-  SET_WEIGHTS(state, weights) {
-    Object.assign(state, weights);
-  },
-  // Agrega un peso al historial
-  ADD_WEIGHT(state, weight) {
-    Vue.set(state, weight.date, weight);
-  },
-  // Borra un peso de una fecha especificada
-  DELETE_WEIGHT(state, date) {
-    Vue.delete(state, date);
+  weights: {
+    // Formato
+    // "2021-7-28": { weight: 71 },
   },
 };
 
 const getters = {
   getLastWeightDate: (state, getters) => () => {
-    const weights = getters.getWeights();
+    const weights = getters.sortedWeights();
     const totalWeights = Object.keys(weights).length - 1;
     return Object.keys(weights)[totalWeights];
   },
@@ -32,30 +20,32 @@ const getters = {
     return getters.getWeight(date);
   },
   getWeights: (state) => () => {
-    return state;
+    return state.weights;
   },
-  getWeightsDates: (state) => () => {
-    return Object.keys(state);
+  getWeightsDates: (state, getters) => () => {
+    return Object.keys(getters.getWeights());
   },
   getWeight: (state) => (date) => {
-    const weight = state[date];
+    const weight = state.weights[date];
     if (typeof weight !== "undefined") {
-      return state[date].weight;
+      return state.weights[date].weight;
     }
     return 0;
   },
-  getChartDataWeights: (state, getters) => () => {
-    // const dates = Object.keys(getters.getWeights());
-    let sortedWeighs = Object.values(getters.getWeights()).sort(function (weightA, weightB) {
+  sortedWeights: (state, getters) => () => {
+    let sortedWeights = Object.values(getters.getWeights()).sort(function (weightA, weightB) {
       const dateA = new Date(weightA.date);
       const dateB = new Date(weightB.date);
-
       return dateA - dateB;
     });
+    return sortedWeights;
+  },
+  chartData: (state, getters) => () => {
+    const sortedWeights = getters.sortedWeights();
     let weights = [];
     let dates = [];
 
-    sortedWeighs.forEach((weight) => {
+    sortedWeights.forEach((weight) => {
       dates.push(weight.date);
       weights.push(weight.weight);
     });
@@ -69,7 +59,33 @@ const getters = {
           data: weights,
         },
       ],
+      options: {
+        parsing: {
+          xAxisKey: "weight",
+          yAxisKey: "date",
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          display: false,
+        },
+      },
     };
+  },
+};
+
+const mutations = {
+  SET_WEIGHTS(state, weights) {
+    // Object.assign(state, weights);
+    Vue.set(state, "weights", weights);
+  },
+  // Agrega un peso al historial
+  ADD_WEIGHT(state, weight) {
+    Vue.set(state.weights, weight.date, weight);
+  },
+  // Borra un peso de una fecha especificada
+  DELETE_WEIGHT(state, date) {
+    Vue.delete(state.weights, date);
   },
 };
 
