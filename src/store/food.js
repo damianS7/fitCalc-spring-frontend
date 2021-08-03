@@ -13,6 +13,7 @@ const state = {
 const mutations = {
   SET_FOODS(state, foods) {
     Vue.set(state, "foods", foods);
+    // Object.assing
   },
   ADD_FOOD(state, food) {
     Vue.set(state.foods, food.id, food);

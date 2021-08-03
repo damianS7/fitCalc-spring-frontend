@@ -2,18 +2,18 @@ import Vue from "vue";
 import Vuex from "vuex";
 import user from "./user";
 import app from "./app";
-import foods from "./foods";
+import food from "./food";
 import profile from "./profile";
-import settings from "./settings";
-import meals from "./meals";
-import ingredients from "./ingredients";
-import weights from "./weights";
-import goals from "./goals";
+import setting from "./setting";
+import meal from "./meal";
+import ingredient from "./ingredient";
+import weight from "./weight";
+import goal from "./goal";
 
 Vue.use(Vuex);
 
 const modules = {
-  app, user, profile, ingredients, foods, meals, settings, weights, goals
+  app, user, profile, ingredient, food, meal, setting, weight, goal
 };
 
 export default new Vuex.Store({
