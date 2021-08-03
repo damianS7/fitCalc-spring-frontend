@@ -22,9 +22,9 @@ const props = { date: String };
 const methods = {};
 const computed = {
   ...mapGetters({
-    getGoals: "goals/getGoals",
-    getFood: "foods/getFood",
-    getMealsFromDate: "meals/getMealsFromDate",
+    getGoals: "goal/getGoals",
+    getFood: "food/getFood",
+    getMealsFromDate: "meal/getMealsFromDate",
     foodKcals: "app/foodKcals",
   }),
 

@@ -100,14 +100,14 @@ const data = function () {
 
 const computed = {
   ...mapGetters({
-    getIngredient: "ingredients/getIngredient",
-    calculateKcals: "ingredients/ingredientKcals",
+    getIngredient: "ingredient/getIngredient",
+    calculateKcals: "ingredient/ingredientKcals",
   }),
 };
 
 const methods = {
   ...mapActions({
-    addIngredient: "ingredients/addIngredient",
+    addIngredient: "ingredient/addIngredient",
     makeToast: "app/makeToast",
   }),
   isEditing() {
@@ -139,7 +139,7 @@ const methods = {
   },
   async updateIngredient() {
     let response = await this.$store.dispatch(
-      "ingredients/updateIngredient",
+      "ingredient/updateIngredient",
       this.ingredient
     );
 

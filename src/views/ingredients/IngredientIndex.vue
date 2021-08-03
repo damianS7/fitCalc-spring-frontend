@@ -63,7 +63,7 @@ const methods = {
 };
 
 const computed = {
-  ...mapGetters({ getIngredients: "ingredients/getIngredients" }),
+  ...mapGetters({ getIngredients: "ingredient/getIngredients" }),
   ingredients: function () {
     return this.getIngredients().filter((ingredient) =>
       ingredient.name.toLowerCase().includes(this.searchFilter.toLowerCase())

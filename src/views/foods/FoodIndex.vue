@@ -36,7 +36,7 @@ const data = function () {
 };
 
 const computed = {
-  ...mapGetters({ getFoods: "foods/getFoods" }),
+  ...mapGetters({ getFoods: "food/getFoods" }),
   foods: function () {
     return this.getFoods().filter((food) =>
       food.name.toLowerCase().includes(this.searchFilter.toLowerCase())
@@ -57,7 +57,7 @@ const methods = {
     });
 
     if (confirmed) {
-      let response = await this.$store.dispatch("foods/deleteFood", food.id);
+      let response = await this.$store.dispatch("food/deleteFood", food.id);
       if (response.status != 200) {
         this.makeToast({
           vm: this,

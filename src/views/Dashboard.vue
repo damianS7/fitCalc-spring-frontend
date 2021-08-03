@@ -28,7 +28,7 @@ const methods = {};
 
 const computed = {
   ...mapGetters({
-    chartData: "weights/chartData",
+    chartData: "weight/chartData",
     dateToString: "app/dateToString",
   }),
   date: function () {

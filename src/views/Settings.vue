@@ -49,7 +49,7 @@ const data = function () {
 const methods = {
   ...mapActions({ makeToast: "makeToast" }),
   async saveMeals() {
-    const response = await this.$store.dispatch("settings/saveSetting", {
+    const response = await this.$store.dispatch("setting/saveSetting", {
       key: "meals",
       value: JSON.stringify(this.meals),
     });
@@ -67,7 +67,7 @@ const methods = {
 
 const computed = {
   ...mapGetters({
-    setting: "settings/getSetting",
+    setting: "setting/getSetting",
   }),
 };
 

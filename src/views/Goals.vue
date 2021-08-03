@@ -62,13 +62,13 @@
 import { mapActions, mapGetters } from "vuex";
 const methods = {
   ...mapActions({
-    updateGoals: "goals/updateGoals",
+    updateGoals: "goal/updateGoals",
     makeToast: "app/makeToast",
   }),
 };
 
 const computed = {
-  ...mapGetters({ getGoal: "goals/getGoal" }),
+  ...mapGetters({ getGoal: "goal/getGoal" }),
   dailyKcal: {
     get() {
       return this.getGoal("kcal");

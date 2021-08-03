@@ -40,7 +40,7 @@ const data = function () {
 
 const computed = {
   ...mapGetters({
-    chartData: "weights/chartData",
+    chartData: "weight/chartData",
   }),
 };
 
@@ -51,7 +51,7 @@ const methods = {
       return;
     }
     const response = await this.$store.dispatch(
-      "weights/addWeight",
+      "weight/addWeight",
       this.weight
     );
     if (response.status != 200) {

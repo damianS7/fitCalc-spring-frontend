@@ -34,7 +34,7 @@ const computed = {
     profile: (state) => state.profile,
   }),
   ...mapGetters({
-    lastWeight: "weights/getLastWeight",
+    lastWeight: "weight/getLastWeight",
   }),
 };
 const mounted = function () {};

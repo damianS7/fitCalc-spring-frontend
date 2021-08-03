@@ -38,6 +38,20 @@ const getters = {
   getFoods: (state) => () => {
     return Object.values(state.foods);
   },
+  foodKcals: (state, getters, rootState, rootGetters) => (food) => {
+    // Si meals contiene un ID de comida que fue eliminado ...
+    if (typeof food === "undefined") {
+      return 0;
+    }
+
+    let kcals = 0;
+    food.ingredients.forEach((id) => {
+      // const ingredient = this.store.getters['ingredients/getIngredient'](id);
+      const ingredient = rootGetters["ingredient/getIngredient"](id);
+      kcals += rootGetters['ingredient/ingredientKcals'](ingredient);
+    });
+    return kcals;
+  },
 };
 const actions = {
   async addFood( { commit }, food) {

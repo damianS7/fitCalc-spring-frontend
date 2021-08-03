@@ -24,21 +24,6 @@ const getters = {
   dateToString: () => (date) => {
     return date.toISOString().split('T')[0];
   },
-  foodKcals: (state, getters, rootState, rootGetters) => (food) => {
-    // Si meals contiene un ID de comida que fue eliminado ...
-    if (typeof food === "undefined") {
-      return 0;
-    }
-
-    let kcals = 0;
-    food.ingredients.forEach((id) => {
-      // const ingredient = this.store.getters['ingredients/getIngredient'](id);
-      const ingredient = rootGetters["ingredients/getIngredient"](id);
-      kcals += rootGetters['ingredients/ingredientKcals'](ingredient);
-    });
-    return kcals;
-  },
-  
 };
 
 const actions = {
@@ -49,11 +34,11 @@ const actions = {
     await axios.get(SERVER_URL + "/api/v1/ingredients").then(function (response) {
       let ingredients = {};
       response.data.forEach((ingredient) => {
-        ingredient.kcals = rootGetters["ingredients/ingredientKcals"](ingredient);
+        ingredient.kcals = rootGetters["ingredient/ingredientKcals"](ingredient);
         ingredients[ingredient.id] = ingredient;
       });
       
-      commit("ingredients/SET_INGREDIENTS", ingredients, { root: true });
+      commit("ingredient/SET_INGREDIENTS", ingredients, { root: true });
     });
 
     await axios.get(SERVER_URL + "/api/v1/foods").then(function (response) {
@@ -62,11 +47,11 @@ const actions = {
         // Recuerda convertirlo a string al almacenar foods!
         return (foods[food.id] = food);
       });
-      commit("foods/SET_FOODS", foods, { root: true });
+      commit("food/SET_FOODS", foods, { root: true });
     });
 
     await axios.get(SERVER_URL + "/api/v1/user/meals").then(function (response) {
-      commit("meals/SET_MEALS", response.data.meals, { root: true });
+      commit("meal/SET_MEALS", response.data.meals, { root: true });
     });
 
     // Profile
@@ -79,14 +64,14 @@ const actions = {
     // Weights
     await axios.get(SERVER_URL + "/api/v1/user/weights").then(function (response) {
       if (response.status == 200) {
-        commit("weights/SET_WEIGHTS", response.data, { root: true });
+        commit("weight/SET_WEIGHTS", response.data, { root: true });
       }
     });
 
     // Goals
     await axios.get(SERVER_URL + "/api/v1/user/goals").then(function (response) {
       if (response.status == 200) {
-        commit("goals/SET_GOALS", response.data, { root: true });
+        commit("goal/SET_GOALS", response.data, { root: true });
       }
     });
 
@@ -100,7 +85,7 @@ const actions = {
         return (settings[setting.key] = setting.value);
       });
 
-      commit("settings/SET_SETTINGS", settings, { root: true });
+      commit("setting/SET_SETTINGS", settings, { root: true });
     });
 
     await new Promise((r) => setTimeout(r, 1000));

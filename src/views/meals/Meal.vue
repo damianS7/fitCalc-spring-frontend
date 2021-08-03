@@ -60,7 +60,7 @@ const methods = {
       return;
     }
 
-    this.$store.dispatch("meals/addFoodToMeal", {
+    this.$store.dispatch("meal/addFoodToMeal", {
       mealKey: this.mealKey,
       mealDate: this.date,
       foodId: this.selectedFoodId,
@@ -70,9 +70,9 @@ const methods = {
 
 const computed = {
   ...mapGetters({
-    getMealsFromDate: "meals/getMealsFromDate",
-    getIngredient: "ingredients/getIngredient",
-    getFood: "foods/getFood",
+    getMealsFromDate: "meal/getMealsFromDate",
+    getIngredient: "ingredient/getIngredient",
+    getFood: "food/getFood",
   }),
   foods: function () {
     let foods = [];

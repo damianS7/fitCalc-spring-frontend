@@ -111,7 +111,7 @@ const methods = {
       return;
     }
 
-    const response = await this.$store.dispatch("foods/addFood", this.food);
+    const response = await this.$store.dispatch("food/addFood", this.food);
 
     if (response.status != 200) {
       this.makeToast({
@@ -123,7 +123,7 @@ const methods = {
     }
   },
   async updateFood() {
-    const response = await this.$store.dispatch("foods/updateFood", this.food);
+    const response = await this.$store.dispatch("food/updateFood", this.food);
 
     if (response.status != 200) {
       this.makeToast({
@@ -138,9 +138,9 @@ const methods = {
 
 const computed = {
   ...mapGetters({
-    getFood: "foods/getFood",
-    getIngredient: "ingredients/getIngredient",
-    getIngredients: "ingredients/getIngredients",
+    getFood: "food/getFood",
+    getIngredient: "ingredient/getIngredient",
+    getIngredients: "ingredient/getIngredients",
   }),
 };
 
