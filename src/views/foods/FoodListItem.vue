@@ -31,7 +31,7 @@ import { mapGetters } from "vuex";
 const props = { food: Object, deleteFood: Function };
 const computed = {
   ...mapGetters({
-    foodKcals: "app/foodKcals",
+    foodKcals: "food/foodKcals",
   }),
 };
 const methods = {

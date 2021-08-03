@@ -43,7 +43,7 @@ const methods = {
 };
 const computed = {
   ...mapGetters({
-    getFoodKcals: "app/foodKcals",
+    getFoodKcals: "food/foodKcals",
   }),
 };
 
