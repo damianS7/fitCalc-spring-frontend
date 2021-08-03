@@ -46,8 +46,12 @@ const getters = {
 
     let kcals = 0;
     food.ingredients.forEach((id) => {
-      // const ingredient = this.store.getters['ingredients/getIngredient'](id);
       const ingredient = rootGetters["ingredient/getIngredient"](id);
+      // Si el ingrediente buscado no exite
+      if (typeof ingredient === "undefined") {
+        // Pasamos al siguiente
+        return;
+      }
       kcals += rootGetters['ingredient/ingredientKcals'](ingredient);
     });
     return kcals;
