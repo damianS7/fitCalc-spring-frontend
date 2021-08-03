@@ -14,7 +14,6 @@
   </b-row>
 </template>
 <script>
-import { mapGetters } from "vuex";
 import MealFoodListItem from "@/views/meals/MealFoodListItem.vue";
 const components = { "food-item": MealFoodListItem };
 const props = {

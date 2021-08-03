@@ -23,28 +23,10 @@ const methods = {};
 const computed = {
   ...mapGetters({
     getGoals: "goal/getGoals",
-    getFood: "food/getFood",
-    getMealsFromDate: "meal/getMealsFromDate",
-    foodKcals: "app/foodKcals",
+    mealsKcal: "meal/mealsKcal",
   }),
-
   consumedKcal: function () {
-    let kcals = 0;
-    let meals = this.getMealsFromDate(this.date);
-
-    Object.keys(meals).forEach((meal) => {
-      let foods = meals[meal];
-      if (!Array.isArray(foods)) {
-        return;
-      }
-
-      foods.forEach((foodId) => {
-        const food = this.getFood(foodId);
-        kcals += this.foodKcals(food);
-      });
-    });
-
-    return kcals;
+    return this.mealsKcal(this.date);
   },
   goalKcal: function () {
     return this.getGoals.kcal;

@@ -4,7 +4,7 @@
       <b-row align-v="center" class="header">
         <b-col cols="8" class="pr-0">
           <b>{{ mealName.toUpperCase() }} </b>
-          <b-badge pill variant="primary"> {{ kcal }} kcal</b-badge>
+          <b-badge pill variant="primary"> {{ kcals }} kcal</b-badge>
         </b-col>
         <b-col cols="4" class="text-right pl-0">
           <b-button
@@ -22,12 +22,12 @@
       <b-collapse :id="mealKey + '-collapse'">
         <b-row class="m-0 body">
           <b-col cols="12">
-            <meal-food-list
+            <food-list
               :foods="foods"
               :mealKey="mealKey"
               :mealName="mealName"
               :mealDate="date"
-            ></meal-food-list>
+            ></food-list>
           </b-col>
         </b-row>
       </b-collapse>
@@ -38,7 +38,7 @@
 import { mapGetters } from "vuex";
 import MealFoodList from "@/views/meals/MealFoodList.vue";
 const components = {
-  "meal-food-list": MealFoodList,
+  "food-list": MealFoodList,
 };
 const props = {
   mealName: String,
@@ -60,18 +60,22 @@ const methods = {
       return;
     }
 
-    this.$store.dispatch("meal/addFoodToMeal", {
+    const response = this.$store.dispatch("meal/addFoodToMeal", {
       mealKey: this.mealKey,
       mealDate: this.date,
       foodId: this.selectedFoodId,
     });
+
+    if (response.status != 200) {
+      // makeToast
+    }
   },
 };
 
 const computed = {
   ...mapGetters({
+    mealKcal: "meal/mealKcal",
     getMealsFromDate: "meal/getMealsFromDate",
-    getIngredient: "ingredient/getIngredient",
     getFood: "food/getFood",
   }),
   foods: function () {
@@ -98,32 +102,10 @@ const computed = {
     });
     return foods;
   },
-  kcal: function () {
-    let kcals = 0;
-    let meals = this.getMealsFromDate(this.date);
-
-    if (typeof meals === "undefined") {
-      return kcals;
-    }
-
-    let foodsId = meals[this.mealKey];
-    if (typeof foodsId === "undefined") {
-      return kcals;
-    }
-
-    foodsId.forEach((foodId) => {
-      const food = this.getFood(foodId);
-      if (typeof food === "undefined") {
-        return;
-      }
-
-      food.ingredients.forEach((id) => {
-        const ingredient = this.getIngredient(id);
-        kcals += ingredient.kcals;
-      });
-    });
-
-    return kcals;
+  kcals: function () {
+    const meals = this.getMealsFromDate(this.date);
+    const meal = meals[this.mealKey];
+    return this.mealKcal(meal);
   },
 };
 

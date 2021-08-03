@@ -64,14 +64,10 @@ const data = function () {
     selectedDate: this.today(),
     foodPickerMealKey: null,
     foodPickerMealName: null,
+    foodChooser: { mealKey: null, mealName: null },
   };
 };
 const methods = {
-  foodPicker(mealName, mealKey) {
-    this.foodPickerMealName = mealName;
-    this.foodPickerMealKey = mealKey;
-    this.$bvModal.show("foodPicker");
-  },
   today() {
     return new Date().toISOString().split("T")[0];
   },
@@ -84,6 +80,11 @@ const methods = {
     let nextDayDate = new Date(this.selectedDate);
     nextDayDate.setDate(nextDayDate.getDate() + 1);
     this.selectedDate = this.dateToString(nextDayDate);
+  },
+  foodPicker(mealName, mealKey) {
+    this.foodPickerMealName = mealName;
+    this.foodPickerMealKey = mealKey;
+    this.$bvModal.show("foodPicker");
   },
 };
 const computed = {
