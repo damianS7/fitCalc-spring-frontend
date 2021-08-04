@@ -3,36 +3,38 @@ import Vue from "vue";
 import { SERVER_URL } from "./constants.js";
 
 const state = {
-  // Datos del usuario logeado en la aplicacion
-  id: null, username: null, email: null, token: null
+  user: {
+    // Datos del usuario logeado en la aplicacion
+    id: null, username: null, email: null, token: null
+  }
 };
 
 const mutations = {
   SET_USER(state, user) {
-    Vue.set(state, "id", user.id);
-    Vue.set(state, "username", user.username);
-    Vue.set(state, "email", user.email);
-    Vue.set(state, "token", user.token);
+    Vue.set(state, "user", user);
   },
   SET_TOKEN(state, token) {
-    Vue.set(state, "token", token);
+    Vue.set(state.user, "token", token);
   },
   SET_LOGIN_DETAILS(state, { username, email }) {
-    Vue.set(state, "username", username);
-    Vue.set(state, "email", email);
+    Vue.set(state.user, "username", username);
+    Vue.set(state.user, "email", email);
   },
 };
 
 const getters = {
   isLogged: (state) => () => {
-    if (state.token !== null) {
+    if (state.user.token !== null) {
       return true;
     }
     return false;
   },
   getToken: (state) => () => {
-    return state.token;
+    return state.user.token;
   },
+  getUser() {
+    return state.user;
+  }
 };
 
 const actions = {

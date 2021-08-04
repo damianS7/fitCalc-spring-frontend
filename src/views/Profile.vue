@@ -176,10 +176,10 @@ const methods = {
 };
 
 const computed = {
-  ...mapState({
-    user: (state) => state.user,
+  ...mapGetters({
+    user: "user/getUser",
+    profile: "profile/getProfile",
   }),
-  ...mapGetters({ profile: "profile/getProfile" }),
   username: {
     get() {
       return this.user.username;
