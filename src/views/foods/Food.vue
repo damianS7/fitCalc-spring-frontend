@@ -38,7 +38,7 @@
           </b-col>
           <b-col cols="2" class="text-right">
             <b-button
-              @click="removeIngredient(ingredientId)"
+              @click="removeIngredient(index)"
               class="btn-sm"
               variant="danger"
             >
@@ -103,8 +103,8 @@ const methods = {
 
     this.food.ingredients.push(this.selectedIngredientId);
   },
-  removeIngredient(ingredientId) {
-    this.food.ingredients.pop(ingredientId);
+  removeIngredient(index) {
+    this.food.ingredients.splice(index, 1);
   },
   async createFood() {
     if (this.food.name.length == 0) {
@@ -112,25 +112,21 @@ const methods = {
     }
 
     const response = await this.$store.dispatch("food/addFood", this.food);
-
     if (response.status != 200) {
       this.makeToast({
         vm: this,
         msg: "No se pudo agregar la comida.",
         title: "Comidas",
-        variant: "danger",
       });
     }
   },
   async updateFood() {
     const response = await this.$store.dispatch("food/updateFood", this.food);
-
     if (response.status != 200) {
       this.makeToast({
         vm: this,
         msg: "No se pudo actualizar la comida.",
         title: "Comidas",
-        variant: "danger",
       });
     }
   },
