@@ -48,16 +48,6 @@
             </b-row>
             <b-row>
               <b-col cols="2" sm="1">
-                <font-awesome-icon icon="chart-pie" />
-              </b-col>
-              <b-col>
-                <router-link @click.native="toggleSidebar" to="/macros">
-                  Nutricion
-                </router-link>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col cols="2" sm="1">
                 <font-awesome-icon icon="egg" />
               </b-col>
               <b-col>
