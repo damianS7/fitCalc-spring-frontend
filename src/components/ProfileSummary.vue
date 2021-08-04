@@ -27,14 +27,12 @@
   </b-col>
 </template>
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 const computed = {
-  ...mapState({
-    profile: (state) => state.profile,
-  }),
   ...mapGetters({
     lastWeight: "weight/getLastWeight",
+    profile: "profile/getProfile",
   }),
 };
 const mounted = function () {};

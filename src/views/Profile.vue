@@ -106,7 +106,7 @@
 import ProfileSummary from "@/components/ProfileSummary.vue";
 import Goals from "@/views/Goals.vue";
 import Weight from "@/views/Weight.vue";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 const data = function () {
   return {
     input: {
@@ -178,8 +178,8 @@ const methods = {
 const computed = {
   ...mapState({
     user: (state) => state.user,
-    profile: (state) => state.profile,
   }),
+  ...mapGetters({ profile: "profile/getProfile" }),
   username: {
     get() {
       return this.user.username;
@@ -210,7 +210,6 @@ const computed = {
           vm: this,
           msg: "No se pudo actualizar el perfil.",
           title: "Settings",
-          variant: "danger",
         });
       }
     },
@@ -230,7 +229,6 @@ const computed = {
           vm: this,
           msg: "No se pudo actualizar el perfil.",
           title: "Settings",
-          variant: "danger",
         });
       }
     },
