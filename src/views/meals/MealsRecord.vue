@@ -78,7 +78,6 @@ const methods = {
         vm: this,
         msg: "No se pudo agregar la comida.",
         title: "Comidas",
-        variant: "danger",
       });
     }
   },
@@ -103,7 +102,6 @@ const methods = {
         vm: this,
         msg: "No se pudo borrar la comida.",
         title: "Comidas",
-        variant: "danger",
       });
     }
   },

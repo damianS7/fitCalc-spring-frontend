@@ -1,11 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Dashboard from "@/views/Dashboard.vue";
-import FoodIndex from "@/views/foods/FoodIndex.vue";
 import Food from "@/views/foods/Food.vue";
+import Foods from "@/views/foods/Foods.vue";
+import Ingredient from "@/views/ingredients/Ingredient.vue";
 import Ingredients from "@/views/ingredients/Ingredients.vue";
-import IngredientCreate from "@/views/ingredients/Ingredient.vue";
-import IngredientEdit from "@/views/ingredients/Ingredient.vue";
 import MealsRecord from "@/views/meals/MealsRecord.vue";
 import Weight from "@/views/Weight.vue";
 import Settings from "@/views/Settings.vue";
@@ -27,12 +26,12 @@ const routes = [
   {
     path: "/ingredients/new",
     name: "NUEVO INGREDIENTE",
-    component: IngredientCreate
+    component: Ingredient
   },
   {
     path: "/ingredients/:ingredientId",
     name: "EDITAR INGREDIENTE",
-    component: IngredientEdit
+    component: Ingredient
   },
   {
     path: "/ingredients",
@@ -52,7 +51,7 @@ const routes = [
   {
     path: "/foods",
     name: "COMIDAS",
-    component: FoodIndex
+    component: Foods
   },
   {
     path: "/meals",

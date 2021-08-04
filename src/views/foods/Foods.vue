@@ -49,21 +49,22 @@ const methods = {
     confirmDialog: "app/confirmDialog",
     makeToast: "app/makeToast",
   }),
-
+  // Elimina una comida
   async deleteFood(food) {
+    // Dialogo de confirmacion para borrar la comida
     const confirmed = await this.confirmDialog({
       vm: this,
       msg: "Deseas eliminar " + food.name,
     });
 
+    // Si confirma el borrado ...
     if (confirmed) {
-      let response = await this.$store.dispatch("food/deleteFood", food.id);
+      const response = await this.$store.dispatch("food/deleteFood", food.id);
       if (response.status != 200) {
         this.makeToast({
           vm: this,
           msg: "No se pudo eliminar la comida.",
           title: "Comidas",
-          variant: "danger",
         });
       }
     }

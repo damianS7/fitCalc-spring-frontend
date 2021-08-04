@@ -1,6 +1,5 @@
 import axios from "axios";
 import Vue from "vue";
-import Vuex from "vuex";
 import { SERVER_URL } from "./constants.js";
 
 const state = {
@@ -13,7 +12,6 @@ const state = {
 const mutations = {
   SET_FOODS(state, foods) {
     Vue.set(state, "foods", foods);
-    // Object.assing
   },
   ADD_FOOD(state, food) {
     Vue.set(state.foods, food.id, food);
@@ -101,12 +99,6 @@ const actions = {
       .catch(function (error) {
         return error.response;
       });
-  },
-  async addIngredientToFood(context, payload) {
-    context.commit("ADD_INGREDIENT_TO_FOOD", payload);
-  },
-  async removeIngredientFromFood(context, payload) {
-    context.commit("REMOVE_INGREDIENT_FROM_FOOD", payload);
   },
 };
 
