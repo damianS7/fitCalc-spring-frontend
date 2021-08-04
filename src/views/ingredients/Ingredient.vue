@@ -127,7 +127,7 @@ const methods = {
     return ingredientId;
   },
   async createIngredient() {
-    let response = await this.addIngredient(this.ingredient);
+    const response = await this.addIngredient(this.ingredient);
     if (response.status != 200) {
       this.makeToast({
         vm: this,
@@ -138,7 +138,7 @@ const methods = {
     }
   },
   async updateIngredient() {
-    let response = await this.$store.dispatch(
+    const response = await this.$store.dispatch(
       "ingredient/updateIngredient",
       this.ingredient
     );

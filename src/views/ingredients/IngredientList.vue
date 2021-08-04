@@ -1,18 +1,22 @@
 <template>
   <b-col cols="12">
-    <ingredient-item
+    <ingredient
       v-for="ingredient of ingredients"
       :key="ingredient.id"
       :ingredient="ingredient"
       :deleteIngredient="deleteIngredient"
-    ></ingredient-item>
+    >
+    </ingredient>
   </b-col>
 </template>
 <script>
-import IngredientListItem from "@/views/ingredients/IngredientListItem.vue";
+import IngredientItem from "@/views/ingredients/IngredientListItem.vue";
 const props = { ingredients: Array, deleteIngredient: Function };
-const components = { "ingredient-item": IngredientListItem };
-export default { components, props };
+const components = { ingredient: IngredientItem };
+export default {
+  components,
+  props,
+};
 </script>
 
 <style>
