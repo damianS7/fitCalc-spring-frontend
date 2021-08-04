@@ -1,12 +1,12 @@
 <template>
   <b-col>
     <b-modal
-      id="foodPicker"
+      :id="mealKey"
       hide-footer
       scrollable
       centered
       content-class="h-100"
-      title="Agrega una comida"
+      :title="'Agrega una comida a ' + mealName"
     >
       <b-row>
         <b-col cols="12">
@@ -47,6 +47,7 @@
 import { mapGetters } from "vuex";
 const props = {
   mealKey: String,
+  mealName: String,
   mealDate: String,
   addFood: Function,
 };

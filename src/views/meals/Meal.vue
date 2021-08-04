@@ -8,7 +8,7 @@
         </b-col>
         <b-col cols="4" class="text-right pl-0">
           <b-button
-            @click="showFoodPicker"
+            @click="showFoodPicker(mealKey)"
             class="btn-sm mr-1"
             variant="primary"
           >
@@ -32,20 +32,30 @@
           </b-col>
         </b-row>
       </b-collapse>
+      <b-row>
+        <food-picker
+          :mealKey="mealKey"
+          :mealName="mealName"
+          :mealDate="mealDate"
+          :addFood="addFood"
+        ></food-picker>
+      </b-row>
     </b-col>
   </b-row>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import FoodList from "@/views/meals/FoodList.vue";
+import FoodPicker from "@/views/meals/FoodPicker.vue";
 const components = {
   "food-list": FoodList,
+  "food-picker": FoodPicker,
 };
 const props = {
   mealName: String,
   mealKey: String,
   mealDate: String,
-  showFoodPicker: Function,
+  addFood: Function,
   removeFood: Function,
 };
 
@@ -56,7 +66,11 @@ const data = function () {
   };
 };
 
-const methods = {};
+const methods = {
+  showFoodPicker(mealKey) {
+    this.$bvModal.show(mealKey);
+  },
+};
 
 const computed = {
   ...mapGetters({
@@ -96,9 +110,7 @@ const computed = {
   },
 };
 
-const mounted = function () {
-  // console.log(this.date);
-};
+const mounted = function () {};
 
 export default {
   data,

@@ -34,13 +34,10 @@
           :mealKey="index"
           :mealName="meals[index].name"
           :mealDate="selectedDate"
-          :showFoodPicker="showFoodPicker"
+          :addFood="addFood"
           :removeFood="removeFood"
         ></meal>
       </b-col>
-    </b-row>
-    <b-row>
-      <food-picker :addFood="addFood"></food-picker>
     </b-row>
   </b-col>
 </template>
@@ -49,11 +46,10 @@ import { mapGetters, mapActions } from "vuex";
 import Meal from "@/views/meals/Meal.vue";
 import Macro from "@/components/Macro.vue";
 import MealSummary from "@/components/MealSummary.vue";
-import FoodPicker from "@/views/meals/FoodPicker.vue";
+
 const components = {
   meal: Meal,
   "meal-summary": MealSummary,
-  "food-picker": FoodPicker,
   "macro-slot": Macro,
 };
 const data = function () {
@@ -67,40 +63,32 @@ const methods = {
     makeToast: "app/makeToast",
   }),
   async addFood(mealDate, mealKey, foodId) {
-    const response = await this.$store.dispatch("meal/addFoodToMeal", {
-      mealKey,
-      mealDate,
-      foodId,
-    });
-
-    if (response.status != 200) {
-      this.makeToast({
-        vm: this,
-        msg: "No se pudo agregar la comida.",
-        title: "Comidas",
-      });
-    }
+    let mealsDay = JSON.parse(JSON.stringify(this.getMeal(mealDate)));
+    mealsDay[mealKey].push(foodId);
+    this.updateMeal(mealsDay);
   },
   async removeFood(mealDate, mealKey, food, foodIndex) {
+    // Se muestra un dialogo para confirmar el borrado
     const confirmed = await this.confirmDialog({
       vm: this,
-      msg: "Desea borrar: " + food.name,
+      msg: "Deseas eliminar " + food.name,
     });
-    // Antes de borrar la comida, se requiere confirmacion
+
+    // Si el usuario confirma el borrado ...
     if (!confirmed) {
       return;
     }
 
-    const response = await this.$store.dispatch("meal/deleteFoodFromMeal", {
-      mealKey,
-      mealDate,
-      foodId: foodIndex,
-    });
-
+    let mealsDay = JSON.parse(JSON.stringify(this.getMeal(mealDate)));
+    mealsDay[mealKey].splice(foodIndex, 1);
+    this.updateMeal(mealsDay);
+  },
+  async updateMeal(meal) {
+    const response = await this.$store.dispatch("meal/updateMeal", meal);
     if (response.status != 200) {
       this.makeToast({
         vm: this,
-        msg: "No se pudo borrar la comida.",
+        msg: "No se pudo agregar la comida.",
         title: "Comidas",
       });
     }
@@ -118,14 +106,12 @@ const methods = {
     nextDayDate.setDate(nextDayDate.getDate() + 1);
     this.selectedDate = this.dateToString(nextDayDate);
   },
-  showFoodPicker() {
-    this.$bvModal.show("foodPicker");
-  },
 };
 const computed = {
   ...mapGetters({
     getSetting: "setting/getSetting",
     dateToString: "app/dateToString",
+    getMeal: "meal/getMealsFromDate",
   }),
   meals: function () {
     return this.getSetting("meals");

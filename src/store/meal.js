@@ -19,7 +19,7 @@ const getters = {
   getMealsFromDate: (state, getters) => (date) => {
     let meals = state.meals[date];
     if (typeof meals === "undefined") {
-      return {};
+      return { id: null, userId: null, date, meal1:[], meal2:[], meal3:[], meal4:[], meal5:[] };
     }
 
     return meals;
@@ -64,49 +64,12 @@ const mutations = {
   SET_MEAL(state, meal) {
     Vue.set(state.meals, meal.date, meal);
   },
-  ADD_FOOD_TO_MEAL(state, { mealKey, mealDate, foodId }) {
-    let meals = state.meals;
-
-    // Si no existe ningun objeto para la fecha indicada se crea
-    if (typeof meals[mealDate] === "undefined") {
-      Vue.set(state.meals, mealDate, {});
-    }
-
-    let meal = meals[mealDate];
-    // Si no existe la comida indicada en dentro de la fecha, se crea
-    if (typeof meal[mealKey] === "undefined") {
-      Vue.set(state.meals[mealDate], mealKey, []);
-    }
-
-    // Finalmente se agrega
-    meal[mealKey].push(foodId);
-  },
-  DELETE_FOOD_FROM_MEAL(state, { mealKey, mealDate, foodIndex }) {
-    Vue.delete(state.meals[mealDate][mealKey], foodIndex);
-  },
 };
 
 const actions = {
-  async addFoodToMeal({ commit }, { mealKey, mealDate, foodId }) {
-    const payload = { meal: mealKey, date: mealDate, foodId };
+  async updateMeal({ commit }, meal) {
     return await axios
-      .post(SERVER_URL + "/api/v1/user/meals/food/add", payload)
-      .then(function (response) {
-        // Si el request tuvo exito (codigo 200)
-        if (response.status == 200) {
-          commit("SET_MEAL", response.data);
-        }
-        return response;
-      })
-      .catch(function (error) {
-        return error.response;
-      });
-  },
-  async deleteFoodFromMeal({ commit }, { mealKey, mealDate, foodIndex }) {
-    const payload = { meal: mealKey, date: mealDate, foodId: foodIndex };
-
-    return await axios
-      .post(SERVER_URL + "/api/v1/user/meals/food/delete", payload)
+      .post(SERVER_URL + "/api/v1/user/meal", meal)
       .then(function (response) {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {

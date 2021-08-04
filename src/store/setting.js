@@ -5,7 +5,7 @@ import { SERVER_URL } from "./constants.js";
 const state = {
   // Opciones de configuracion
   settings: {
-    // meals: { 0: { name: "desayuno" } },
+    // meals: { meal1: { name: "desayuno" } },
 
   }
 };
