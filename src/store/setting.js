@@ -1,29 +1,32 @@
 import axios from "axios";
 import Vue from "vue";
-import Vuex from "vuex";
 import { SERVER_URL } from "./constants.js";
 
 const state = {
   // Opciones de configuracion
-  // meals: { 0: { name: "desayuno" } },
+  settings: {
+    // meals: { 0: { name: "desayuno" } },
+
+  }
 };
 
 const getters = {
   getSetting: (state) => (settingName) => {
-    return state[settingName];
+    return state.settings[settingName];
   },
   getSettings: (state) => () => {
-    return state;
+    return state.settings;
   },
 };
 
 const mutations = {
   SET_SETTINGS(state, settings) {
-    Object.assign(state, settings);
+    // Object.assign(state, settings);
+    Vue.set(state, "settings", settings);
   },
   
   SET_SETTING(state, { key, value }) {
-    Vue.set(state, key, value);
+    Vue.set(state.settings, key, value);
   },
 };
 

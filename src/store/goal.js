@@ -3,28 +3,31 @@ import Vue from "vue";
 import { SERVER_URL } from "./constants.js";
 
 const state = {
-  // Objetivos del usuario (kcal) y distribucion de sus macros
-  kcal: 0,
-  proteins: 0,
-  fats: 0,
-  carbohydrates: 0,
+  goals: {
+    // Objetivos del usuario (kcal) y distribucion de sus macros
+    kcal: 0,
+    proteins: 0,
+    fats: 0,
+    carbohydrates: 0,
+
+  }
 };
 
 const mutations = {
   SET_GOALS(state, goals) {
-    Object.assign(state, goals);
+    Vue.set(state, "goals", goals);
   },
   UPDATE_GOALS(state, goals) {
-    Vue.set(state, "", goals);
+    Vue.set(state.goals, "", goals);
   },
 };
 
 const getters = {
   getGoals() {
-    return state;
+    return state.goals;
   },
   getGoal: (state) => (goalName) => {
-    return state[goalName];
+    return state.goals[goalName];
   },
 };
 
