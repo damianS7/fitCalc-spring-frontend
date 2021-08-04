@@ -1,6 +1,5 @@
 import axios from "axios";
 import Vue from "vue";
-import Vuex from "vuex";
 import { SERVER_URL } from "./constants.js";
 
 const state = {

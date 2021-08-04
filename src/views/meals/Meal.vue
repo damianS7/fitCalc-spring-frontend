@@ -8,7 +8,7 @@
         </b-col>
         <b-col cols="4" class="text-right pl-0">
           <b-button
-            @click="foodPicker(mealName, mealKey)"
+            @click="showFoodPicker"
             class="btn-sm mr-1"
             variant="primary"
           >
@@ -26,7 +26,8 @@
               :foods="foods"
               :mealKey="mealKey"
               :mealName="mealName"
-              :mealDate="date"
+              :mealDate="mealDate"
+              :removeFood="removeFood"
             ></food-list>
           </b-col>
         </b-row>
@@ -36,15 +37,16 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import MealFoodList from "@/views/meals/MealFoodList.vue";
+import FoodList from "@/views/meals/FoodList.vue";
 const components = {
-  "food-list": MealFoodList,
+  "food-list": FoodList,
 };
 const props = {
   mealName: String,
   mealKey: String,
-  date: String,
-  foodPicker: Function,
+  mealDate: String,
+  showFoodPicker: Function,
+  removeFood: Function,
 };
 
 const data = function () {
@@ -54,23 +56,7 @@ const data = function () {
   };
 };
 
-const methods = {
-  addFood() {
-    if (this.selectedFoodId == null) {
-      return;
-    }
-
-    const response = this.$store.dispatch("meal/addFoodToMeal", {
-      mealKey: this.mealKey,
-      mealDate: this.date,
-      foodId: this.selectedFoodId,
-    });
-
-    if (response.status != 200) {
-      // makeToast
-    }
-  },
-};
+const methods = {};
 
 const computed = {
   ...mapGetters({
@@ -78,10 +64,11 @@ const computed = {
     getMealsFromDate: "meal/getMealsFromDate",
     getFood: "food/getFood",
   }),
+  // Alimentos de esta comida (desayuno, merienda ...)
   foods: function () {
     let foods = [];
     // Obtenemos todos las meals de la fecha (desayuno, merienda etc ...)
-    let meals = this.getMealsFromDate(this.date);
+    let meals = this.getMealsFromDate(this.mealDate);
 
     // Si no existen comidas(profile.meals[this.date]) para la fecha indicada ...
     if (typeof meals === "undefined") {
@@ -103,7 +90,7 @@ const computed = {
     return foods;
   },
   kcals: function () {
-    const meals = this.getMealsFromDate(this.date);
+    const meals = this.getMealsFromDate(this.mealDate);
     const meal = meals[this.mealKey];
     return this.mealKcal(meal);
   },

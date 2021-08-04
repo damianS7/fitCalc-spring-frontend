@@ -33,41 +33,80 @@
           :key="index"
           :mealKey="index"
           :mealName="meals[index].name"
-          :date="selectedDate"
-          :foodPicker="foodPicker"
+          :mealDate="selectedDate"
+          :showFoodPicker="showFoodPicker"
+          :removeFood="removeFood"
         ></meal>
       </b-col>
     </b-row>
     <b-row>
-      <food-picker
-        :mealKey="foodPickerMealKey"
-        :mealName="foodPickerMealName"
-        :date="selectedDate"
-      ></food-picker>
+      <food-picker :addFood="addFood"></food-picker>
     </b-row>
   </b-col>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import Meal from "@/views/meals/Meal.vue";
 import Macro from "@/components/Macro.vue";
 import MealSummary from "@/components/MealSummary.vue";
-import MealFoodPicker from "@/views/meals/MealFoodPicker.vue";
+import FoodPicker from "@/views/meals/FoodPicker.vue";
 const components = {
   meal: Meal,
   "meal-summary": MealSummary,
-  "food-picker": MealFoodPicker,
+  "food-picker": FoodPicker,
   "macro-slot": Macro,
 };
 const data = function () {
   return {
     selectedDate: this.today(),
-    foodPickerMealKey: null,
-    foodPickerMealName: null,
-    foodChooser: { mealKey: null, mealName: null },
   };
 };
 const methods = {
+  ...mapActions({
+    confirmDialog: "app/confirmDialog",
+    makeToast: "app/makeToast",
+  }),
+  async addFood(mealDate, mealKey, foodId) {
+    const response = await this.$store.dispatch("meal/addFoodToMeal", {
+      mealKey,
+      mealDate,
+      foodId,
+    });
+
+    if (response.status != 200) {
+      this.makeToast({
+        vm: this,
+        msg: "No se pudo agregar la comida.",
+        title: "Comidas",
+        variant: "danger",
+      });
+    }
+  },
+  async removeFood(mealDate, mealKey, food, foodIndex) {
+    const confirmed = await this.confirmDialog({
+      vm: this,
+      msg: "Desea borrar: " + food.name,
+    });
+    // Antes de borrar la comida, se requiere confirmacion
+    if (!confirmed) {
+      return;
+    }
+
+    const response = await this.$store.dispatch("meal/deleteFoodFromMeal", {
+      mealKey,
+      mealDate,
+      foodId: foodIndex,
+    });
+
+    if (response.status != 200) {
+      this.makeToast({
+        vm: this,
+        msg: "No se pudo borrar la comida.",
+        title: "Comidas",
+        variant: "danger",
+      });
+    }
+  },
   today() {
     return new Date().toISOString().split("T")[0];
   },
@@ -81,9 +120,7 @@ const methods = {
     nextDayDate.setDate(nextDayDate.getDate() + 1);
     this.selectedDate = this.dateToString(nextDayDate);
   },
-  foodPicker(mealName, mealKey) {
-    this.foodPickerMealName = mealName;
-    this.foodPickerMealKey = mealKey;
+  showFoodPicker() {
     this.$bvModal.show("foodPicker");
   },
 };

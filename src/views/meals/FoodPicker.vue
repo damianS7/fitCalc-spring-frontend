@@ -29,7 +29,7 @@
                 <b-col cols="8">{{ food.name }}</b-col>
                 <b-col cols="4" class="text-right">
                   <b-button
-                    @click="addFood(food.id)"
+                    @click="addFood(mealDate, mealKey, food.id)"
                     variant="primary"
                     class="btn-sm"
                     ><font-awesome-icon icon="plus-square"></font-awesome-icon
@@ -46,9 +46,9 @@
 <script>
 import { mapGetters } from "vuex";
 const props = {
-  mealName: String,
   mealKey: String,
-  date: String,
+  mealDate: String,
+  addFood: Function,
 };
 
 const data = function () {
@@ -57,15 +57,7 @@ const data = function () {
   };
 };
 
-const methods = {
-  addFood(foodId) {
-    this.$store.dispatch("meal/addFoodToMeal", {
-      mealKey: this.mealKey,
-      mealDate: this.date,
-      foodId,
-    });
-  },
-};
+const methods = {};
 
 const computed = {
   ...mapGetters({ getFoods: "food/getFoods" }),

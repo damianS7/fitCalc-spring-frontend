@@ -6,7 +6,11 @@
           <b>
             {{ food.name }}
           </b>
-          <small> ( {{ foodKcals(food) }} kcals ) </small>
+          <small>
+            <b-badge pill variant="primary">
+              {{ foodKcals(food) }} kcals
+            </b-badge>
+          </small>
         </b-col>
         <b-col cols="4" class="text-right">
           <b-button-group>
