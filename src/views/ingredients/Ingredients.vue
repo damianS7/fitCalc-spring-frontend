@@ -44,19 +44,26 @@ const methods = {
     makeToast: "app/makeToast",
   }),
   async deleteIngredient(ingredient) {
+    // Se muestra un dialogo para confirmar el borrado
     const confirmed = await this.confirmDialog({
       vm: this,
       msg: "Deseas eliminar " + ingredient.name,
     });
 
+    // Si el usuario confirma el borrado ...
     if (confirmed) {
-      let response = await this.$store.dispatch(
-        "ingredients/deleteIngredient",
+      const response = await this.$store.dispatch(
+        "ingredient/deleteIngredient",
         ingredient.id
       );
 
+      // Si el servidor no elimina el ingrediente, mostramos un mensaje
       if (response.status != 200) {
-        this.makeToast("No se pudo eliminar el ingrediente.", "danger");
+        this.makeToast({
+          vm: this,
+          title: "Ingredientes",
+          msg: "No se pudo eliminar el ingrediente.",
+        });
       }
     }
   },
