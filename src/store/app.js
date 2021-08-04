@@ -103,7 +103,7 @@ const actions = {
       centered: true,
     });
   },
-  async makeToast(context, { vm, msg, title, variant }) {
+  async makeToast(context, { vm, msg, title, variant = "danger" }) {
     vm.$bvToast.toast(msg, {
       title: title,
       autoHideDelay: 5000,
