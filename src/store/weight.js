@@ -76,7 +76,6 @@ const getters = {
 
 const mutations = {
   SET_WEIGHTS(state, weights) {
-    // Object.assign(state, weights);
     Vue.set(state, "weights", weights);
   },
   // Agrega un peso al historial

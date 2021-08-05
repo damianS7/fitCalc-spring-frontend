@@ -29,10 +29,10 @@
     <b-row>
       <b-col cols="12" class="p-0">
         <meal
-          v-for="(meal, index) of meals"
+          v-for="(mealKey, index) of meals"
           :key="index"
-          :mealKey="index"
-          :mealName="meals[index].name"
+          :mealKey="mealKey"
+          :mealName="getSetting(mealKey)"
           :mealDate="selectedDate"
           :addFood="addFood"
           :removeFood="removeFood"
@@ -112,9 +112,10 @@ const computed = {
     getSetting: "setting/getSetting",
     dateToString: "app/dateToString",
     getMeal: "meal/getMealsFromDate",
+    mealKeys: "meal/getMealKeys",
   }),
   meals: function () {
-    return this.getSetting("meals");
+    return this.mealKeys();
   },
 };
 export default {

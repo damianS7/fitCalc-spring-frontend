@@ -12,7 +12,9 @@ const state = {
 };
 
 const getters = {
-  // .... comprobar a partir de aqui
+  getMealKeys: (state) => () => {
+    return ["meal1", "meal2", "meal3", "meal4", "meal5"];
+  },
   getMealName: (state) => (mealIndex) => {
     return state.settings.meals[mealIndex].name;
   },
