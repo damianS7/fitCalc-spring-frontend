@@ -12,8 +12,8 @@ const state = {
 const getters = {
   getLastWeightDate: (state, getters) => () => {
     const weights = getters.sortedWeights();
-    const totalWeights = Object.keys(weights).length - 1;
-    return Object.keys(weights)[totalWeights];
+    const lastIndex = weights.length - 1;
+    return weights[lastIndex].date;
   },
   getLastWeight: (state, getters) => () => {
     const date = getters.getLastWeightDate();
