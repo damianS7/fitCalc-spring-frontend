@@ -10,22 +10,15 @@
 
         <b-row class="mb-1">
           <b-col>
-            <b-row class="mb-1" v-for="(meal, index) of meals" :key="index">
+            <b-row class="mb-1" v-for="(meal, key) of meals" :key="key">
               <b-col cols="12">
-                <b-form-input type="text" v-model="meal.name" />
+                <b-form-input
+                  @change="updateSetting(key)"
+                  type="text"
+                  v-model="meals[key]"
+                />
               </b-col>
             </b-row>
-          </b-col>
-        </b-row>
-        <b-row class="mb-1">
-          <b-col>
-            <b-button
-              @click="saveMeals()"
-              type="submit"
-              variant="primary"
-              class="w-100"
-              >Actualizar</b-button
-            >
           </b-col>
         </b-row>
       </b-col>
@@ -38,20 +31,20 @@ import { mapActions, mapGetters } from "vuex";
 const data = function () {
   return {
     meals: {
-      meal1: { name: "breakfast" },
-      meal2: { name: "supper" },
-      meal3: { name: "lunch" },
-      meal4: { name: "dinner" },
-      meal5: { name: "snacks" },
+      meal1: "breakfast",
+      meal2: "supper",
+      meal3: "lunch",
+      meal4: "dinner",
+      meal5: "snacks",
     },
   };
 };
 const methods = {
-  ...mapActions({ makeToast: "makeToast" }),
-  async saveMeals() {
-    const response = await this.$store.dispatch("setting/saveSetting", {
-      key: "meals",
-      value: JSON.stringify(this.meals),
+  ...mapActions({ makeToast: "app/makeToast" }),
+  async updateSetting(settingKey) {
+    const response = await this.$store.dispatch("setting/updateSetting", {
+      key: settingKey,
+      value: this.meals[settingKey],
     });
 
     if (response.status != 200) {
@@ -59,7 +52,6 @@ const methods = {
         vm: this,
         msg: "No se pudo guardar los cambios.",
         title: "Settings",
-        variant: "danger",
       });
     }
   },
@@ -67,14 +59,15 @@ const methods = {
 
 const computed = {
   ...mapGetters({
-    setting: "setting/getSetting",
+    getSetting: "setting/getSetting",
+    mealKeys: "meal/getMealKeys",
   }),
 };
 
 const mounted = function () {
-  const meals = this.setting("meals");
-  Object.keys(meals).forEach((key) => {
-    Object.assign(this.meals[key], "name", meals[key]);
+  const meals = this.mealKeys();
+  meals.forEach((key) => {
+    this.meals[key] = this.getSetting(key);
   });
 };
 

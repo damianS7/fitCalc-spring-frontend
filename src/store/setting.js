@@ -5,8 +5,7 @@ import { SERVER_URL } from "./constants.js";
 const state = {
   // Opciones de configuracion
   settings: {
-    // meals: { meal1: { name: "desayuno" } },
-
+    // meal1: "desayuno"
   }
 };
 
@@ -21,23 +20,20 @@ const getters = {
 
 const mutations = {
   SET_SETTINGS(state, settings) {
-    // Object.assign(state, settings);
     Vue.set(state, "settings", settings);
-  },
-  
-  SET_SETTING(state, { key, value }) {
-    Vue.set(state.settings, key, value);
+  },  
+  SET_SETTING(state, setting) {
+    Vue.set(state.settings, setting.key, setting.value);
   },
 };
 
 const actions = {
-  async saveSetting({ commit }, setting) {
+  async updateSetting({ commit }, setting) {
     return await axios
       .put(SERVER_URL + "/api/v1/user/setting/" + setting.key, setting)
       .then(function (response) {
         if(response.status == 200) {
-          let rSetting = {key: response.data.key, value: JSON.parse(response.data.value)};
-          commit("SET_SETTING", rSetting);
+          commit("SET_SETTING", response.data);
         }
         return response;
       }).catch( (error) => {
@@ -45,8 +41,6 @@ const actions = {
       });
   },
 };
-
-
 export default {
     state,
     mutations,
