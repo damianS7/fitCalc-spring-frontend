@@ -71,7 +71,7 @@ const mutations = {
 const actions = {
   async updateMeal({ commit }, meal) {
     return await axios
-      .post(SERVER_URL + "/api/v1/user/meal", meal)
+      .put(SERVER_URL + "/api/v1/user/meal", meal)
       .then(function (response) {
         // Si el request tuvo exito (codigo 200)
         if (response.status == 200) {
