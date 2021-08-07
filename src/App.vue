@@ -72,7 +72,23 @@ const computed = {
   }),
 };
 
-export default { components, methods, computed };
+const mounted = function () {
+  // Al montar la aplicacion, buscamos si existe un token de session
+  const token = window.sessionStorage.getItem("_token");
+
+  // Si el token existe lo asignamos
+  if (token) {
+    this.$store.commit("user/SET_TOKEN", token);
+  }
+
+  // Al asignar el token, el usuario se entiende por logeado
+  if (this.isLogged() && !this.appReady()) {
+    // Cargamos los datos necesarios para la app
+    this.$store.dispatch("app/init");
+  }
+};
+
+export default { components, methods, computed, mounted };
 </script>
 <style>
 html,

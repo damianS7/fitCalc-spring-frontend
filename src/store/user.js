@@ -15,6 +15,7 @@ const mutations = {
   },
   SET_TOKEN(state, token) {
     Vue.set(state.user, "token", token);
+    window.sessionStorage.setItem("_token", token);
   },
   SET_LOGIN_DETAILS(state, { username, email }) {
     Vue.set(state.user, "username", username);
@@ -43,13 +44,8 @@ const actions = {
       .post(SERVER_URL + "/api/users/login", { username, password })
       .then(function (response) {
         if(response.status == 200) {
-          let user = {
-            id: response.data.id,
-            username: response.data.username,
-            email: response.data.email,
-            token: response.data.token,
-          };
           commit("SET_USER", response.data);
+          commit("SET_TOKEN", response.data.token);
         }
         return response;
       })
@@ -92,6 +88,7 @@ const actions = {
   },
   async logout({ commit }) {
     commit("SET_TOKEN", null);
+    window.sessionStorage.removeItem('_token');
     commit("app/SET_READY", false, { root: true });
   },
 };
