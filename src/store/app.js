@@ -1,6 +1,6 @@
 import axios from "axios";
 import Vue from "vue";
-import { SERVER_URL, FATS_MULTIPLIER, PROTEINS_MULTIPLIER, CARBOHYDRATES_MULTIPLIER } from "./constants.js";
+import { SERVER_URL } from "./constants.js";
 
 const state = {
   // Flag que determina si la app esta lista, es decir, login + inicializacion de datos.

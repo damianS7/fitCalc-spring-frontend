@@ -15,7 +15,7 @@
           <profile-summary></profile-summary>
         </b-row>
         <b-row class="menu">
-          <b-col cols="12">
+          <b-col cols="12" class="p-0">
             <b-row>
               <b-col cols="2" sm="1">
                 <font-awesome-icon icon="home" />

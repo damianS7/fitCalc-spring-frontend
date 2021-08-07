@@ -111,7 +111,7 @@ body {
 .header,
 .content,
 .footer {
-  padding: 10px;
+  padding: 5px 12px;
   margin: 0;
 }
 
