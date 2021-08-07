@@ -90,7 +90,6 @@ const actions = {
 
     await new Promise((r) => setTimeout(r, 1000));
     commit("SET_READY", true);
-    // console.log("La app esta lista.");
   },
   async confirmDialog(context, { vm, msg }) {
     return await vm.$bvModal.msgBoxConfirm(msg, {
