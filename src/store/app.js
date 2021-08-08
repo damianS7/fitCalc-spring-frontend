@@ -38,7 +38,7 @@ const actions = {
     axios.defaults.headers.common["Authorization"] = getters.getAuthHeader();
 
     // Obtenemos los ingredientes disponibles
-    await axios.get(SERVER_URL + "/api/v1/ingredients").then(function (response) {
+    const response = await axios.get(SERVER_URL + "/api/v1/ingredients").then(function (response) {
       let ingredients = {};
       response.data.forEach((ingredient) => {
         ingredient.kcals = rootGetters["ingredient/ingredientKcals"](ingredient);
@@ -46,7 +46,20 @@ const actions = {
       });
       
       commit("ingredient/SET_INGREDIENTS", ingredients, { root: true });
+      return response;
     });
+
+    // Comprobamos solo la primera response para ver si se puede conectar al servidor etc ...
+    if (typeof response === "undefined" || response.status != 200) {
+      // Si no hay respuesta, no se puede conectar al servidor ...
+      // console.log("server unreacheble");
+
+      // En caso de estar logeados, destruimos la session
+      await dispatch("user/logout", null, {root: true});
+
+      // No se avanza mas ...
+      return;
+    }
 
     await axios.get(SERVER_URL + "/api/v1/foods").then(function (response) {
       let foods = {};
