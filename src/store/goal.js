@@ -18,7 +18,7 @@ const mutations = {
     Vue.set(state, "goals", goals);
   },
   UPDATE_GOALS(state, goals) {
-    Vue.set(state.goals, "", goals);
+    Vue.set(state, "goals", goals);
   },
 };
 

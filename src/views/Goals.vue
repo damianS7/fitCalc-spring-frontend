@@ -119,9 +119,9 @@ const computed = {
     },
     async set(value) {
       const response = await this.updateGoals({
+        carbohydrates: value,
         proteins: this.proteins,
         fats: this.fats,
-        carbohydrates: value,
         kcal: this.dailyKcal,
       });
 
@@ -141,8 +141,8 @@ const computed = {
     },
     async set(value) {
       const response = await this.updateGoals({
-        proteins: this.proteins,
         fats: value,
+        proteins: this.proteins,
         carbohydrates: this.carbohydrates,
         kcal: this.dailyKcal,
       });
