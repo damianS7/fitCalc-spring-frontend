@@ -55,7 +55,7 @@ const actions = {
       // console.log("server unreacheble");
 
       // En caso de estar logeados, destruimos la session
-      await dispatch("user/logout", null, {root: true});
+      await dispatch("user/logout", null, { root: true });
 
       // No se avanza mas ...
       return;
