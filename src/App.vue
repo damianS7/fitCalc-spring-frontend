@@ -91,7 +91,7 @@ const mounted = async function () {
   // Comprobar que el token no expiro cada X segundos...
   const vm = this;
   const interval = window.setInterval(async function () {
-    if (!vm.isLogged() || !vm.appReady()) {
+    if (!vm.isLogged()) {
       return;
     }
 
