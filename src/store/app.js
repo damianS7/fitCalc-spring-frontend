@@ -38,7 +38,8 @@ const actions = {
     axios.defaults.headers.common["Authorization"] = getters.getAuthHeader();
 
     // Obtenemos los ingredientes disponibles
-    const response = await axios.get(SERVER_URL + "/api/v1/ingredients").then(function (response) {
+    const response = await axios.get(SERVER_URL + "/api/v1/ingredients")
+      .then(function (response) {
       let ingredients = {};
       response.data.forEach((ingredient) => {
         ingredient.kcals = rootGetters["ingredient/ingredientKcals"](ingredient);
@@ -47,6 +48,8 @@ const actions = {
       
       commit("ingredient/SET_INGREDIENTS", ingredients, { root: true });
       return response;
+    }).catch(function (error){
+      return error.response;
     });
 
     // Comprobamos solo la primera response para ver si se puede conectar al servidor etc ...
