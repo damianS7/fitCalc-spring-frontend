@@ -135,6 +135,11 @@ const mounted = async function () {
 export default { components, methods, computed, mounted };
 </script>
 <style>
+@media (max-width: 544px) {
+  * {
+    font-size: 0.9rem;
+  }
+}
 html,
 body {
   height: 100%;
