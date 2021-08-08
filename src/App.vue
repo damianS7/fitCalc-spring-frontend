@@ -77,7 +77,7 @@ const mounted = async function () {
   const response = await this.$store.dispatch("app/tokenValidation");
 
   // Si no hay respuesta, no se puede conectar al servidor ...
-  if (typeof response === "undefined") {
+  if (typeof response === "undefined" || response.status != 200) {
     // console.log("server unreacheble");
 
     // En caso de estar logeados, destruimos la session
