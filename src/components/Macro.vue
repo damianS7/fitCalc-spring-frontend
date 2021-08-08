@@ -1,48 +1,79 @@
 <template>
   <b-col>
-    <b-row class="mb-1">
+    <b-row>
+      <b-col cols="3"></b-col>
+      <b-col cols="3" class="p-0">Consumida</b-col>
+      <b-col cols="3" class="p-0">Objetivo</b-col>
+      <b-col cols="3" class="p-0">Restante</b-col>
+    </b-row>
+    <b-row>
       <b-col>
-        <b-row class="mb-1" align-v="center">
-          <b-col cols="4">Carbos</b-col>
-          <b-col cols="8">
-            <b-progress :max="maxCarbosGrams" show-value>
-              <b-progress-bar :value="consumedCarbosGrams">
-                <span>
-                  <strong
-                    >{{ consumedCarbosGrams }}gr /
-                    {{ maxCarbosGrams }}gr</strong
-                  >
-                </span>
-              </b-progress-bar>
+        <b-row>
+          <b-col cols="3" class="pr-0">Proteinas</b-col>
+          <b-col cols="3" class="p-0">{{ consumedProteinsGrams }}</b-col>
+          <b-col cols="3" class="p-0">{{ maxProteinsGrams }}</b-col>
+          <b-col cols="3" class="p-0"
+            >{{ maxProteinsGrams - consumedProteinsGrams }}gr</b-col
+          >
+        </b-row>
+        <b-row>
+          <b-col>
+            <b-progress
+              :max="maxProteinsGrams"
+              :value="consumedProteinsGrams"
+              :variant="
+                consumedProteinsGrams > maxProteinsGrams ? 'danger' : 'primary'
+              "
+              height="2px"
+            >
             </b-progress>
           </b-col>
         </b-row>
-        <b-row class="mb-1" align-v="center">
-          <b-col cols="4"> Proteinas </b-col>
-          <b-col cols="8">
-            <b-progress :max="maxProteinsGrams" show-value>
-              <b-progress-bar :value="consumedProteinsGrams">
-                <span>
-                  <strong
-                    >{{ consumedProteinsGrams }}gr /
-                    {{ maxProteinsGrams }}gr</strong
-                  >
-                </span>
-              </b-progress-bar>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <b-row>
+          <b-col cols="3" class="pr-0">Carbos</b-col>
+          <b-col cols="3" class="p-0">{{ consumedCarbosGrams }}</b-col>
+          <b-col cols="3" class="p-0">{{ maxCarbosGrams }}</b-col>
+          <b-col cols="3" class="p-0"
+            >{{ maxCarbosGrams - consumedCarbosGrams }}gr</b-col
+          >
+        </b-row>
+        <b-row>
+          <b-col>
+            <b-progress
+              :max="maxCarbosGrams"
+              :value="consumedCarbosGrams"
+              height="2px"
+              :variant="
+                consumedCarbosGrams > maxCarbosGrams ? 'danger' : 'primary'
+              "
+            >
             </b-progress>
           </b-col>
         </b-row>
-        <b-row class="mb-0" align-v="center">
-          <b-col cols="4">Grasas</b-col>
-          <b-col cols="8">
-            <b-progress :max="maxFatsGrams" show-value>
-              <b-progress-bar :value="consumedFatsGrams">
-                <span>
-                  <strong
-                    >{{ consumedFatsGrams }}gr / {{ maxFatsGrams }}gr</strong
-                  >
-                </span>
-              </b-progress-bar>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <b-row>
+          <b-col cols="3" class="pr-0">Grasas</b-col>
+          <b-col cols="3" class="p-0">{{ consumedFatsGrams }}</b-col>
+          <b-col cols="3" class="p-0">{{ maxFatsGrams }}</b-col>
+          <b-col cols="3" class="p-0"
+            >{{ maxFatsGrams - consumedFatsGrams }}gr</b-col
+          >
+        </b-row>
+        <b-row>
+          <b-col>
+            <b-progress
+              :max="maxFatsGrams"
+              :value="consumedFatsGrams"
+              height="2px"
+              :variant="consumedFatsGrams > maxFatsGrams ? 'danger' : 'primary'"
+            >
             </b-progress>
           </b-col>
         </b-row>
@@ -68,21 +99,28 @@ const methods = {
     confirmDialog: "app/confirmDialog",
     makeToast: "app/makeToast",
   }),
-  consumed(x) {
+  consumed(macro) {
     let grams = 0;
 
     // Obtenemos todos las meals de la fecha (desayuno, merienda etc ...)
-    let meals = this.getMealsFromDate(this.date);
+    const meals = this.getMealsFromDate(this.date);
 
     this.mealKeys().forEach((mealKey) => {
-      let foodIds = meals[mealKey];
+      const foodIds = meals[mealKey];
       foodIds.forEach((foodId) => {
+        // Buscamos la comida con el id ...
         const food = this.getFood(foodId);
 
+        // Si la comida existe ...
         if (typeof food !== "undefined") {
           food.ingredients.forEach((ingredientId) => {
+            // Buscamos el ingrediente con el id ...
             const ingredient = this.getIngredient(ingredientId);
-            grams += ingredient[x];
+
+            // Si el ingrediente existe ...
+            if (typeof ingredient !== "undefined") {
+              grams += ingredient[macro];
+            }
           });
         }
       });
