@@ -34,7 +34,7 @@
     <b-row>
       <b-col>
         <b-row>
-          <b-col cols="3" class="pr-0">Carbos</b-col>
+          <b-col cols="3" class="pr-0">Hidratos</b-col>
           <b-col cols="3" class="p-0">{{ consumedCarbosGrams }}</b-col>
           <b-col cols="3" class="p-0">{{ maxCarbosGrams }}</b-col>
           <b-col cols="3" class="p-0"
