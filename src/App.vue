@@ -72,20 +72,64 @@ const computed = {
   }),
 };
 
-const mounted = function () {
+const mounted = async function () {
+  // Comprobamos que se puede conectar al servidor
+  const response = await this.$store.dispatch("app/tokenValidation");
+
+  // Si no hay respuesta, no se puede conectar al servidor ...
+  if (typeof response === "undefined") {
+    // console.log("server unreacheble");
+
+    // En caso de estar logeados, destruimos la session
+    if (this.isLogged() || this.appReady()) {
+      await this.$store.dispatch("user/logout", null);
+
+      // No se avanza mas ...
+      return;
+    }
+  }
   // Al montar la aplicacion, buscamos si existe un token de session
-  const token = window.sessionStorage.getItem("_token");
+  const userString = window.sessionStorage.getItem("_user");
 
   // Si el token existe lo asignamos
-  if (token) {
-    this.$store.commit("user/SET_TOKEN", token);
+  if (userString) {
+    this.$store.commit("user/SET_USER", JSON.parse(userString));
   }
 
   // Al asignar el token, el usuario se entiende por logeado
   if (this.isLogged() && !this.appReady()) {
     // Cargamos los datos necesarios para la app
-    this.$store.dispatch("app/init");
+    await this.$store.dispatch("app/init");
   }
+
+  // Hacer esto en app.js
+  // Comprobar que el token no expiro cada X segundos...
+  const vm = this;
+  const interval = window.setInterval(async function () {
+    if (!vm.isLogged() || !vm.appReady()) {
+      return;
+    }
+
+    // Peticion para comprobar el token con el servidor ...
+    const response = await vm.$store.dispatch("app/tokenValidation");
+
+    // Si no esta logeado (cualquier codigo diferente de 200) ...
+    if (response.status != 200) {
+      // Detenemos el intervalo ...
+      window.clearInterval(interval);
+
+      // Mostrar mensaje informando de que ha expirado
+      await vm.$bvModal.msgBoxOk("El token ha expirado ... ", {
+        okVariant: "primary",
+        okTitle: "Back to login",
+        hideHeaderClose: true,
+        centered: true,
+      });
+
+      // Destruimos la session
+      await vm.$store.dispatch("user/logout", null, { root: true });
+    }
+  }, 30000);
 };
 
 export default { components, methods, computed, mounted };

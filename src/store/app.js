@@ -18,7 +18,6 @@ const getters = {
     return state.appReady;
   },
   getAuthHeader: (state, getters, rootState, rootGetters) => () => {
-    // axios.defaults.headers.common["Authorization"] = "Bearer " + context.state.user.token;
     return "Bearer " + rootGetters["user/getToken"]();
   },
   dateToString: () => (date) => {
@@ -27,7 +26,15 @@ const getters = {
 };
 
 const actions = {
-  async init({ commit, getters, rootGetters }) {
+  async tokenValidation() {
+    // Comprobamos que el token sea valido
+    return await axios.get(SERVER_URL + "/api/v1/users/tokenvalidation").then(function (response) {
+      return response;
+    }).catch(function (error) {
+      return error.response;
+    });
+  },
+  async init({ dispatch, commit, getters, rootGetters }) {
     axios.defaults.headers.common["Authorization"] = getters.getAuthHeader();
 
     // Obtenemos los ingredientes disponibles

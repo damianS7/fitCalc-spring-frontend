@@ -12,10 +12,10 @@ const state = {
 const mutations = {
   SET_USER(state, user) {
     Vue.set(state, "user", user);
+    window.sessionStorage.setItem("_user", JSON.stringify(user));
   },
   SET_TOKEN(state, token) {
     Vue.set(state.user, "token", token);
-    window.sessionStorage.setItem("_token", token);
   },
   SET_LOGIN_DETAILS(state, { username, email }) {
     Vue.set(state.user, "username", username);
@@ -41,11 +41,10 @@ const getters = {
 const actions = {
   async login({ commit }, { username, password }) {
     return await axios
-      .post(SERVER_URL + "/api/users/login", { username, password })
+      .post(SERVER_URL + "/api/v1/users/login", { username, password })
       .then(function (response) {
         if(response.status == 200) {
           commit("SET_USER", response.data);
-          commit("SET_TOKEN", response.data.token);
         }
         return response;
       })
@@ -64,7 +63,7 @@ const actions = {
   async register({ commit }, { username, password, email }) {
     let data = { username: username, password: password, email: email };
     return await axios
-      .post(SERVER_URL + "/api/users/registration", data)
+      .post(SERVER_URL + "/api/v1/users/registration", data)
       .then(function (response) {
         return response;
       })
@@ -87,8 +86,8 @@ const actions = {
       });
   },
   async logout({ commit }) {
+    window.sessionStorage.removeItem('_user');
     commit("SET_TOKEN", null);
-    window.sessionStorage.removeItem('_token');
     commit("app/SET_READY", false, { root: true });
   },
 };
