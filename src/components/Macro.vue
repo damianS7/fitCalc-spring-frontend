@@ -138,22 +138,26 @@ const computed = {
     getIngredient: "ingredient/getIngredient",
   }),
   consumedProteinsGrams: function () {
-    return this.consumed("proteins");
+    return Math.round(this.consumed("proteins"));
   },
   maxProteinsGrams: function () {
-    return (this.getGoals.kcal / 4) * (this.getGoals.proteins / 100);
+    return Math.round(
+      (this.getGoals.kcal / 4) * (this.getGoals.proteins / 100)
+    );
   },
   consumedCarbosGrams: function () {
-    return this.consumed("carbohydrates");
+    return Math.round(this.consumed("carbohydrates"));
   },
   maxCarbosGrams: function () {
-    return (this.getGoals.kcal / 4) * (this.getGoals.carbohydrates / 100);
+    return Math.round(
+      (this.getGoals.kcal / 4) * (this.getGoals.carbohydrates / 100)
+    );
   },
   consumedFatsGrams: function () {
-    return this.consumed("fats");
+    return Math.round(this.consumed("fats"));
   },
   maxFatsGrams: function () {
-    return (this.getGoals.kcal / 4) * (this.getGoals.fats / 100);
+    return Math.round((this.getGoals.kcal / 9) * (this.getGoals.fats / 100));
   },
 };
 export default {
