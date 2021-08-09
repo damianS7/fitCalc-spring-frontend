@@ -97,6 +97,9 @@ const mounted = async function () {
 
     // Peticion para comprobar el token con el servidor ...
     const response = await vm.$store.dispatch("app/tokenValidation");
+    if (typeof response === "undefined") {
+      return;
+    }
 
     // Si no esta logeado (cualquier codigo diferente de 200) ...
     if (response.status != 200) {
